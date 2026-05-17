@@ -157,19 +157,27 @@ export function StudentLogin() {
       </div>
 
       <div className="relative z-10 w-full max-w-[340px] mx-auto px-4 pb-2">
-        <div className="text-center text-white text-xs mb-1 font-semibold" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>
-          Demo Credentials
+        <div
+          className="rounded border border-white/30 px-4 py-3"
+          style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(4px)" }}
+        >
+          <p className="text-center text-white text-xs font-bold tracking-wider mb-2 uppercase opacity-90">
+            Demo Credentials
+          </p>
+          {DEMO.map((d) => (
+            <button
+              key={d.user}
+              onClick={() => fillDemo(d.user, d.pass)}
+              className="w-full text-left rounded px-2 py-1.5 hover:bg-white/10 transition-colors"
+            >
+              <span className="text-yellow-300 text-[11px] font-bold block">{d.label}</span>
+              <span className="text-white/90 text-[11px]">{d.user}</span>
+              <span className="text-white/50 text-[11px]"> / </span>
+              <span className="text-white/90 text-[11px]">{d.pass}</span>
+            </button>
+          ))}
+          <p className="text-white/40 text-[9px] text-center mt-2">Click to auto-fill credentials</p>
         </div>
-        {DEMO.map((d) => (
-          <button
-            key={d.user}
-            onClick={() => fillDemo(d.user, d.pass)}
-            className="w-full text-left text-white text-xs py-1 px-2 hover:bg-white/10 rounded transition-colors"
-            style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
-          >
-            <span className="font-semibold">{d.label}:</span> {d.user} / {d.pass}
-          </button>
-        ))}
       </div>
 
       <div className="relative z-10 text-center text-white text-xs py-3" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>
