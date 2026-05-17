@@ -1,0 +1,192 @@
+Full Student, Staff & Admin Portal Requirement
+
+Hum ek complete Student, Staff aur Admin Portal bana rahe hain jismein sabhi panels alag-alag URLs se open honge. Website/App ka design aur UI bilkul same-to-same screenshots aur photos ke according hona chahiye jo main provide karunga. Har ek page, dashboard, color, layout, button, animation, icon, spacing, font aur structure screenshot ke hisaab se hi banana hoga.
+
+Main har ek module ka screenshot aur assets provide karunga aur final output exactly usi ke according hona chahiye.
+
+Separate Login URLs
+
+- Student Login → "/login"
+- Staff/Faculty Login → "/staff"
+- Admin Login → "/admin"
+
+Sabhi dashboards aur panels alag-alag login aur URLs se hi access hone chahiye.
+
+---
+
+Student Panel Features
+
+Student Dashboard
+
+Student dashboard bilkul screenshot ke according same design mein hona chahiye. Dashboard mein ye sab features hone chahiye:
+
+- Profile Section
+- Fees Details
+- Pending Amount
+- Paid Amount
+- Total Fees
+- Notifications
+- Attendance
+- Exam Forms
+- Hall Ticket
+- Documents
+- Academic Calendar
+
+---
+
+Fees Module
+
+Student apni fees details dekh sake:
+
+- Kitna fees paid hai
+- Kitna amount pending hai
+- Total fees
+- Payment history
+
+Fees Receipt
+
+Receipt bilkul screenshot/photo ke according professional design mein aani chahiye.
+
+Features:
+
+- Receipt View
+- Receipt Download (PDF)
+- Print Option
+
+Receipt same-to-same photo ke hisaab se design honi chahiye.
+
+---
+
+Exam Form Module
+
+Student:
+
+- Exam form bhar sake
+- Form submit kar sake
+
+Teacher/Staff:
+
+- Exam form approve/reject kar sake
+
+Approval ke baad:
+
+- Hall Ticket automatically visible ho jana chahiye
+- Hall Ticket download option hona chahiye
+- PDF download support hona chahiye
+
+---
+
+Attendance Module
+
+Attendance section mein:
+
+- Subject Name
+- Subject-wise Attendance Percentage
+
+Agar user percentage ya subject par click kare to:
+
+- Kis din present/absent tha
+- Date-wise attendance history
+- Complete attendance details show honi chahiye
+
+---
+
+Notifications Module
+
+Important notifications aur announcements dashboard mein visible hone chahiye.
+
+Admin aur Teacher:
+
+- Notifications add/edit/delete kar sake
+
+Students:
+
+- Notifications view kar sake
+
+---
+
+Documents Module
+
+Documents section mein:
+
+- Student ID Card
+- Front Side
+- Back Side
+
+ID card bilkul screenshot ke according same design mein hona chahiye.
+
+Editable Features
+
+- Admin edit kar sake
+- Teacher edit kar sake
+- Student sirf view/download kar sake
+
+---
+
+Academic Calendar Module
+
+Academic Calendar:
+
+- Student view kar sake
+- Admin add/edit/delete kar sake
+- Teacher bhi add/edit kar sake
+
+Calendar screenshot ke according same design mein hona chahiye.
+
+---
+
+Staff/Faculty Panel Features
+
+Faculty dashboard alag URL "/staff" se open hona chahiye.
+
+Faculty features:
+
+- Student management
+- Attendance management
+- Exam form approval
+- Hall ticket approval
+- Notifications management
+- Academic calendar management
+- Document verification/editing
+
+Faculty login page aur dashboard bhi screenshot ke according same-to-same hone chahiye.
+
+---
+
+Admin Panel Features
+
+Admin dashboard alag URL "/admin" se open hona chahiye.
+
+Admin ke paas full control hona chahiye:
+
+- Student Management
+- Staff Management
+- Fees Management
+- Receipt Management
+- Notifications
+- Attendance
+- Exam Forms
+- Hall Tickets
+- Academic Calendar
+- Documents
+- Dashboard Analytics
+
+Admin website/dashboard bhi screenshots ke according same design mein hona chahiye.
+
+---
+
+Important Requirements
+
+- Har ek page screenshot ke hisaab se hi banana hai
+- Same-to-same UI/UX hona chahiye
+- Fully responsive design
+- Mobile + Desktop support
+- All buttons and functions properly working
+- MongoDB database use hoga
+- Login/Registration fully working
+- Secure authentication system
+- PDF download support
+- Dynamic data management
+- Fast loading website
+
+Main aapko har ek feature aur page ka screenshot alag se provide karunga aur final project bilkul unhi photos/screenshots ke hisaab se develop hona chahiye.

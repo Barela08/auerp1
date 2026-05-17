@@ -1,0 +1,103 @@
+Login Access & Role Requirement
+
+Student, Staff/Faculty aur Admin ke login system properly role-based hone chahiye aur screenshot ke according hi design aur functionality honi chahiye.
+
+Login Access Structure
+
+Student Login
+
+Normal login page sirf Students ke liye open hona chahiye.
+
+Student Login URL:
+
+"/login"
+
+Isi page par normal users/students login karenge.
+
+Student login page mein:
+
+- Email/ID
+- Password
+- Login Button
+- Proper Validation
+- Working Authentication
+
+sab properly working hone chahiye.
+
+---
+
+Staff/Faculty Login
+
+Faculty/Staff login normal homepage par visible nahi hona chahiye.
+
+Faculty login sirf direct URL se hi open hona chahiye:
+
+"/staff"
+
+Faculty login ke niche proper login credentials/options bhi show hone chahiye jaise screenshot mein diye gaye hain.
+
+Example:
+
+- Faculty Email
+- Faculty Password
+
+Ye credentials fully working hone chahiye aur login karne par proper faculty dashboard open hona chahiye.
+
+---
+
+Admin Login
+
+Admin login bhi separate aur secure hona chahiye.
+
+Admin Login URL:
+
+"/admin"
+
+Admin login normal student login page par visible nahi hona chahiye. Sirf URL enter karne par hi admin login page open hona chahiye.
+
+Admin login page mein:
+
+- Admin Email
+- Admin Password
+- Secure Login Access
+
+properly working hone chahiye.
+
+---
+
+Demo Login Credentials
+
+Login page ke niche screenshot ke according demo login credentials/options bhi dikhne chahiye.
+
+Jaise:
+
+Student Login
+
+- Email
+- Password
+
+Teacher Login
+
+- Email
+- Password
+
+Admin Login
+
+- Email
+- Password
+
+Ye sab credentials sirf display hi nahi balki fully working mode mein hone chahiye aur respective dashboards open karne chahiye.
+
+---
+
+Important Requirements
+
+- Har login page screenshot ke hisaab se same-to-same hona chahiye
+- Role-based authentication properly kaam karna chahiye
+- Student, Staff aur Admin dashboards alag hone chahiye
+- MongoDB database use hoga
+- All login credentials working hone chahiye
+- Secure authentication system hona chahiye
+- Mobile responsive aur professional UI hona chahiye
+- All buttons, validations aur redirects properly working hone chahiye
+- URL based access system properly implement hona chahiye
