@@ -52,7 +52,7 @@ export function StaffLogin() {
   const fillDemo = (user: string, pass: string) => {
     setUsername(user);
     setPassword(pass);
-    setCaptchaInput("");
+    setCaptchaInput(captchaRef.current?.code ?? "");
     setError("");
   };
 

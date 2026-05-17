@@ -53,7 +53,7 @@ export function StudentLogin() {
   const fillDemo = (user: string, pass: string) => {
     setUsername(user);
     setPassword(pass);
-    setCaptchaInput("");
+    setCaptchaInput(captchaRef.current?.code ?? "");
     setError("");
   };
 
