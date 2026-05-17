@@ -4,9 +4,10 @@ import { ProtectedRoute, useAuth } from "@/hooks/use-auth";
 import {
   LayoutDashboard, User, CreditCard, ClipboardList,
   Calendar, FileText, Bell, LogOut, Users, Receipt,
-  BookOpen, IdCard, Download
+  BookOpen, IdCard, Download, Palette
 } from "lucide-react";
 import { useLogout } from "@workspace/api-client-react";
+import { useBranding } from "@/contexts/branding-context";
 
 interface NavItem {
   label: string;
@@ -48,6 +49,7 @@ const getNavItems = (role: string): NavItem[] => {
       { label: "Exam Forms",    href: "/admin/exam-forms",    icon: <FileText className="w-4 h-4" /> },
       { label: "Calendar",      href: "/admin/calendar",      icon: <Calendar className="w-4 h-4" /> },
       { label: "Notifications", href: "/admin/notifications", icon: <Bell className="w-4 h-4" /> },
+      { label: "Branding",      href: "/admin/branding",      icon: <Palette className="w-4 h-4" /> },
     ];
   }
   return [];
@@ -57,6 +59,7 @@ export function DashboardLayout({ children, role }: { children: ReactNode; role:
   const [location] = useLocation();
   const navItems = getNavItems(role);
   const { user } = useAuth();
+  const branding = useBranding();
 
   const logout = useLogout({
     mutation: {
@@ -75,7 +78,11 @@ export function DashboardLayout({ children, role }: { children: ReactNode; role:
           {/* Logo */}
           <div className="px-4 pt-4 pb-3 border-b border-sidebar-border">
             <div className="flex items-center gap-2">
-              <img src="/au-logo-round.webp" alt="AU" className="w-9 h-9 object-contain" />
+              <img
+                src={branding.logo_round ?? "/au-logo-main.png"}
+                alt="AU"
+                className="w-9 h-9 object-contain"
+              />
               <div>
                 <p className="text-white font-black text-xs tracking-widest leading-tight" style={{ fontFamily: "Georgia, serif" }}>ALLIANCE</p>
                 <p className="text-white font-black text-[10px] tracking-widest leading-tight" style={{ fontFamily: "Georgia, serif" }}>UNIVERSITY</p>
@@ -130,7 +137,11 @@ export function DashboardLayout({ children, role }: { children: ReactNode; role:
           {/* Mobile header */}
           <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:hidden no-print">
             <div className="flex items-center gap-2">
-              <img src="/au-logo-round.webp" alt="AU" className="w-7 h-7 object-contain" />
+              <img
+                src={branding.logo_round ?? "/au-logo-main.png"}
+                alt="AU"
+                className="w-7 h-7 object-contain"
+              />
               <span className="font-bold text-sm text-[#8b0000]" style={{ fontFamily: "Georgia, serif" }}>Alliance University</span>
             </div>
             <button onClick={() => logout.mutate()} className="p-2 text-gray-500">

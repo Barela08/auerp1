@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { usersTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 
 const router = Router();
 
@@ -19,7 +19,10 @@ router.post("/login", async (req, res) => {
     return;
   }
 
-  const users = await db.select().from(usersTable).where(eq(usersTable.username, username));
+  const users = await db
+    .select()
+    .from(usersTable)
+    .where(or(eq(usersTable.email, username), eq(usersTable.username, username)));
   const user = users[0];
 
   if (!user || user.passwordHash !== password || user.role !== role) {

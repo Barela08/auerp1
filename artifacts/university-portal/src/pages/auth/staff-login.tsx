@@ -2,12 +2,13 @@ import { useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { useLogin, LoginInputRole, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { User, Lock, Pencil } from "lucide-react";
+import { Mail, Lock, Pencil } from "lucide-react";
 import { CaptchaWidget, CaptchaHandle } from "@/components/auth/captcha-widget";
 import { AuLogo } from "./au-logo";
+import { useBranding } from "@/contexts/branding-context";
 
 const DEMO = [
-  { label: "Faculty/Staff Login", user: "EMP001", pass: "staff123" },
+  { label: "Faculty/Staff Login", user: "teacher@alliance.edu.in", pass: "password123" },
 ];
 
 export function StaffLogin() {
@@ -18,6 +19,7 @@ export function StaffLogin() {
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
   const captchaRef = useRef<CaptchaHandle>(null);
+  const branding = useBranding();
 
   const loginMutation = useLogin({
     mutation: {
@@ -26,7 +28,7 @@ export function StaffLogin() {
         setLocation("/staff/dashboard");
       },
       onError: () => {
-        setError("Invalid username or password. Please try again.");
+        setError("Invalid email or password. Please try again.");
         captchaRef.current?.refresh();
         setCaptchaInput("");
       },
@@ -43,7 +45,7 @@ export function StaffLogin() {
       setCaptchaInput("");
       return;
     }
-    if (!username || !password) { setError("Please enter username and password."); return; }
+    if (!username || !password) { setError("Please enter email and password."); return; }
     loginMutation.mutate({ data: { username, password, role: "staff" as LoginInputRole } });
   };
 
@@ -57,14 +59,16 @@ export function StaffLogin() {
   return (
     <div
       className="min-h-screen w-full relative flex flex-col items-center justify-between"
-      style={{ backgroundImage: "url(/campus-bg2.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
+      style={{
+        backgroundImage: `url(${branding.staff_login_bg ?? "/campus-bg2.jpg"})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
-      {/* Top logo */}
       <div className="relative z-10 w-full flex justify-center pt-4">
         <AuLogo />
       </div>
 
-      {/* Login card */}
       <div className="relative z-10 flex-1 flex items-center justify-center w-full px-4">
         <div className="w-full max-w-[340px] shadow-2xl" style={{ background: "rgba(255,255,255,0.95)" }}>
           <div className="px-7 pt-6 pb-7">
@@ -80,20 +84,18 @@ export function StaffLogin() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-3">
-              {/* Username */}
               <div className="flex items-center border border-gray-300 bg-white">
                 <input
-                  type="text"
-                  placeholder="User Name"
+                  type="email"
+                  placeholder="Email ID"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="flex-1 pl-3 pr-2 py-2.5 text-sm bg-transparent focus:outline-none"
-                  autoComplete="username"
+                  autoComplete="email"
                 />
-                <span className="pr-2.5 text-gray-400"><User className="w-3.5 h-3.5" /></span>
+                <span className="pr-2.5 text-gray-400"><Mail className="w-3.5 h-3.5" /></span>
               </div>
 
-              {/* Password */}
               <div className="flex items-center border border-gray-300 bg-white">
                 <input
                   type="password"
@@ -106,10 +108,8 @@ export function StaffLogin() {
                 <span className="pr-2.5 text-gray-400"><Lock className="w-3.5 h-3.5" /></span>
               </div>
 
-              {/* Captcha */}
               <CaptchaWidget ref={captchaRef} />
 
-              {/* Captcha input */}
               <div className="flex items-center border border-gray-300 bg-white">
                 <input
                   type="text"
@@ -122,7 +122,6 @@ export function StaffLogin() {
                 <span className="pr-2.5 text-gray-400"><Pencil className="w-3.5 h-3.5" /></span>
               </div>
 
-              {/* Forgot + Login row */}
               <div className="flex items-center justify-between pt-1">
                 <a href="#" onClick={(e) => e.preventDefault()} className="text-sm" style={{ color: "#1a6fc4" }}>
                   Forgot Password
@@ -141,7 +140,6 @@ export function StaffLogin() {
         </div>
       </div>
 
-      {/* Demo credentials */}
       <div className="relative z-10 w-full max-w-[340px] mx-auto px-4 pb-2">
         <div className="text-center text-white text-xs mb-1 font-semibold" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>
           Demo Credentials
@@ -158,7 +156,6 @@ export function StaffLogin() {
         ))}
       </div>
 
-      {/* Footer */}
       <div className="relative z-10 text-center text-white text-xs py-3" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>
         <p>Copyright © 2026 Alliance University. All rights reserved.</p>
       </div>

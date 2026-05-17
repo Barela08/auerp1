@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/use-auth";
+import { BrandingProvider } from "@/contexts/branding-context";
 import NotFound from "@/pages/not-found";
 
 // Layout
@@ -38,6 +39,7 @@ import { AdminStaffPage } from "@/pages/admin/staff";
 import { AdminFeesPage } from "@/pages/admin/fees";
 import { AdminExamFormsPage } from "@/pages/admin/exam-forms";
 import { AdminNotificationsPage } from "@/pages/admin/notifications";
+import { AdminBrandingPage } from "@/pages/admin/branding";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -136,6 +138,9 @@ function Router() {
       <Route path="/admin/notifications">
         <DashboardLayout role="admin"><AdminNotificationsPage /></DashboardLayout>
       </Route>
+      <Route path="/admin/branding">
+        <DashboardLayout role="admin"><AdminBrandingPage /></DashboardLayout>
+      </Route>
 
       <Route component={NotFound} />
     </Switch>
@@ -148,7 +153,9 @@ function App() {
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <AuthProvider>
-            <Router />
+            <BrandingProvider>
+              <Router />
+            </BrandingProvider>
           </AuthProvider>
         </WouterRouter>
         <Toaster />

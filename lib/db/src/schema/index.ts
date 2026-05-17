@@ -7,3 +7,4 @@ export * from "./exam_forms";
 export * from "./results";
 export * from "./notifications";
 export * from "./calendar";
+export * from "./site_settings";
