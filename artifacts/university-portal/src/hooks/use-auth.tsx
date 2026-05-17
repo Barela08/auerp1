@@ -1,5 +1,5 @@
 import { createContext, useContext, ReactNode } from "react";
-import { useGetMe, AuthUser } from "@workspace/api-client-react";
+import { useGetMe, AuthUser, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useLocation } from "wouter";
 
 interface AuthContextType {
@@ -11,7 +11,13 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data: user, isLoading, isError } = useGetMe({ query: { retry: false, queryKey: ["me"] } });
+  const { data: user, isLoading, isError } = useGetMe({
+    query: {
+      retry: false,
+      queryKey: getGetMeQueryKey(),
+      staleTime: 0,
+    },
+  });
 
   return (
     <AuthContext.Provider value={{ user: user || null, isLoading, isError }}>
@@ -29,26 +35,27 @@ export function useAuth() {
 }
 
 export function ProtectedRoute({ children, allowedRoles }: { children: ReactNode, allowedRoles?: string[] }) {
-  const { user, isLoading, isError } = useAuth();
+  const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
 
   if (isLoading) {
-    return <div className="h-screen w-full flex items-center justify-center">Loading...</div>;
+    return <div className="h-screen w-full flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-sm text-gray-500">Loading…</p>
+      </div>
+    </div>;
   }
 
-  if (isError || !user) {
-    // Redirect to login if not authenticated
-    // If not authenticated, we could check the URL to see which login to send them to, 
-    // but default to /login for students
+  if (!user) {
     setLocation("/login");
     return null;
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    // Redirect if role is not allowed
     if (user.role === "student") setLocation("/student/dashboard");
-    if (user.role === "staff") setLocation("/staff/dashboard");
-    if (user.role === "admin") setLocation("/admin/dashboard");
+    else if (user.role === "staff") setLocation("/staff/dashboard");
+    else if (user.role === "admin") setLocation("/admin/dashboard");
     return null;
   }
 
