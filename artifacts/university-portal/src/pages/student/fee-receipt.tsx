@@ -248,7 +248,7 @@ export function FeeReceiptPage() {
           </div>
           <div className="space-y-0.5 text-gray-700">
             <p><span className="font-semibold">Amount Received:</span> ₹ {totalAmount.toLocaleString("en-IN")}/-</p>
-            <p><span className="font-semibold">Payment Status:</span> <span className="text-green-600 font-bold">{receipt.status?.toUpperCase() || "SUCCESS"}</span></p>
+            <p><span className="font-semibold">Payment Status:</span> <span className="text-green-600 font-bold">{((r as any).status ?? "SUCCESS").toString().toUpperCase()}</span></p>
             <p><span className="font-semibold">Drawn On:</span> {r.bankName || "ICICI BANK"}</p>
             {receipt.receiptDate && (
               <p><span className="font-semibold">Date:</span> {format(new Date(receipt.receiptDate), "dd-MM-yyyy")}</p>

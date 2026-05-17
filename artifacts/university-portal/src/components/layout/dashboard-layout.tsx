@@ -4,7 +4,7 @@ import { ProtectedRoute, useAuth } from "@/hooks/use-auth";
 import {
   LayoutDashboard, User, CreditCard, ClipboardList,
   Calendar, FileText, Bell, LogOut, Users, Receipt,
-  BookOpen, IdCard, Download, Palette
+  BookOpen, IdCard, FolderOpen, Palette, Ticket
 } from "lucide-react";
 import { useLogout } from "@workspace/api-client-react";
 import { useBranding } from "@/contexts/branding-context";
@@ -18,38 +18,38 @@ interface NavItem {
 const getNavItems = (role: string): NavItem[] => {
   if (role === "student") {
     return [
-      { label: "Dashboard",   href: "/student/dashboard",   icon: <LayoutDashboard className="w-4 h-4" /> },
-      { label: "Profile",     href: "/student/profile",     icon: <User className="w-4 h-4" /> },
-      { label: "Fees",        href: "/student/fees",        icon: <CreditCard className="w-4 h-4" /> },
-      { label: "Receipts",    href: "/student/fees",        icon: <Receipt className="w-4 h-4" /> },
-      { label: "Exam Forms",  href: "/student/exam-forms",  icon: <BookOpen className="w-4 h-4" /> },
-      { label: "Attendance",  href: "/student/attendance",  icon: <ClipboardList className="w-4 h-4" /> },
-      { label: "Results",     href: "/student/results",     icon: <FileText className="w-4 h-4" /> },
-      { label: "Notifications", href: "/student/notifications", icon: <Bell className="w-4 h-4" /> },
-      { label: "Documents",   href: "/student/documents",   icon: <Download className="w-4 h-4" /> },
-      { label: "Calendar",    href: "/student/calendar",    icon: <Calendar className="w-4 h-4" /> },
-      { label: "ID Card",     href: "/student/id-card",     icon: <IdCard className="w-4 h-4" /> },
+      { label: "Dashboard",    href: "/student/dashboard",   icon: <LayoutDashboard className="w-4 h-4" /> },
+      { label: "Profile",      href: "/student/profile",     icon: <User className="w-4 h-4" /> },
+      { label: "Fees",         href: "/student/fees",        icon: <CreditCard className="w-4 h-4" /> },
+      { label: "Exam Forms",   href: "/student/exam-forms",  icon: <BookOpen className="w-4 h-4" /> },
+      { label: "Hall Ticket",  href: "/student/hall-ticket", icon: <Ticket className="w-4 h-4" /> },
+      { label: "Attendance",   href: "/student/attendance",  icon: <ClipboardList className="w-4 h-4" /> },
+      { label: "Results",      href: "/student/results",     icon: <FileText className="w-4 h-4" /> },
+      { label: "Notifications",href: "/student/notifications",icon: <Bell className="w-4 h-4" /> },
+      { label: "ID Card",      href: "/student/id-card",     icon: <IdCard className="w-4 h-4" /> },
+      { label: "Documents",    href: "/student/documents",   icon: <FolderOpen className="w-4 h-4" /> },
+      { label: "Calendar",     href: "/student/calendar",    icon: <Calendar className="w-4 h-4" /> },
     ];
   }
   if (role === "staff") {
     return [
-      { label: "Dashboard",     href: "/staff/dashboard",     icon: <LayoutDashboard className="w-4 h-4" /> },
-      { label: "Students",      href: "/staff/students",      icon: <Users className="w-4 h-4" /> },
-      { label: "Exam Forms",    href: "/staff/exam-forms",    icon: <FileText className="w-4 h-4" /> },
-      { label: "Calendar",      href: "/staff/calendar",      icon: <Calendar className="w-4 h-4" /> },
-      { label: "Notifications", href: "/staff/notifications", icon: <Bell className="w-4 h-4" /> },
+      { label: "Dashboard",    href: "/staff/dashboard",     icon: <LayoutDashboard className="w-4 h-4" /> },
+      { label: "Students",     href: "/staff/students",      icon: <Users className="w-4 h-4" /> },
+      { label: "Exam Forms",   href: "/staff/exam-forms",    icon: <FileText className="w-4 h-4" /> },
+      { label: "Calendar",     href: "/staff/calendar",      icon: <Calendar className="w-4 h-4" /> },
+      { label: "Notifications",href: "/staff/notifications", icon: <Bell className="w-4 h-4" /> },
     ];
   }
   if (role === "admin") {
     return [
-      { label: "Dashboard",     href: "/admin/dashboard",     icon: <LayoutDashboard className="w-4 h-4" /> },
-      { label: "Students",      href: "/admin/students",      icon: <Users className="w-4 h-4" /> },
-      { label: "Staff",         href: "/admin/staff",         icon: <Users className="w-4 h-4" /> },
-      { label: "Fees",          href: "/admin/fees",          icon: <CreditCard className="w-4 h-4" /> },
-      { label: "Exam Forms",    href: "/admin/exam-forms",    icon: <FileText className="w-4 h-4" /> },
-      { label: "Calendar",      href: "/admin/calendar",      icon: <Calendar className="w-4 h-4" /> },
-      { label: "Notifications", href: "/admin/notifications", icon: <Bell className="w-4 h-4" /> },
-      { label: "Branding",      href: "/admin/branding",      icon: <Palette className="w-4 h-4" /> },
+      { label: "Dashboard",    href: "/admin/dashboard",     icon: <LayoutDashboard className="w-4 h-4" /> },
+      { label: "Students",     href: "/admin/students",      icon: <Users className="w-4 h-4" /> },
+      { label: "Staff",        href: "/admin/staff",         icon: <Users className="w-4 h-4" /> },
+      { label: "Fees",         href: "/admin/fees",          icon: <CreditCard className="w-4 h-4" /> },
+      { label: "Exam Forms",   href: "/admin/exam-forms",    icon: <FileText className="w-4 h-4" /> },
+      { label: "Calendar",     href: "/admin/calendar",      icon: <Calendar className="w-4 h-4" /> },
+      { label: "Notifications",href: "/admin/notifications", icon: <Bell className="w-4 h-4" /> },
+      { label: "Branding",     href: "/admin/branding",      icon: <Palette className="w-4 h-4" /> },
     ];
   }
   return [];
@@ -72,7 +72,7 @@ export function DashboardLayout({ children, role }: { children: ReactNode; role:
   return (
     <ProtectedRoute allowedRoles={[role]}>
       <div className="min-h-screen bg-gray-50 flex">
-        {/* ── SIDEBAR ── */}
+        {/* SIDEBAR */}
         <aside className="w-56 bg-sidebar text-sidebar-foreground hidden md:flex flex-col no-print shrink-0">
 
           {/* Logo */}
@@ -132,16 +132,12 @@ export function DashboardLayout({ children, role }: { children: ReactNode; role:
           </div>
         </aside>
 
-        {/* ── MAIN CONTENT ── */}
+        {/* MAIN CONTENT */}
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
           {/* Mobile header */}
           <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:hidden no-print">
             <div className="flex items-center gap-2">
-              <img
-                src={branding.logo_round ?? "/au-logo-main.png"}
-                alt="AU"
-                className="w-7 h-7 object-contain"
-              />
+              <img src={branding.logo_round ?? "/au-logo-main.png"} alt="AU" className="w-7 h-7 object-contain" />
               <span className="font-bold text-sm text-[#8b0000]" style={{ fontFamily: "Georgia, serif" }}>Alliance University</span>
             </div>
             <button onClick={() => logout.mutate()} className="p-2 text-gray-500">

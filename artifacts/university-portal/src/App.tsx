@@ -26,6 +26,7 @@ import { NotificationsPage } from "@/pages/student/notifications";
 import { CalendarPage } from "@/pages/student/calendar";
 import { ProfilePage } from "@/pages/student/profile";
 import { IdCardPage } from "@/pages/student/id-card";
+import { DocumentsPage } from "@/pages/student/documents";
 
 // Staff Pages
 import { StaffDashboard } from "@/pages/staff/staff-dashboard";
@@ -84,8 +85,11 @@ function Router() {
       <Route path="/student/hall-ticket">
         <DashboardLayout role="student"><HallTicketPage /></DashboardLayout>
       </Route>
-      <Route path="/student/documents">
+      <Route path="/student/id-card">
         <DashboardLayout role="student"><IdCardPage /></DashboardLayout>
+      </Route>
+      <Route path="/student/documents">
+        <DashboardLayout role="student"><DocumentsPage /></DashboardLayout>
       </Route>
       <Route path="/student/calendar">
         <DashboardLayout role="student"><CalendarPage /></DashboardLayout>

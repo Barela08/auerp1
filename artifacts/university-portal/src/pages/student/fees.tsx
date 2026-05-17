@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useGetMyFees } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "wouter";
-import { CreditCard, Download, CheckCircle, AlertCircle, Clock, Receipt } from "lucide-react";
+import { CreditCard, Eye, Download, AlertCircle, Receipt } from "lucide-react";
 import { format } from "date-fns";
 
 export function FeesPage() {
@@ -55,20 +54,20 @@ export function FeesPage() {
         <Card className="border-l-4 border-l-primary shadow-sm">
           <CardContent className="p-5">
             <p className="text-sm text-gray-500 font-medium">Total Fees</p>
-            <p className="text-3xl font-bold mt-1">₹{data.totalFees.toLocaleString()}</p>
+            <p className="text-3xl font-bold mt-1">₹{data.totalFees.toLocaleString("en-IN")}</p>
           </CardContent>
         </Card>
         <Card className="border-l-4 border-l-emerald-500 shadow-sm">
           <CardContent className="p-5">
             <p className="text-sm text-gray-500 font-medium">Paid Amount</p>
-            <p className="text-3xl font-bold mt-1 text-emerald-600">₹{data.paidAmount.toLocaleString()}</p>
+            <p className="text-3xl font-bold mt-1 text-emerald-600">₹{data.paidAmount.toLocaleString("en-IN")}</p>
           </CardContent>
         </Card>
         <Card className={`border-l-4 shadow-sm ${data.pendingAmount > 0 ? "border-l-destructive" : "border-l-emerald-500"}`}>
           <CardContent className="p-5">
             <p className="text-sm text-gray-500 font-medium">Pending Amount</p>
             <p className={`text-3xl font-bold mt-1 ${data.pendingAmount > 0 ? "text-destructive" : "text-emerald-600"}`}>
-              ₹{data.pendingAmount.toLocaleString()}
+              ₹{data.pendingAmount.toLocaleString("en-IN")}
             </p>
           </CardContent>
         </Card>
@@ -83,7 +82,7 @@ export function FeesPage() {
           </div>
           <Progress value={paidPercent} className="h-3" />
           <p className="text-xs text-gray-500 mt-2">
-            ₹{data.paidAmount.toLocaleString()} paid of ₹{data.totalFees.toLocaleString()} total
+            ₹{data.paidAmount.toLocaleString("en-IN")} paid of ₹{data.totalFees.toLocaleString("en-IN")} total
           </p>
         </CardContent>
       </Card>
@@ -100,35 +99,42 @@ export function FeesPage() {
             <table className="w-full">
               <thead className="bg-gray-50 border-b">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Semester</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Academic Year</th>
-                  <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Fees</th>
-                  <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Paid</th>
-                  <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Pending</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Due Date</th>
-                  <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Receipt</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Semester</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Academic Year</th>
+                  <th className="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Fees</th>
+                  <th className="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Paid</th>
+                  <th className="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Pending</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Due Date</th>
+                  <th className="px-5 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                  <th className="px-5 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Receipt</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {data.records.map((fee) => (
                   <tr key={fee.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium text-gray-900">Semester {fee.semester}</td>
-                    <td className="px-6 py-4 text-gray-600">{fee.academicYear || "—"}</td>
-                    <td className="px-6 py-4 text-right font-semibold">₹{fee.totalFees.toLocaleString()}</td>
-                    <td className="px-6 py-4 text-right text-emerald-600 font-semibold">₹{fee.paidAmount.toLocaleString()}</td>
-                    <td className="px-6 py-4 text-right text-destructive font-semibold">₹{fee.pendingAmount.toLocaleString()}</td>
-                    <td className="px-6 py-4 text-gray-600 text-sm">
+                    <td className="px-5 py-4 font-medium text-gray-900">Semester {fee.semester}</td>
+                    <td className="px-5 py-4 text-gray-600">{fee.academicYear || "—"}</td>
+                    <td className="px-5 py-4 text-right font-semibold">₹{fee.totalFees.toLocaleString("en-IN")}</td>
+                    <td className="px-5 py-4 text-right text-emerald-600 font-semibold">₹{fee.paidAmount.toLocaleString("en-IN")}</td>
+                    <td className="px-5 py-4 text-right text-destructive font-semibold">₹{fee.pendingAmount.toLocaleString("en-IN")}</td>
+                    <td className="px-5 py-4 text-gray-600 text-sm">
                       {fee.dueDate ? format(new Date(fee.dueDate), "dd MMM yyyy") : "—"}
                     </td>
-                    <td className="px-6 py-4 text-center">{statusBadge(fee.status)}</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-5 py-4 text-center">{statusBadge(fee.status)}</td>
+                    <td className="px-5 py-4 text-center">
                       {fee.status === "paid" && fee.receiptNo ? (
-                        <Link href={`/student/fees/${fee.id}/receipt`}>
-                          <Button variant="ghost" size="sm" className="text-primary hover:text-primary">
-                            <Receipt className="w-4 h-4 mr-1" /> View
-                          </Button>
-                        </Link>
+                        <div className="flex items-center justify-center gap-1">
+                          <Link href={`/student/fees/${fee.id}/receipt`}>
+                            <Button variant="outline" size="sm" className="text-primary border-primary hover:bg-primary/5">
+                              <Eye className="w-3.5 h-3.5 mr-1" />View
+                            </Button>
+                          </Link>
+                          <Link href={`/student/fees/${fee.id}/receipt`}>
+                            <Button size="sm" className="bg-[#8b0000] hover:bg-[#6b0000] text-white">
+                              <Download className="w-3.5 h-3.5 mr-1" />Download
+                            </Button>
+                          </Link>
+                        </div>
                       ) : (
                         <span className="text-gray-400 text-sm">—</span>
                       )}
