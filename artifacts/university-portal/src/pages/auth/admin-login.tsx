@@ -32,117 +32,87 @@ export function AdminLogin() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!captchaInput) {
-      setError("Please enter Captcha code.");
-      return;
-    }
+    if (!captchaInput) { setError("Please enter Captcha code."); return; }
     if (!captchaRef.current?.validate(captchaInput)) {
       setError("Incorrect captcha code. Please try again.");
       captchaRef.current?.refresh();
       setCaptchaInput("");
       return;
     }
-    if (!username || !password) {
-      setError("Please enter admin ID and password.");
-      return;
-    }
+    if (!username || !password) { setError("Please enter admin ID and password."); return; }
     loginMutation.mutate({ data: { username, password, role: "admin" as LoginInputRole } });
   };
 
   return (
     <div
-      className="min-h-screen w-full relative flex flex-col items-center justify-between py-6"
-      style={{
-        backgroundImage: "url(/campus-staff.jpg)",
-        backgroundSize: "cover",
-        backgroundPosition: "center top",
-        filter: "none",
-      }}
+      className="min-h-screen w-full relative flex flex-col items-center justify-between py-5"
+      style={{ backgroundImage: "url(/campus-bg2.jpg)", backgroundSize: "cover", backgroundPosition: "center top" }}
     >
       <div className="absolute inset-0 bg-black/20" />
 
-      <div className="relative z-10 flex flex-col items-center w-full">
+      <div className="relative z-10 w-full flex justify-center pt-1">
         <AuLogo />
       </div>
 
-      <div className="relative z-10 flex-1 flex items-center justify-center w-full px-4 py-4">
-        <div
-          className="w-full max-w-sm rounded-sm shadow-2xl"
-          style={{ background: "rgba(255,255,255,0.92)", backdropFilter: "blur(6px)" }}
-        >
+      <div className="relative z-10 flex-1 flex items-center justify-center w-full px-4">
+        <div className="w-full max-w-[360px] shadow-2xl" style={{ background: "rgba(255,255,255,0.93)", backdropFilter: "blur(4px)" }}>
           <div className="px-8 py-7">
-            <p className="text-center text-[0.8rem] text-blue-500 font-medium mb-0.5 tracking-wide">
-              Welcome to AUERP
-            </p>
-            <h2 className="text-center text-[1.2rem] font-normal text-gray-800 mb-5 tracking-wide">
+            <p className="text-center text-[0.78rem] text-blue-500 font-medium tracking-wide mb-0.5">Welcome to AUERP</p>
+            <h2 className="text-center text-xl font-normal text-gray-800 mb-5" style={{ fontFamily: "Georgia, serif" }}>
               Admin Login
             </h2>
 
             {error && (
-              <div className="mb-4 bg-red-500 text-white text-sm px-3 py-2 rounded text-center">
-                {error}
-              </div>
+              <div className="mb-3 bg-red-500 text-white text-xs px-3 py-2 text-center">{error}</div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-3">
-              <div className="relative">
+              <div className="flex items-center border border-gray-300 bg-white">
                 <input
                   type="text"
                   placeholder="Admin ID"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-3 pr-9 py-2.5 border border-gray-300 rounded-sm text-sm bg-white focus:outline-none focus:border-blue-400"
+                  className="flex-1 pl-3 pr-9 py-2.5 text-sm bg-transparent focus:outline-none"
                   autoComplete="username"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  <User className="w-4 h-4" />
-                </span>
+                <span className="pr-2.5 text-gray-400"><User className="w-4 h-4" /></span>
               </div>
 
-              <div className="relative">
+              <div className="flex items-center border border-gray-300 bg-white">
                 <input
                   type="password"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-3 pr-9 py-2.5 border border-gray-300 rounded-sm text-sm bg-white focus:outline-none focus:border-blue-400"
+                  className="flex-1 pl-3 pr-9 py-2.5 text-sm bg-transparent focus:outline-none"
                   autoComplete="current-password"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  <Lock className="w-4 h-4" />
-                </span>
+                <span className="pr-2.5 text-gray-400"><Lock className="w-4 h-4" /></span>
               </div>
 
-              <div className="flex items-center gap-2">
-                <CaptchaWidget ref={captchaRef} />
-              </div>
+              <CaptchaWidget ref={captchaRef} />
 
-              <div className="relative">
+              <div className="flex items-center border border-gray-300 bg-white">
                 <input
                   type="text"
                   placeholder="Type the text above"
                   value={captchaInput}
                   onChange={(e) => setCaptchaInput(e.target.value)}
-                  className="w-full pl-3 pr-9 py-2.5 border border-gray-300 rounded-sm text-sm bg-white focus:outline-none focus:border-blue-400"
+                  className="flex-1 pl-3 pr-9 py-2.5 text-sm bg-transparent focus:outline-none"
                   autoComplete="off"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  <Pencil className="w-4 h-4" />
-                </span>
+                <span className="pr-2.5 text-gray-400"><Pencil className="w-4 h-4" /></span>
               </div>
 
               <div className="flex items-center justify-between pt-1">
-                <a
-                  href="#"
-                  className="text-blue-500 hover:text-blue-700 text-sm"
-                  onClick={(e) => e.preventDefault()}
-                >
+                <a href="#" onClick={(e) => e.preventDefault()} className="text-blue-500 hover:text-blue-700 text-sm">
                   Forgot Password
                 </a>
                 <button
                   type="submit"
                   disabled={loginMutation.isPending}
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2 rounded-sm transition-colors disabled:opacity-60"
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2 transition-colors disabled:opacity-60"
                 >
                   {loginMutation.isPending ? "Logging in..." : "Login"}
                 </button>
@@ -152,7 +122,7 @@ export function AdminLogin() {
         </div>
       </div>
 
-      <div className="relative z-10 text-center text-white text-xs py-3 drop-shadow-sm">
+      <div className="relative z-10 text-center text-white text-xs py-3" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>
         <p>Copyright © 2026 Alliance University</p>
         <p>All rights reserved.</p>
       </div>

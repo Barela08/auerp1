@@ -5,148 +5,224 @@ import { AlertCircle, Printer, ArrowLeft } from "lucide-react";
 import { useParams, Link } from "wouter";
 import { format } from "date-fns";
 
+const ALL_PARTICULARS = [
+  "REGISTRATION FEE",
+  "SECURITY DEPOSIT HOSTEL",
+  "TRANSPORTATION CHARGES",
+  "OTHERS",
+  "CONVOCATION FEE",
+  "UNIFORM FEE",
+  "SECURITY DEPOSIT ACADEMIC",
+  "TOUR FEE",
+  "HOSTEL ADMISSION FEE",
+  "EXAMINATION FEE",
+  "FINE",
+  "PRACTICAL RECORD FEE",
+  "EDCM BANK CHARGES",
+  "RE-REGISTRATION FEES",
+];
+
+function toWords(n: number): string {
+  if (n === 0) return "Zero";
+  const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+    "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+  const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+  const convert = (num: number): string => {
+    if (num < 20) return ones[num];
+    if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 ? " " + ones[num % 10] : "");
+    if (num < 1000) return ones[Math.floor(num / 100)] + " Hundred" + (num % 100 ? " " + convert(num % 100) : "");
+    if (num < 100000) return convert(Math.floor(num / 1000)) + " Thousand" + (num % 1000 ? " " + convert(num % 1000) : "");
+    if (num < 10000000) return convert(Math.floor(num / 100000)) + " Lakh" + (num % 100000 ? " " + convert(num % 100000) : "");
+    return convert(Math.floor(num / 10000000)) + " Crore" + (num % 10000000 ? " " + convert(num % 10000000) : "");
+  };
+  return convert(n) + " Only";
+}
+
 export function FeeReceiptPage() {
   const params = useParams<{ id: string }>();
   const feeId = params?.id ? parseInt(params.id) : 0;
   const { data: receipt, isLoading, isError } = useGetFeeReceipt(feeId);
 
-  if (isLoading) {
-    return <div className="p-8"><Skeleton className="h-[800px]" /></div>;
-  }
+  if (isLoading) return <div className="p-8"><Skeleton className="h-[900px]" /></div>;
 
   if (isError || !receipt) {
     return (
-      <div className="p-8">
-        <div className="text-center text-destructive">
-          <AlertCircle className="w-12 h-12 mx-auto mb-4" />
-          <p className="font-medium">Receipt not found.</p>
-          <Link href="/student/fees">
-            <Button variant="outline" className="mt-4"><ArrowLeft className="w-4 h-4 mr-2" /> Back to Fees</Button>
-          </Link>
-        </div>
+      <div className="p-8 text-center text-destructive">
+        <AlertCircle className="w-12 h-12 mx-auto mb-4" />
+        <p className="font-medium">Receipt not found.</p>
+        <Link href="/student/fees">
+          <Button variant="outline" className="mt-4"><ArrowLeft className="w-4 h-4 mr-2" />Back to Fees</Button>
+        </Link>
       </div>
     );
   }
 
+  const particularsMap: Record<string, number> = {};
+  receipt.particulars?.forEach((p) => { particularsMap[p.name.toUpperCase()] = p.amount; });
+  const totalAmount = receipt.totalAmount ?? 0;
+
   return (
-    <div className="p-4 md:p-8 max-w-4xl mx-auto">
-      <div className="flex justify-between items-center mb-6 no-print">
+    <div className="p-4 md:p-8 max-w-3xl mx-auto">
+      <div className="flex justify-between items-center mb-4 no-print">
         <Link href="/student/fees">
-          <Button variant="outline"><ArrowLeft className="w-4 h-4 mr-2" /> Back to Fees</Button>
+          <Button variant="outline" size="sm"><ArrowLeft className="w-4 h-4 mr-2" />Back</Button>
         </Link>
-        <Button onClick={() => window.print()} className="bg-primary">
-          <Printer className="w-4 h-4 mr-2" /> Print Receipt
+        <Button onClick={() => window.print()} size="sm" className="bg-[#8b0000] hover:bg-[#6b0000]">
+          <Printer className="w-4 h-4 mr-2" />Print / Download
         </Button>
       </div>
 
-      {/* Receipt Document */}
-      <div className="bg-white border border-gray-300 shadow-lg" id="receipt">
-        {/* University Header */}
-        <div className="bg-[#0f1e3c] text-white p-6 text-center">
-          <div className="flex items-center justify-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-2xl font-bold">AU</div>
-            <div>
-              <h1 className="text-2xl font-bold font-serif tracking-wide">ALLIANCE UNIVERSITY</h1>
-              <p className="text-sm text-white/80 mt-1">Chandapura-Anekal Main Road, Anekal, Bangalore – 562106</p>
+      {/* ── RECEIPT DOCUMENT ── */}
+      <div className="bg-white border border-gray-300 shadow-lg text-sm" id="receipt" style={{ fontFamily: "Arial, sans-serif" }}>
+
+        {/* ── HEADER ── */}
+        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-gray-300">
+          <div className="flex items-center gap-3">
+            <img src="/au-logo-round.webp" alt="AU" className="w-16 h-16 object-contain" />
+          </div>
+          <div className="text-center flex-1 px-4">
+            <h1 className="font-black tracking-widest text-[#8b0000]" style={{ fontSize: "2rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>
+              ALLIANCE
+            </h1>
+            <h1 className="font-black tracking-widest text-[#1a237e]" style={{ fontSize: "1.6rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>
+              UNIVERSITY
+            </h1>
+          </div>
+          <div className="text-right">
+            <div className="border border-gray-400 px-2 py-1 text-center">
+              <p className="text-[9px] font-bold text-gray-600 tracking-wider">NAAC</p>
+              <p className="text-[9px] font-bold text-gray-600 tracking-wider">GRADE</p>
+              <p className="text-xl font-black text-[#8b0000]" style={{ lineHeight: 1 }}>A+</p>
+              <p className="text-[7px] text-gray-600">ACCREDITED UNIVERSITY</p>
             </div>
           </div>
         </div>
 
-        {/* Receipt Title */}
-        <div className="bg-[#8b0000] text-white text-center py-3">
-          <h2 className="text-lg font-bold tracking-widest uppercase">Fee Payment Receipt</h2>
+        {/* decorative lines */}
+        <div className="mx-6 mt-1">
+          <div className="border-t-2 border-[#1a237e]" />
+          <div className="border-t border-[#1a237e] mt-0.5" />
         </div>
 
-        {/* Receipt Details Header */}
-        <div className="px-8 py-4 border-b bg-gray-50 flex justify-between text-sm">
-          <div>
-            <span className="text-gray-500 font-medium">Receipt No: </span>
-            <span className="font-bold text-gray-900">{receipt.receiptNo}</span>
-          </div>
-          <div>
-            <span className="text-gray-500 font-medium">Date: </span>
-            <span className="font-bold text-gray-900">
-              {receipt.receiptDate ? format(new Date(receipt.receiptDate), "dd/MM/yyyy") : "—"}
-            </span>
-          </div>
+        {/* ── TITLE ── */}
+        <div className="text-center py-3">
+          <p className="font-bold tracking-[0.25em] text-base text-gray-800">FEE RECEIPT</p>
+          <p className="text-gray-400 text-xs">— ✦ —</p>
         </div>
 
-        {/* Student Details */}
-        <div className="px-8 py-6 border-b">
-          <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Student Details</h3>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div className="space-y-2">
-              <div className="flex gap-2">
-                <span className="text-gray-500 w-32 shrink-0">Student Name</span>
-                <span className="font-semibold text-gray-900">: {receipt.studentName}</span>
-              </div>
-              <div className="flex gap-2">
-                <span className="text-gray-500 w-32 shrink-0">Father's Name</span>
-                <span className="font-semibold text-gray-900">: {receipt.fatherName}</span>
-              </div>
-              <div className="flex gap-2">
-                <span className="text-gray-500 w-32 shrink-0">Enrollment No</span>
-                <span className="font-semibold text-gray-900">: {receipt.enrollmentNo}</span>
-              </div>
+        <div className="mx-6 mb-2">
+          <div className="border-t border-gray-300" />
+        </div>
+
+        {/* ── STUDENT DETAILS ── */}
+        <div className="px-6 py-3 grid grid-cols-2 gap-x-8 gap-y-1.5 text-[12.5px]">
+          <div className="space-y-1.5">
+            <div className="flex gap-1">
+              <span className="w-28 font-semibold text-gray-700 shrink-0">Receipt No.</span>
+              <span>: {receipt.receiptNo}</span>
             </div>
-            <div className="space-y-2">
-              <div className="flex gap-2">
-                <span className="text-gray-500 w-32 shrink-0">Admission No</span>
-                <span className="font-semibold text-gray-900">: {receipt.admissionNo}</span>
-              </div>
-              <div className="flex gap-2">
-                <span className="text-gray-500 w-32 shrink-0">Course</span>
-                <span className="font-semibold text-gray-900">: {receipt.course}</span>
-              </div>
-              <div className="flex gap-2">
-                <span className="text-gray-500 w-32 shrink-0">Payment Mode</span>
-                <span className="font-semibold text-gray-900">: {receipt.paymentMode}</span>
-              </div>
+            <div className="flex gap-1">
+              <span className="w-28 font-semibold text-gray-700 shrink-0">Student Name</span>
+              <span>: {receipt.studentName}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="w-28 font-semibold text-gray-700 shrink-0">Father's Name</span>
+              <span>: {receipt.fatherName}</span>
+            </div>
+            <div className="flex gap-1 items-start">
+              <span className="w-28 font-semibold text-gray-700 shrink-0">Address</span>
+              <span>: {receipt.address || "—"}</span>
             </div>
           </div>
+          <div className="space-y-1.5">
+            <div className="flex gap-1">
+              <span className="w-28 font-semibold text-gray-700 shrink-0">Receipt Date</span>
+              <span>: {receipt.receiptDate ? format(new Date(receipt.receiptDate), "dd-MM-yyyy") : "—"}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="w-28 font-semibold text-gray-700 shrink-0">Admission No.</span>
+              <span>: {receipt.admissionNo || receipt.enrollmentNo}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="w-28 font-semibold text-gray-700 shrink-0">Course</span>
+              <span>: {receipt.course}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="w-28 font-semibold text-gray-700 shrink-0">Uni. Regn. No.</span>
+              <span>: </span>
+            </div>
+          </div>
         </div>
 
-        {/* Fee Particulars */}
-        <div className="px-8 py-6">
-          <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Fee Particulars</h3>
-          <table className="w-full text-sm border-collapse border border-gray-300">
+        {/* ── PARTICULARS TABLE ── */}
+        <div className="px-6 pb-2">
+          <table className="w-full text-[12.5px] border-collapse">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-gray-300 px-4 py-2 text-left">Sl. No.</th>
-                <th className="border border-gray-300 px-4 py-2 text-left">Particulars</th>
-                <th className="border border-gray-300 px-4 py-2 text-right">Amount (₹)</th>
+              <tr style={{ background: "#1a237e" }}>
+                <th className="text-white font-bold py-2 px-4 text-left tracking-wider" style={{ width: "75%" }}>PARTICULARS</th>
+                <th className="text-white font-bold py-2 px-4 text-right tracking-wider">AMOUNT (₹)</th>
               </tr>
             </thead>
             <tbody>
-              {receipt.particulars?.filter(p => p.amount > 0).map((p, i) => (
-                <tr key={i} className="hover:bg-gray-50">
-                  <td className="border border-gray-300 px-4 py-2">{i + 1}</td>
-                  <td className="border border-gray-300 px-4 py-2">{p.name}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-right">₹{p.amount.toLocaleString()}</td>
+              {ALL_PARTICULARS.map((name, i) => (
+                <tr key={i} className="border-b border-gray-200" style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
+                  <td className="py-1.5 px-4 text-gray-700">{name}</td>
+                  <td className="py-1.5 px-4 text-right text-gray-700">{particularsMap[name] ?? 0}</td>
                 </tr>
               ))}
-              <tr className="bg-gray-100 font-bold">
-                <td colSpan={2} className="border border-gray-300 px-4 py-3 text-right font-bold">
-                  TOTAL AMOUNT PAID
-                </td>
-                <td className="border border-gray-300 px-4 py-3 text-right font-bold text-primary">
-                  ₹{receipt.totalAmount?.toLocaleString()}
-                </td>
-              </tr>
             </tbody>
           </table>
+        </div>
 
-          <div className="mt-4 p-4 bg-primary/5 border border-primary/20 rounded-lg">
-            <p className="text-sm font-medium text-gray-700">
-              Amount in Words: <span className="text-gray-900 font-semibold">{receipt.amountInWords}</span>
-            </p>
+        {/* ── TOTAL ── */}
+        <div className="px-6 py-3 flex items-center justify-between border-t border-gray-300 mx-6 mx-0">
+          <div className="text-[12.5px]">
+            <span className="font-bold">Amount in Words: </span>
+            <span className="italic">{receipt.amountInWords || `Rupees ${toWords(totalAmount)}`}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="px-3 py-1.5 font-bold text-sm tracking-wider" style={{ background: "#1a237e", color: "#fff" }}>
+              TOTAL AMOUNT
+            </div>
+            <div className="border border-gray-400 px-3 py-1.5 font-bold text-sm">
+              ₹ {totalAmount.toLocaleString("en-IN")}/-
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="px-8 py-4 border-t bg-gray-50 flex justify-between items-center text-xs text-gray-500">
-          <p>This is a computer generated receipt and does not require a signature.</p>
-          <p>Bank: {receipt.bankName}</p>
+        {/* ── PAYMENT DETAILS ── */}
+        <div className="px-6 py-3 grid grid-cols-2 gap-8 text-[11.5px] border-t border-gray-200">
+          <div className="space-y-0.5 text-gray-700">
+            <p>Cmp ID: RAJ {totalAmount}.</p>
+            <p>No.: UPI450778686235</p>
+            <p>Subject to encashment of Cheque/DD | SEM TUTION FEES PART</p>
+            <p>Note: All fee is non-refundable.</p>
+            <p>Only the security deposit will be refunded after</p>
+            <p>completion of course.</p>
+          </div>
+          <div className="space-y-0.5 text-gray-700">
+            <p>Amount Received: ₹ {totalAmount.toLocaleString("en-IN")}/-</p>
+            <p>Drawn on: {receipt.bankName || "ICICI BANK"}</p>
+          </div>
+        </div>
+
+        {/* ── SIGNATURES ── */}
+        <div className="px-6 pt-2 pb-4 flex items-end justify-between border-t border-gray-200">
+          <div className="flex items-end gap-2">
+            <img src="/au-logo-round.webp" alt="Stamp" className="w-16 h-16 object-contain opacity-80" />
+          </div>
+          <div className="text-right text-[12px]">
+            <p className="font-bold text-gray-800 mb-1">For ALLIANCE UNIVERSITY</p>
+            <img src="/signature-controller.webp" alt="Signature" className="h-10 ml-auto" style={{ maxWidth: "160px" }} />
+            <div className="border-t border-gray-400 mt-1 pt-0.5 text-gray-600 text-[10px]">Authorized Signatory</div>
+          </div>
+        </div>
+
+        {/* ── FOOTER ── */}
+        <div className="border-t-2 border-[#1a237e] mx-4" />
+        <div className="text-center py-2 text-[10px] text-gray-600">
+          <p><span className="font-semibold">Campus:</span> Alliance University, Chandapura - Anekal Main Road, Chandapura, Bengaluru - 562106, Karnataka, India.</p>
+          <p><span className="font-semibold">Phone:</span> +91 80 4619 0000 &nbsp;|&nbsp; <span className="font-semibold">Email:</span> info@alliance.edu.in &nbsp;|&nbsp; <span className="font-semibold">Website:</span> www.alliance.edu.in</p>
         </div>
       </div>
     </div>
