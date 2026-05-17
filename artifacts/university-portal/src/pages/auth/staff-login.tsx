@@ -8,7 +8,7 @@ import { AuLogo } from "./au-logo";
 import { useBranding } from "@/contexts/branding-context";
 
 const DEMO = [
-  { label: "Faculty/Staff Login", user: "ramesh.verma@alliance.edu", pass: "staff123" },
+  { label: "Teacher/Faculty Login", user: "teacher@alliance.edu.in", pass: "password123" },
 ];
 
 export function StaffLogin() {
