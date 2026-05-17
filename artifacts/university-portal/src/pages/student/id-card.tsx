@@ -2,6 +2,7 @@ import { useGetStudentDashboard } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Printer } from "lucide-react";
+import { useBranding } from "@/contexts/branding-context";
 
 function Barcode({ value }: { value: string }) {
   const bars: boolean[] = [];
@@ -27,6 +28,7 @@ function Barcode({ value }: { value: string }) {
 
 export function IdCardPage() {
   const { data, isLoading, isError } = useGetStudentDashboard();
+  const branding = useBranding();
 
   if (isLoading) {
     return (
@@ -47,7 +49,17 @@ export function IdCardPage() {
   }
 
   const { student } = data;
-  const enrollNum = student.enrollmentNo || "41230644";
+  const s = student as typeof student & {
+    universityRegNo?: string;
+    bloodGroup?: string;
+    aadhaarNo?: string;
+    sgpa?: number;
+    attendancePct?: number;
+  };
+
+  const enrollNum = s.enrollmentNo || "13010332022";
+  const logoSrc = branding.logo_round ?? "/au-logo-main.png";
+  const registrarSig = branding.signature_registrar;
 
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-6">
@@ -69,19 +81,17 @@ export function IdCardPage() {
           className="relative overflow-hidden shadow-2xl"
           style={{ width: 540, height: 340, borderRadius: 8, fontFamily: "Arial, sans-serif" }}
         >
-          {/* Campus background */}
           <img
-            src="/campus-bg1.jpg"
+            src={branding.student_login_bg ?? "/campus-bg1.jpg"}
             alt="Campus"
             className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: "center 40%" }}
           />
-          {/* Slight overlay */}
-          <div className="absolute inset-0" style={{ background: "rgba(255,255,255,0.08)" }} />
+          <div className="absolute inset-0" style={{ background: "rgba(255,255,255,0.05)" }} />
 
           {/* Top-left: AU logo + text */}
           <div className="absolute top-4 left-4 flex items-start gap-2">
-            <img src="/au-logo-round.webp" alt="AU" className="w-12 h-12 object-contain drop-shadow-lg" />
+            <img src={logoSrc} alt="AU" className="w-12 h-12 object-contain drop-shadow-lg" />
             <div className="drop-shadow-lg">
               <p className="font-black leading-tight" style={{ fontSize: 18, color: "#8b0000", fontFamily: "Georgia, serif" }}>ALLIANCE</p>
               <p className="font-black leading-tight" style={{ fontSize: 15, color: "#1a237e", fontFamily: "Georgia, serif" }}>UNIVERSITY</p>
@@ -95,7 +105,7 @@ export function IdCardPage() {
             </div>
           </div>
 
-          {/* Top-right: Student Photo */}
+          {/* Top-right: Student Photo placeholder */}
           <div
             className="absolute top-4 right-4 border-2 border-white shadow-lg flex items-center justify-center"
             style={{ width: 80, height: 95, background: "#1565c0" }}
@@ -108,31 +118,46 @@ export function IdCardPage() {
             </div>
           </div>
 
+          {/* Blood group badge */}
+          {s.bloodGroup && (
+            <div className="absolute top-4" style={{ right: 100 }}>
+              <div className="bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
+                {s.bloodGroup}
+              </div>
+            </div>
+          )}
+
           {/* Bottom strip */}
           <div className="absolute bottom-0 left-0 right-0" style={{ background: "rgba(10,20,50,0.88)" }}>
-            {/* Name strip */}
             <div className="px-4 pt-2.5 pb-1">
-              <p className="font-black text-white tracking-wide" style={{ fontSize: 20 }}>
-                {student.name?.toUpperCase() || "MD. SHAHABUDDIN"}
+              <p className="font-black text-white tracking-wide" style={{ fontSize: 18 }}>
+                {s.name?.toUpperCase()}
               </p>
-              <p className="text-gray-300 font-semibold" style={{ fontSize: 12 }}>
-                Program : {student.department || "B TECH"} {new Date().getFullYear()}
+              <p className="text-gray-300 font-semibold" style={{ fontSize: 11 }}>
+                {s.program} · {s.department}
               </p>
+              {s.universityRegNo && (
+                <p className="text-gray-400" style={{ fontSize: 9 }}>
+                  Univ. Regn. No.: {s.universityRegNo}
+                </p>
+              )}
             </div>
 
-            {/* Barcode + Signature row */}
             <div className="flex items-end justify-between px-4 pb-2">
               <div>
                 <Barcode value={enrollNum} />
                 <p className="text-gray-400 text-center mt-0.5" style={{ fontSize: 9 }}>{enrollNum}</p>
               </div>
               <div className="text-right">
-                <img src="/signature-registrar.webp" alt="Signature" className="h-8 ml-auto" style={{ maxWidth: 120, filter: "invert(1)" }} />
+                {registrarSig ? (
+                  <img src={registrarSig} alt="Signature" className="h-8 ml-auto" style={{ maxWidth: 120, filter: "invert(1)" }} />
+                ) : (
+                  <div className="h-8 border-b border-gray-400 w-24 ml-auto" />
+                )}
                 <p className="text-gray-300 font-semibold" style={{ fontSize: 10 }}>Registrar</p>
               </div>
             </div>
 
-            {/* Website */}
             <div className="text-center pb-1.5">
               <p className="font-bold" style={{ color: "#e53935", fontSize: 13 }}>www.alliance.edu.in</p>
             </div>
@@ -153,7 +178,7 @@ export function IdCardPage() {
             alt="Campus Aerial"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.35)" }} />
+          <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.4)" }} />
 
           <div className="absolute inset-0 flex flex-col justify-end p-5 text-white text-xs">
             <div className="bg-black/60 p-3 rounded text-[11px] leading-relaxed">

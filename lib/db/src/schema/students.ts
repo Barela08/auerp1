@@ -8,6 +8,7 @@ export const studentsTable = pgTable("students", {
   enrollmentNo: text("enrollment_no").notNull().unique(),
   rollNo: text("roll_no").notNull(),
   admissionNo: text("admission_no"),
+  universityRegNo: text("university_reg_no"),
   program: text("program").notNull(),
   department: text("department").notNull(),
   semester: integer("semester").notNull(),
@@ -20,7 +21,12 @@ export const studentsTable = pgTable("students", {
   dob: text("dob"),
   address: text("address"),
   photoUrl: text("photo_url"),
+  bloodGroup: text("blood_group"),
+  aadhaarNo: text("aadhaar_no"),
+  category: text("category"),
   cgpa: real("cgpa"),
+  sgpa: real("sgpa"),
+  attendancePct: real("attendance_pct"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

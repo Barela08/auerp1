@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { feesTable, studentsTable, usersTable } from "@workspace/db";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 const router = Router();
 
@@ -53,16 +53,23 @@ router.get("/:id/receipt", async (req, res) => {
   const students = await db.select().from(studentsTable).where(eq(studentsTable.id, fee.studentId));
   const student = students[0];
 
+  const feeLabel = fee.feeType?.toUpperCase() || "SEMESTER TUITION FEES";
   const particulars = [
+    { name: feeLabel, amount: fee.paidAmount },
     { name: "REGISTRATION FEE", amount: 0 },
     { name: "SECURITY DEPOSIT HOSTEL", amount: 0 },
     { name: "TRANSPORTATION CHARGES", amount: 0 },
     { name: "OTHERS", amount: 0 },
-    { name: "TUITION FEE", amount: fee.totalFees * 0.7 },
-    { name: "EXAMINATION FEE", amount: fee.totalFees * 0.1 },
-    { name: "DEVELOPMENT FEE", amount: fee.totalFees * 0.1 },
-    { name: "LIBRARY FEE", amount: fee.totalFees * 0.05 },
-    { name: "SPORTS FEE", amount: fee.totalFees * 0.05 },
+    { name: "CONVOCATION FEE", amount: 0 },
+    { name: "UNIFORM FEE", amount: 0 },
+    { name: "SECURITY DEPOSIT ACADEMIC", amount: 0 },
+    { name: "TOUR FEE", amount: 0 },
+    { name: "HOSTEL ADMISSION FEE", amount: 0 },
+    { name: "EXAMINATION FEE", amount: 0 },
+    { name: "FINE", amount: 0 },
+    { name: "PRACTICAL RECORD FEE", amount: 0 },
+    { name: "EDCM BANK CHARGES", amount: 0 },
+    { name: "RE-REGISTRATION FEES", amount: 0 },
   ];
 
   const totalAmount = fee.paidAmount;
@@ -74,14 +81,24 @@ router.get("/:id/receipt", async (req, res) => {
     receiptDate: fee.paidDate || new Date().toISOString().split("T")[0],
     studentName: student?.name || "N/A",
     fatherName: student?.fatherName || "N/A",
+    motherName: student?.motherName || "N/A",
     enrollmentNo: student?.enrollmentNo || "N/A",
-    admissionNo: student?.admissionNo || "N/A",
+    admissionNo: student?.admissionNo || student?.enrollmentNo || "N/A",
+    universityRegNo: student?.universityRegNo || "N/A",
     course: student?.program || "N/A",
+    department: student?.department || "N/A",
+    semester: fee.semester,
+    academicYear: fee.academicYear || "N/A",
     address: student?.address ?? null,
+    bloodGroup: student?.bloodGroup ?? null,
+    category: student?.category ?? null,
     totalAmount,
     amountInWords: `Rupees ${words} Only`,
-    paymentMode: fee.paymentMode || "UPI",
-    bankName: "ICICI BANK",
+    paymentMode: fee.paymentMode || "Online Banking",
+    bankName: fee.bankName || "ICICI BANK",
+    transactionId: fee.transactionId || null,
+    feeType: fee.feeType || "Semester Tuition Fees",
+    status: fee.status,
     particulars,
   });
 });
@@ -124,6 +141,9 @@ function formatFee(f: typeof feesTable.$inferSelect, studentName: string | undef
     paidDate: f.paidDate ?? null,
     paymentMode: f.paymentMode ?? null,
     receiptNo: f.receiptNo ?? null,
+    transactionId: f.transactionId ?? null,
+    bankName: f.bankName ?? null,
+    feeType: f.feeType ?? null,
     createdAt: f.createdAt.toISOString(),
   };
 }

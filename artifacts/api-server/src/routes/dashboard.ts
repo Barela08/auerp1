@@ -75,11 +75,16 @@ router.get("/student", async (req, res) => {
   const studentData = {
     id: student.id, name: student.name, enrollmentNo: student.enrollmentNo,
     rollNo: student.rollNo, admissionNo: student.admissionNo ?? null,
+    universityRegNo: student.universityRegNo ?? null,
     program: student.program, department: student.department, semester: student.semester,
     section: student.section ?? null, academicYear: student.academicYear ?? null,
     email: student.email, phone: student.phone, fatherName: student.fatherName,
     motherName: student.motherName, dob: student.dob ?? null, address: student.address ?? null,
-    photoUrl: student.photoUrl ?? null, cgpa: student.cgpa ?? null, createdAt: student.createdAt.toISOString(),
+    photoUrl: student.photoUrl ?? null, cgpa: student.cgpa ?? null,
+    sgpa: student.sgpa ?? null, attendancePct: student.attendancePct ?? null,
+    bloodGroup: student.bloodGroup ?? null, aadhaarNo: student.aadhaarNo ?? null,
+    category: student.category ?? null,
+    createdAt: student.createdAt.toISOString(),
   };
 
   res.json({

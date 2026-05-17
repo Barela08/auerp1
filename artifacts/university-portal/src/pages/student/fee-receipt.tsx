@@ -4,23 +4,7 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle, Printer, ArrowLeft } from "lucide-react";
 import { useParams, Link } from "wouter";
 import { format } from "date-fns";
-
-const ALL_PARTICULARS = [
-  "REGISTRATION FEE",
-  "SECURITY DEPOSIT HOSTEL",
-  "TRANSPORTATION CHARGES",
-  "OTHERS",
-  "CONVOCATION FEE",
-  "UNIFORM FEE",
-  "SECURITY DEPOSIT ACADEMIC",
-  "TOUR FEE",
-  "HOSTEL ADMISSION FEE",
-  "EXAMINATION FEE",
-  "FINE",
-  "PRACTICAL RECORD FEE",
-  "EDCM BANK CHARGES",
-  "RE-REGISTRATION FEES",
-];
+import { useBranding } from "@/contexts/branding-context";
 
 function toWords(n: number): string {
   if (n === 0) return "Zero";
@@ -42,6 +26,7 @@ export function FeeReceiptPage() {
   const params = useParams<{ id: string }>();
   const feeId = params?.id ? parseInt(params.id) : 0;
   const { data: receipt, isLoading, isError } = useGetFeeReceipt(feeId);
+  const branding = useBranding();
 
   if (isLoading) return <div className="p-8"><Skeleton className="h-[900px]" /></div>;
 
@@ -57,9 +42,42 @@ export function FeeReceiptPage() {
     );
   }
 
+  const r = receipt as typeof receipt & {
+    motherName?: string;
+    universityRegNo?: string;
+    department?: string;
+    semester?: number;
+    academicYear?: string;
+    bloodGroup?: string;
+    category?: string;
+    transactionId?: string;
+    feeType?: string;
+    bankName?: string;
+  };
+
   const particularsMap: Record<string, number> = {};
   receipt.particulars?.forEach((p) => { particularsMap[p.name.toUpperCase()] = p.amount; });
+
+  const ALL_PARTICULARS = [
+    r.feeType?.toUpperCase() || "SEMESTER TUITION FEES",
+    "REGISTRATION FEE",
+    "SECURITY DEPOSIT HOSTEL",
+    "TRANSPORTATION CHARGES",
+    "OTHERS",
+    "CONVOCATION FEE",
+    "UNIFORM FEE",
+    "SECURITY DEPOSIT ACADEMIC",
+    "TOUR FEE",
+    "HOSTEL ADMISSION FEE",
+    "EXAMINATION FEE",
+    "FINE",
+    "PRACTICAL RECORD FEE",
+    "EDCM BANK CHARGES",
+    "RE-REGISTRATION FEES",
+  ];
+
   const totalAmount = receipt.totalAmount ?? 0;
+  const logoSrc = branding.logo_round ?? "/au-logo-main.png";
 
   return (
     <div className="p-4 md:p-8 max-w-3xl mx-auto">
@@ -78,22 +96,19 @@ export function FeeReceiptPage() {
         {/* ── HEADER ── */}
         <div className="flex items-center justify-between px-6 py-4 border-b-2 border-gray-300">
           <div className="flex items-center gap-3">
-            <img src="/au-logo-round.webp" alt="AU" className="w-16 h-16 object-contain" />
+            <img src={logoSrc} alt="AU" className="w-16 h-16 object-contain" />
           </div>
           <div className="text-center flex-1 px-4">
-            <h1 className="font-black tracking-widest text-[#8b0000]" style={{ fontSize: "2rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>
-              ALLIANCE
-            </h1>
-            <h1 className="font-black tracking-widest text-[#1a237e]" style={{ fontSize: "1.6rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>
-              UNIVERSITY
-            </h1>
+            <h1 className="font-black tracking-widest text-[#8b0000]" style={{ fontSize: "2rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>ALLIANCE</h1>
+            <h1 className="font-black tracking-widest text-[#1a237e]" style={{ fontSize: "1.6rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>UNIVERSITY</h1>
+            <p className="text-gray-500 text-[10px] mt-0.5">Chandapura - Anekal Main Road, Bengaluru - 562106</p>
           </div>
           <div className="text-right">
             <div className="border border-gray-400 px-2 py-1 text-center">
               <p className="text-[9px] font-bold text-gray-600 tracking-wider">NAAC</p>
               <p className="text-[9px] font-bold text-gray-600 tracking-wider">GRADE</p>
               <p className="text-xl font-black text-[#8b0000]" style={{ lineHeight: 1 }}>A+</p>
-              <p className="text-[7px] text-gray-600">ACCREDITED UNIVERSITY</p>
+              <p className="text-[7px] text-gray-600">ACCREDITED</p>
             </div>
           </div>
         </div>
@@ -115,48 +130,76 @@ export function FeeReceiptPage() {
         </div>
 
         {/* ── STUDENT DETAILS ── */}
-        <div className="px-6 py-3 grid grid-cols-2 gap-x-8 gap-y-1.5 text-[12.5px]">
+        <div className="px-6 py-3 grid grid-cols-2 gap-x-8 gap-y-1.5 text-[12px]">
           <div className="space-y-1.5">
             <div className="flex gap-1">
-              <span className="w-28 font-semibold text-gray-700 shrink-0">Receipt No.</span>
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Receipt No.</span>
               <span>: {receipt.receiptNo}</span>
             </div>
             <div className="flex gap-1">
-              <span className="w-28 font-semibold text-gray-700 shrink-0">Student Name</span>
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Student Name</span>
               <span>: {receipt.studentName}</span>
             </div>
             <div className="flex gap-1">
-              <span className="w-28 font-semibold text-gray-700 shrink-0">Father's Name</span>
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Father's Name</span>
               <span>: {receipt.fatherName}</span>
             </div>
+            <div className="flex gap-1">
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Mother's Name</span>
+              <span>: {r.motherName || "—"}</span>
+            </div>
             <div className="flex gap-1 items-start">
-              <span className="w-28 font-semibold text-gray-700 shrink-0">Address</span>
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Address</span>
               <span>: {receipt.address || "—"}</span>
             </div>
+            {r.bloodGroup && (
+              <div className="flex gap-1">
+                <span className="w-32 font-semibold text-gray-700 shrink-0">Blood Group</span>
+                <span>: {r.bloodGroup}</span>
+              </div>
+            )}
+            {r.category && (
+              <div className="flex gap-1">
+                <span className="w-32 font-semibold text-gray-700 shrink-0">Category</span>
+                <span>: {r.category}</span>
+              </div>
+            )}
           </div>
           <div className="space-y-1.5">
             <div className="flex gap-1">
-              <span className="w-28 font-semibold text-gray-700 shrink-0">Receipt Date</span>
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Receipt Date</span>
               <span>: {receipt.receiptDate ? format(new Date(receipt.receiptDate), "dd-MM-yyyy") : "—"}</span>
             </div>
             <div className="flex gap-1">
-              <span className="w-28 font-semibold text-gray-700 shrink-0">Admission No.</span>
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Admission No.</span>
               <span>: {receipt.admissionNo || receipt.enrollmentNo}</span>
             </div>
             <div className="flex gap-1">
-              <span className="w-28 font-semibold text-gray-700 shrink-0">Course</span>
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Uni. Regn. No.</span>
+              <span>: {r.universityRegNo || "—"}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Course</span>
               <span>: {receipt.course}</span>
             </div>
             <div className="flex gap-1">
-              <span className="w-28 font-semibold text-gray-700 shrink-0">Uni. Regn. No.</span>
-              <span>: </span>
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Department</span>
+              <span>: {r.department || "—"}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Semester</span>
+              <span>: {r.semester ? `${r.semester}` : "—"}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="w-32 font-semibold text-gray-700 shrink-0">Academic Year</span>
+              <span>: {r.academicYear || "—"}</span>
             </div>
           </div>
         </div>
 
         {/* ── PARTICULARS TABLE ── */}
         <div className="px-6 pb-2">
-          <table className="w-full text-[12.5px] border-collapse">
+          <table className="w-full text-[12px] border-collapse">
             <thead>
               <tr style={{ background: "#1a237e" }}>
                 <th className="text-white font-bold py-2 px-4 text-left tracking-wider" style={{ width: "75%" }}>PARTICULARS</th>
@@ -167,7 +210,11 @@ export function FeeReceiptPage() {
               {ALL_PARTICULARS.map((name, i) => (
                 <tr key={i} className="border-b border-gray-200" style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
                   <td className="py-1.5 px-4 text-gray-700">{name}</td>
-                  <td className="py-1.5 px-4 text-right text-gray-700">{particularsMap[name] ?? 0}</td>
+                  <td className="py-1.5 px-4 text-right text-gray-700">
+                    {(particularsMap[name] ?? 0) > 0
+                      ? (particularsMap[name]).toLocaleString("en-IN")
+                      : <span className="text-gray-300">—</span>}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -175,8 +222,8 @@ export function FeeReceiptPage() {
         </div>
 
         {/* ── TOTAL ── */}
-        <div className="px-6 py-3 flex items-center justify-between border-t border-gray-300 mx-6 mx-0">
-          <div className="text-[12.5px]">
+        <div className="px-6 py-3 flex items-center justify-between border-t border-gray-300">
+          <div className="text-[12px]">
             <span className="font-bold">Amount in Words: </span>
             <span className="italic">{receipt.amountInWords || `Rupees ${toWords(totalAmount)}`}</span>
           </div>
@@ -193,29 +240,43 @@ export function FeeReceiptPage() {
         {/* ── PAYMENT DETAILS ── */}
         <div className="px-6 py-3 grid grid-cols-2 gap-8 text-[11.5px] border-t border-gray-200">
           <div className="space-y-0.5 text-gray-700">
-            <p>Cmp ID: RAJ {totalAmount}.</p>
-            <p>No.: UPI450778686235</p>
-            <p>Subject to encashment of Cheque/DD | SEM TUTION FEES PART</p>
-            <p>Note: All fee is non-refundable.</p>
-            <p>Only the security deposit will be refunded after</p>
-            <p>completion of course.</p>
+            <p><span className="font-semibold">Fee Type:</span> {r.feeType || "Semester Tuition Fees"}</p>
+            <p><span className="font-semibold">Payment Mode:</span> {receipt.paymentMode}</p>
+            {r.transactionId && <p><span className="font-semibold">Transaction ID:</span> {r.transactionId}</p>}
+            <p className="text-gray-500 mt-1">Note: All fee is non-refundable.</p>
+            <p className="text-gray-500">Only the security deposit will be refunded after completion of course.</p>
           </div>
           <div className="space-y-0.5 text-gray-700">
-            <p>Amount Received: ₹ {totalAmount.toLocaleString("en-IN")}/-</p>
-            <p>Drawn on: {receipt.bankName || "ICICI BANK"}</p>
+            <p><span className="font-semibold">Amount Received:</span> ₹ {totalAmount.toLocaleString("en-IN")}/-</p>
+            <p><span className="font-semibold">Payment Status:</span> <span className="text-green-600 font-bold">{receipt.status?.toUpperCase() || "SUCCESS"}</span></p>
+            <p><span className="font-semibold">Drawn On:</span> {r.bankName || "ICICI BANK"}</p>
+            {receipt.receiptDate && (
+              <p><span className="font-semibold">Date:</span> {format(new Date(receipt.receiptDate), "dd-MM-yyyy")}</p>
+            )}
           </div>
         </div>
 
         {/* ── SIGNATURES ── */}
         <div className="px-6 pt-2 pb-4 flex items-end justify-between border-t border-gray-200">
           <div className="flex items-end gap-2">
-            <img src="/au-logo-round.webp" alt="Stamp" className="w-16 h-16 object-contain opacity-80" />
+            <img src={logoSrc} alt="Stamp" className="w-16 h-16 object-contain opacity-80" />
           </div>
           <div className="text-right text-[12px]">
             <p className="font-bold text-gray-800 mb-1">For ALLIANCE UNIVERSITY</p>
-            <img src="/signature-controller.webp" alt="Signature" className="h-10 ml-auto" style={{ maxWidth: "160px" }} />
-            <div className="border-t border-gray-400 mt-1 pt-0.5 text-gray-600 text-[10px]">Authorized Signatory</div>
+            {branding.signature_controller ? (
+              <img src={branding.signature_controller} alt="Signature" className="h-10 ml-auto" style={{ maxWidth: "160px" }} />
+            ) : (
+              <div className="h-10 border-b border-gray-400 w-40 ml-auto" />
+            )}
+            <div className="border-t border-gray-400 mt-1 pt-0.5 text-gray-600 text-[10px]">Authorized Signatory / Accounts Dept.</div>
           </div>
+        </div>
+
+        {/* ── NOTE ── */}
+        <div className="px-6 pb-3 text-[10.5px] text-gray-500 border-t border-gray-100">
+          <p>• This receipt is digitally generated and valid for academic verification purposes only.</p>
+          <p>• Keep this receipt safe for future verification. All fees are non-refundable.</p>
+          <p>• Valid for academic verification purposes only.</p>
         </div>
 
         {/* ── FOOTER ── */}

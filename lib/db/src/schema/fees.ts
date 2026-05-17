@@ -15,6 +15,9 @@ export const feesTable = pgTable("fees", {
   paidDate: text("paid_date"),
   paymentMode: text("payment_mode"),
   receiptNo: text("receipt_no"),
+  transactionId: text("transaction_id"),
+  bankName: text("bank_name"),
+  feeType: text("fee_type"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
