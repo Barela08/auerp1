@@ -48,13 +48,17 @@ router.patch("/me/profile", async (req, res) => {
   const user = users[0];
   if (!user?.studentId) { res.status(403).json({ error: "Not a student" }); return; }
 
-  const { photoUrl, signatureUrl, name, phone, address } = req.body;
+  const { photoUrl, signatureUrl, name, phone, address, email, fatherName, motherName, dob } = req.body;
   const updateData: Record<string, string> = {};
   if (photoUrl !== undefined) updateData.photoUrl = photoUrl;
   if (signatureUrl !== undefined) updateData.signatureUrl = signatureUrl;
   if (name !== undefined) updateData.name = name;
   if (phone !== undefined) updateData.phone = phone;
   if (address !== undefined) updateData.address = address;
+  if (email !== undefined) updateData.email = email;
+  if (fatherName !== undefined) updateData.fatherName = fatherName;
+  if (motherName !== undefined) updateData.motherName = motherName;
+  if (dob !== undefined) updateData.dob = dob;
 
   const [updated] = await db.update(studentsTable).set(updateData).where(eq(studentsTable.id, user.studentId)).returning();
   res.json(formatStudent(updated));

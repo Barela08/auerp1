@@ -5,7 +5,9 @@ import { getGetStudentDashboardQueryKey } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { AlertCircle, User, GraduationCap, ShieldCheck, Camera, PenLine, CheckCircle, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { AlertCircle, User, GraduationCap, ShieldCheck, Camera, PenLine, CheckCircle, Loader2, Edit2, X, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 
@@ -17,6 +19,10 @@ export function ProfilePage() {
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [uploadingSig, setUploadingSig] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formData, setFormData] = useState<Record<string, string>>({});
 
   if (isLoading) {
     return (
@@ -42,6 +48,7 @@ export function ProfilePage() {
   }
 
   const { student } = data;
+  const s = student as any;
 
   const uploadFile = async (file: File, field: "photoUrl" | "signatureUrl") => {
     return new Promise<void>((resolve, reject) => {
@@ -82,6 +89,42 @@ export function ProfilePage() {
     try { await uploadFile(file, "signatureUrl"); } finally { setUploadingSig(false); }
   };
 
+  const openEditMode = () => {
+    setFormData({
+      name: student.name || "",
+      phone: student.phone || "",
+      email: student.email || "",
+      address: s.address || "",
+      fatherName: student.fatherName || "",
+      motherName: student.motherName || "",
+      dob: s.dob || "",
+    });
+    setEditMode(true);
+    setErrorMsg("");
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/students/me/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error("Save failed");
+      await queryClient.invalidateQueries({ queryKey: getGetStudentDashboardQueryKey() });
+      setSuccessMsg("Profile updated successfully!");
+      setTimeout(() => setSuccessMsg(""), 3000);
+      setEditMode(false);
+    } catch {
+      setErrorMsg("Failed to save changes. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const InfoRow = ({ label, value }: { label: string; value: string | null | undefined }) => (
     <div className="flex justify-between py-2.5 border-b border-gray-100 last:border-0">
       <span className="text-sm text-gray-500 font-medium">{label}</span>
@@ -89,18 +132,40 @@ export function ProfilePage() {
     </div>
   );
 
-  const s = student as any;
+  const EditField = ({ label, field, type = "text" }: { label: string; field: string; type?: string }) => (
+    <div className="space-y-1">
+      <Label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{label}</Label>
+      <Input
+        type={type}
+        value={formData[field] || ""}
+        onChange={e => setFormData(prev => ({ ...prev, [field]: e.target.value }))}
+        className="h-9 text-sm"
+      />
+    </div>
+  );
 
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-        <p className="text-gray-500 mt-1">Personal and academic information</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+          <p className="text-gray-500 mt-1">Personal and academic information</p>
+        </div>
+        {!editMode && (
+          <Button variant="outline" onClick={openEditMode} className="flex items-center gap-2">
+            <Edit2 className="w-4 h-4" />Edit Profile
+          </Button>
+        )}
       </div>
 
       {successMsg && (
         <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded px-4 py-2 text-sm font-medium">
           <CheckCircle className="w-4 h-4" /> {successMsg}
+        </div>
+      )}
+      {errorMsg && (
+        <div className="flex items-center gap-2 bg-red-50 text-red-700 border border-red-200 rounded px-4 py-2 text-sm font-medium">
+          <AlertCircle className="w-4 h-4" /> {errorMsg}
         </div>
       )}
 
@@ -178,6 +243,45 @@ export function ProfilePage() {
         </CardContent>
       </Card>
 
+      {/* Edit Form */}
+      {editMode && (
+        <Card className="shadow-sm border-primary/40">
+          <CardHeader className="border-b pb-4">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Edit2 className="w-5 h-5 text-primary" /> Edit Personal Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <EditField label="Full Name" field="name" />
+              <EditField label="Phone Number" field="phone" type="tel" />
+              <EditField label="Email Address" field="email" type="email" />
+              <EditField label="Date of Birth" field="dob" type="date" />
+              <EditField label="Father's Name" field="fatherName" />
+              <EditField label="Mother's Name" field="motherName" />
+              <div className="md:col-span-2 space-y-1">
+                <Label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Address</Label>
+                <Input
+                  value={formData.address || ""}
+                  onChange={e => setFormData(prev => ({ ...prev, address: e.target.value }))}
+                  className="h-9 text-sm"
+                  placeholder="Full address..."
+                />
+              </div>
+            </div>
+            <div className="flex gap-3 mt-6 justify-end">
+              <Button variant="outline" onClick={() => setEditMode(false)} disabled={saving}>
+                <X className="w-4 h-4 mr-2" />Cancel
+              </Button>
+              <Button onClick={handleSave} disabled={saving} className="bg-[#8b0000] hover:bg-[#6b0000]">
+                {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                Save Changes
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Academic Info */}
         <Card className="shadow-sm">
@@ -211,14 +315,14 @@ export function ProfilePage() {
           </CardHeader>
           <CardContent className="p-4">
             <InfoRow label="Full Name" value={student.name} />
-            <InfoRow label="Date of Birth" value={student.dob ? format(new Date(student.dob), "dd MMMM yyyy") : null} />
+            <InfoRow label="Date of Birth" value={student.dob ? (() => { try { return format(new Date(student.dob), "dd MMMM yyyy"); } catch { return student.dob; } })() : null} />
             <InfoRow label="Blood Group" value={s.bloodGroup} />
             <InfoRow label="Category" value={s.category} />
             <InfoRow label="Email" value={student.email} />
             <InfoRow label="Phone" value={student.phone} />
             <InfoRow label="Father's Name" value={student.fatherName} />
             <InfoRow label="Mother's Name" value={student.motherName} />
-            <InfoRow label="Address" value={student.address} />
+            <InfoRow label="Address" value={s.address} />
           </CardContent>
         </Card>
       </div>
