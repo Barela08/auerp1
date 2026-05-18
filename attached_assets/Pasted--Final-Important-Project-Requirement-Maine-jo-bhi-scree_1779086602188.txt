@@ -1,0 +1,91 @@
+# Final Important Project Requirement
+
+Maine jo bhi screenshots, photos, login pages, dashboards, receipts, ID cards, hall tickets, attendance pages aur UI designs bheje hain, project ka har ek section bilkul same-to-same vaise hi hona chahiye. Kisi bhi design, layout, color, font, button, icon, spacing ya structure mein difference nahi hona chahiye.
+
+Jo bhi elements/screenshots mein dikh rahe hain:
+
+* Login Pages
+* Student Dashboard
+* Staff Dashboard
+* Admin Dashboard
+* Fees Receipt
+* Hall Ticket
+* Attendance
+* Notifications
+* Documents
+* Academic Calendar
+* Buttons
+* Sidebar
+* Navbar
+* Tables
+* Cards
+* Forms
+
+sab kuchh bilkul screenshot ke according hi banana hoga.
+
+Main jo assets provide karunga:
+
+* Logos
+* Icons
+* Images
+* Fonts
+* Backgrounds
+* Design Files
+* UI Elements
+* Screenshots
+
+un sab ko properly use karke exact same UI banana hoga.
+
+---
+
+# Login System Requirement
+
+* Normal login sirf Student Login ke liye open hoga
+* Staff login sirf `/staff` URL se open hoga
+* Admin login sirf `/admin` URL se open hoga
+* Student, Staff aur Admin ke dashboards completely alag hone chahiye
+* Demo login credentials/options screenshot ke according niche visible hone chahiye
+* Jo ID/password diye jayenge woh fully working hone chahiye
+
+---
+
+# Functional Requirement
+
+Har ek feature properly working hona chahiye:
+
+* Login
+* Registration
+* Dashboard
+* Fees Management
+* Receipt Download
+* Hall Ticket Download
+* Attendance Tracking
+* Notifications
+* Exam Forms
+* Documents
+* Academic Calendar
+
+Koi bhi button ya feature dummy nahi hona chahiye.
+
+---
+
+# Database Requirement
+
+* MongoDB database use hoga
+* Proper backend connectivity honi chahiye
+* Dynamic data save/fetch/update/delete properly kaam karna chahiye
+
+---
+
+# GitHub Requirement
+
+* Complete project automatically GitHub par push karna hoga
+* Har update properly GitHub repository mein upload hona chahiye
+* Clean aur organized code structure maintain hona chahiye
+* Final fully working project hi GitHub par upload hona chahiye
+
+---
+
+# Final Requirement
+
+Project fully responsive, professional aur production-level quality ka hona chahiye. Har ek page aur feature screenshot ke hisaab se hi exact same design aur working ke saath develop hona chahiye.
