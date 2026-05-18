@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Download } from "lucide-react";
 import { useBranding } from "@/contexts/branding-context";
-import { AUBarcode, AUQRCode } from "@/components/document-assets";
+import { AUBarcode } from "@/components/document-assets";
 
 export function IdCardPage() {
   const { data, isLoading, isError } = useGetStudentDashboard();
@@ -141,7 +141,6 @@ export function IdCardPage() {
 
             <div className="text-center pb-2 flex items-center justify-between px-3">
               <p className="font-bold" style={{ color: "#e53935", fontSize: 13 }}>www.alliance.edu.in</p>
-              <AUQRCode size={44} />
             </div>
           </div>
         </div>

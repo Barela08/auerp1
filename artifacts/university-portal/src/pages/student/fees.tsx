@@ -122,7 +122,7 @@ export function FeesPage() {
                     </td>
                     <td className="px-5 py-4 text-center">{statusBadge(fee.status)}</td>
                     <td className="px-5 py-4 text-center">
-                      {fee.status === "paid" && fee.receiptNo ? (
+                      {fee.receiptNo ? (
                         <div className="flex items-center justify-center gap-1">
                           <Link href={`/student/fees/${fee.id}/receipt`}>
                             <Button variant="outline" size="sm" className="text-primary border-primary hover:bg-primary/5">

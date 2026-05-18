@@ -1,11 +1,11 @@
 import { useGetFeeReceipt } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, Printer, ArrowLeft } from "lucide-react";
+import { AlertCircle, Printer, Download, ArrowLeft } from "lucide-react";
 import { useParams, Link } from "wouter";
 import { format } from "date-fns";
 import { useBranding } from "@/contexts/branding-context";
-import { AUQRCode, AUBarcode } from "@/components/document-assets";
+import { AUBarcode } from "@/components/document-assets";
 
 function toWords(n: number): string {
   if (n === 0) return "Zero";
@@ -80,15 +80,28 @@ export function FeeReceiptPage() {
   const totalAmount = receipt.totalAmount ?? 0;
   const logoSrc = branding.logo_round ?? "/au-logo-round.png";
 
+  const handlePrint = () => {
+    const style = document.createElement("style");
+    style.innerHTML = `@media print { .no-print { display: none !important; } body { margin: 0; } }`;
+    document.head.appendChild(style);
+    window.print();
+    document.head.removeChild(style);
+  };
+
   return (
     <div className="p-4 md:p-8 max-w-3xl mx-auto">
       <div className="flex justify-between items-center mb-4 no-print">
         <Link href="/student/fees">
           <Button variant="outline" size="sm"><ArrowLeft className="w-4 h-4 mr-2" />Back</Button>
         </Link>
-        <Button onClick={() => window.print()} size="sm" className="bg-[#8b0000] hover:bg-[#6b0000]">
-          <Printer className="w-4 h-4 mr-2" />Print / Download
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={handlePrint} size="sm" variant="outline" className="border-[#8b0000] text-[#8b0000] hover:bg-red-50">
+            <Printer className="w-4 h-4 mr-2" />Print
+          </Button>
+          <Button onClick={handlePrint} size="sm" className="bg-[#8b0000] hover:bg-[#6b0000]">
+            <Download className="w-4 h-4 mr-2" />Download
+          </Button>
+        </div>
       </div>
 
       {/* ── RECEIPT DOCUMENT ── */}
@@ -249,10 +262,9 @@ export function FeeReceiptPage() {
             <img src={logoSrc} alt="Stamp" className="w-16 h-16 object-contain opacity-80" />
           </div>
 
-          {/* QR Code + Receipt Barcode */}
+          {/* Receipt Barcode */}
           <div className="flex flex-col items-center gap-1">
-            <AUQRCode size={64} />
-            <AUBarcode value={String(receipt.receiptNo || `RCP${feeId}`)} height={28} textSize={7} showText={true} />
+            <AUBarcode value={String(receipt.receiptNo || `RCP${feeId}`)} height={36} textSize={8} showText={true} />
           </div>
 
           <div className="text-right text-[12px]">
