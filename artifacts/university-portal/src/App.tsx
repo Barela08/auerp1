@@ -36,6 +36,8 @@ import { StaffDashboard } from "@/pages/staff/staff-dashboard";
 import { StaffStudentsPage } from "@/pages/staff/students";
 import { StaffExamFormsPage } from "@/pages/staff/exam-forms";
 import { StaffAttendancePage } from "@/pages/staff/attendance";
+import { StaffCalendarPage } from "@/pages/staff/calendar";
+import { StaffResultsPage } from "@/pages/staff/results";
 
 // Admin Pages
 import { AdminDashboard } from "@/pages/admin/admin-dashboard";
@@ -46,6 +48,7 @@ import { AdminExamFormsPage } from "@/pages/admin/exam-forms";
 import { AdminNotificationsPage } from "@/pages/admin/notifications";
 import { AdminBrandingPage } from "@/pages/admin/branding";
 import { AdminResultsPage } from "@/pages/admin/results";
+import { AdminCalendarPage } from "@/pages/admin/calendar";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -126,7 +129,10 @@ function Router() {
         <DashboardLayout role="staff"><StaffExamFormsPage /></DashboardLayout>
       </Route>
       <Route path="/staff/calendar">
-        <DashboardLayout role="staff"><CalendarPage /></DashboardLayout>
+        <DashboardLayout role="staff"><StaffCalendarPage /></DashboardLayout>
+      </Route>
+      <Route path="/staff/results">
+        <DashboardLayout role="staff"><StaffResultsPage /></DashboardLayout>
       </Route>
       <Route path="/staff/notifications">
         <DashboardLayout role="staff"><NotificationsPage /></DashboardLayout>
@@ -152,7 +158,7 @@ function Router() {
         <DashboardLayout role="admin"><AdminExamFormsPage /></DashboardLayout>
       </Route>
       <Route path="/admin/calendar">
-        <DashboardLayout role="admin"><CalendarPage /></DashboardLayout>
+        <DashboardLayout role="admin"><AdminCalendarPage /></DashboardLayout>
       </Route>
       <Route path="/admin/notifications">
         <DashboardLayout role="admin"><AdminNotificationsPage /></DashboardLayout>

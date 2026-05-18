@@ -1,12 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
 import { useListCalendarEvents } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, CalendarDays, BookOpen, Flag, Star } from "lucide-react";
+import { AlertCircle, CalendarDays, BookOpen, Flag, Star, ImageIcon, FileText } from "lucide-react";
 import { format } from "date-fns";
+
+async function fetchCalendarMeta(): Promise<{ exists: boolean; contentType?: string }> {
+  const res = await fetch("/api/branding/meta/calendar_image");
+  if (!res.ok) return { exists: false };
+  return res.json();
+}
 
 export function CalendarPage() {
   const { data, isLoading, isError } = useListCalendarEvents();
+  const { data: calMeta } = useQuery({ queryKey: ["calendar-meta"], queryFn: fetchCalendarMeta });
+
+  const calImageUrl = calMeta?.exists ? `/api/branding/image/calendar_image?t=${Math.floor(Date.now() / 30000)}` : null;
+  const isCalPdf = calMeta?.contentType === "application/pdf";
 
   if (isLoading) {
     return (
@@ -54,6 +65,43 @@ export function CalendarPage() {
         <h1 className="text-3xl font-bold text-gray-900">Academic Calendar</h1>
         <p className="text-gray-500 mt-1">Upcoming exams, events, deadlines, and holidays</p>
       </div>
+
+      {/* Calendar Image / PDF uploaded by admin/staff */}
+      {calImageUrl && (
+        <Card className="shadow-sm overflow-hidden">
+          <CardHeader className="border-b py-3 px-4 flex flex-row items-center gap-2">
+            <ImageIcon className="w-4 h-4 text-blue-500" />
+            <CardTitle className="text-sm font-semibold text-gray-700">Academic Calendar</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            {isCalPdf ? (
+              <div className="flex items-center gap-4 px-5 py-4">
+                <div className="p-3 bg-red-100 rounded-lg">
+                  <FileText className="w-7 h-7 text-red-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-800">Academic Calendar (PDF)</p>
+                  <a
+                    href={calImageUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-blue-600 hover:underline"
+                  >
+                    View / Download PDF →
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <img
+                src={calImageUrl}
+                alt="Academic Calendar"
+                className="w-full object-contain max-h-[600px]"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+              />
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Legend */}
       <div className="flex flex-wrap gap-3">

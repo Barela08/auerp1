@@ -16,7 +16,10 @@ const SETTING_KEYS = [
   "signature_exam",
   "hall_ticket_header",
   "receipt_header",
+  "calendar_image",
 ];
+
+const STAFF_ALLOWED_KEYS = ["calendar_image"];
 
 router.get("/", async (_req, res) => {
   const rows = await db.select().from(siteSettings);
@@ -47,12 +50,31 @@ router.get("/image/:key", async (req, res) => {
   res.send(buf);
 });
 
-router.post("/image/:key", async (req, res) => {
-  if (!req.session?.userId || req.session?.role !== "admin") {
-    res.status(403).json({ error: "Admin only" });
+router.get("/meta/:key", async (req, res) => {
+  const { key } = req.params;
+  const rows = await db.select().from(siteSettings).where(eq(siteSettings.key, key));
+  const row = rows[0];
+  if (!row?.imageData) {
+    res.json({ exists: false });
     return;
   }
+  res.json({ exists: true, contentType: row.contentType || "image/png" });
+});
+
+router.post("/image/:key", async (req, res) => {
   const { key } = req.params;
+  const role = req.session?.role;
+  const isAdmin = role === "admin";
+  const isStaff = role === "staff";
+
+  if (!req.session?.userId) {
+    res.status(401).json({ error: "Not authenticated" });
+    return;
+  }
+  if (!isAdmin && !(isStaff && STAFF_ALLOWED_KEYS.includes(key))) {
+    res.status(403).json({ error: "Insufficient permissions" });
+    return;
+  }
   if (!SETTING_KEYS.includes(key)) {
     res.status(400).json({ error: "Invalid key" });
     return;
@@ -73,11 +95,19 @@ router.post("/image/:key", async (req, res) => {
 });
 
 router.delete("/image/:key", async (req, res) => {
-  if (!req.session?.userId || req.session?.role !== "admin") {
-    res.status(403).json({ error: "Admin only" });
+  const { key } = req.params;
+  const role = req.session?.role;
+  const isAdmin = role === "admin";
+  const isStaff = role === "staff";
+
+  if (!req.session?.userId) {
+    res.status(401).json({ error: "Not authenticated" });
     return;
   }
-  const { key } = req.params;
+  if (!isAdmin && !(isStaff && STAFF_ALLOWED_KEYS.includes(key))) {
+    res.status(403).json({ error: "Insufficient permissions" });
+    return;
+  }
   await db.update(siteSettings).set({ imageData: null, contentType: null }).where(eq(siteSettings.key, key));
   res.json({ success: true });
 });
