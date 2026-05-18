@@ -95,21 +95,12 @@ export function FeeReceiptPage() {
 
         {/* ── HEADER ── */}
         <div className="flex items-center justify-between px-6 py-4 border-b-2 border-gray-300">
-          <div className="flex items-center gap-3">
-            <img src={logoSrc} alt="AU" className="w-16 h-16 object-contain" />
-          </div>
-          <div className="text-center flex-1 px-4">
-            <h1 className="font-black tracking-widest text-[#8b0000]" style={{ fontSize: "2rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>ALLIANCE</h1>
-            <h1 className="font-black tracking-widest text-[#1a237e]" style={{ fontSize: "1.6rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>UNIVERSITY</h1>
-            <p className="text-gray-500 text-[10px] mt-0.5">Chandapura - Anekal Main Road, Bengaluru - 562106</p>
-          </div>
-          <div className="text-right">
-            <div className="border border-gray-400 px-2 py-1 text-center">
-              <p className="text-[9px] font-bold text-gray-600 tracking-wider">NAAC</p>
-              <p className="text-[9px] font-bold text-gray-600 tracking-wider">GRADE</p>
-              <p className="text-xl font-black text-[#8b0000]" style={{ lineHeight: 1 }}>A+</p>
-              <p className="text-[7px] text-gray-600">ACCREDITED</p>
-            </div>
+          <img src="/au-logo-horizontal.png" alt="Alliance University" className="object-contain" style={{ height: 72, maxWidth: 280 }} />
+          <div className="border border-gray-400 px-2 py-1 text-center shrink-0">
+            <p className="text-[9px] font-bold text-gray-600 tracking-wider">NAAC</p>
+            <p className="text-[9px] font-bold text-gray-600 tracking-wider">GRADE</p>
+            <p className="text-xl font-black text-[#8b0000]" style={{ lineHeight: 1 }}>A+</p>
+            <p className="text-[7px] text-gray-600">ACCREDITED</p>
           </div>
         </div>
 

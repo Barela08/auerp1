@@ -27,7 +27,14 @@ router.get("/", async (req, res) => {
 
   const result = await Promise.all(rows.map(async (r) => {
     const students = await db.select().from(studentsTable).where(eq(studentsTable.id, r.studentId));
-    return { ...formatResult(r), studentName: students[0]?.name ?? null };
+    const s = students[0];
+    return {
+      ...formatResult(r),
+      studentName: s?.name ?? null,
+      enrollmentNo: s?.enrollmentNo ?? null,
+      program: s?.program ?? null,
+      department: s?.department ?? null,
+    };
   }));
   res.json(result);
 });

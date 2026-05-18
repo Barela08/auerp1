@@ -23,7 +23,7 @@ interface Subject {
 const GRADE_SCALE = [
   { gp: 10, grade: "O" }, { gp: 9, grade: "A+" }, { gp: 8, grade: "A" },
   { gp: 7, grade: "B+" }, { gp: 6, grade: "B" }, { gp: 5, grade: "C" },
-  { gp: 4, grade: "P" }, { gp: 0, grade: "F" },
+  { gp: 4, grade: "P" }, { gp: 0, grade: "F" }, { gp: "-", grade: "Ab" },
 ];
 
 export function ResultsPage() {
@@ -58,15 +58,16 @@ export function ResultsPage() {
     : data[data.length - 1];
 
   const subjects = (activeResult?.subjects ?? []) as Subject[];
-  const totalCredits = subjects.reduce((s, sub) => s + sub.credits, 0);
-  const totalMarks = subjects.reduce((s, sub) => s + sub.totalMarks, 0);
-  const maxMarks = subjects.reduce((s, sub) => s + sub.maxTotal, 0);
+  const totalCredits = subjects.reduce((s, sub) => s + (sub.credits || 0), 0);
+  const totalObtained = subjects.reduce((s, sub) => s + (sub.totalMarks || 0), 0);
+  const totalMax = subjects.reduce((s, sub) => s + (sub.maxTotal || 100), 0);
 
   const student = dashData?.student as any;
-  const logoSrc = branding.logo_round ?? "/au-logo-main.png";
+  const logoSrc = branding.logo_round ?? "/au-logo-round.webp";
   const semLabels = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
   const semLabel = activeResult ? (semLabels[(activeResult.semester ?? 1) - 1] || activeResult.semester) : "—";
   const equivalentPct = activeResult?.sgpa ? ((activeResult.sgpa / 10) * 100).toFixed(2) : "—";
+  const slNo = `AU/R/${activeResult?.academicYear || "2023-24"}/000${String(activeResult?.id ?? 123).padStart(3, "0")}`;
 
   const handleDownload = () => window.print();
 
@@ -80,7 +81,7 @@ export function ResultsPage() {
               key={r.semester}
               size="sm"
               variant={activeResult?.semester === r.semester ? "default" : "outline"}
-              onClick={() => setSelectedSemester(r.semester)}
+              onClick={() => setSelectedSemester(r.semester ?? null)}
             >
               Sem {r.semester}
             </Button>
@@ -96,7 +97,7 @@ export function ResultsPage() {
       {activeResult && (
         <div className="bg-white border border-gray-400 shadow-lg" id="marksheet" style={{ fontFamily: "Arial, sans-serif" }}>
 
-          {/* Header */}
+          {/* ── HEADER ── */}
           <div className="flex items-center justify-between px-6 pt-4 pb-3 border-b-2 border-gray-300">
             <img src={logoSrc} alt="AU" className="w-16 h-16 object-contain" />
             <div className="text-center flex-1 px-2">
@@ -119,32 +120,32 @@ export function ResultsPage() {
             <div className="border-t border-[#1a237e] mt-px" />
           </div>
 
-          {/* Title */}
+          {/* ── TITLE ── */}
           <div className="text-center py-2.5">
             <p className="font-bold tracking-widest text-gray-800" style={{ fontSize: 14, letterSpacing: "0.2em" }}>
-              SEMESTER GRADE REPORT
+              STATEMENT OF MARKS / RESULT
             </p>
             <p className="text-[11px] text-gray-500 mt-0.5">
               — Examination : MAY-JUNE {activeResult.academicYear} —
             </p>
           </div>
 
-          {/* Sl. No. top right */}
+          {/* Sl. No. */}
           <div className="px-6 text-right text-[11px] text-gray-600 -mt-1 mb-1">
-            Sl. No. : AU/R/{activeResult.academicYear || "2023-24"}/000{String(activeResult.id ?? 123).padStart(3, "0")}
+            Sl. No. : {slNo}
           </div>
 
-          {/* Student details + photo */}
+          {/* ── STUDENT DETAILS + PHOTO ── */}
           <div className="px-6 pb-3 flex gap-4">
             <div className="flex-1 grid grid-cols-2 gap-x-6 gap-y-0.5 text-[11.5px]">
               <div className="space-y-0.5">
                 {[
-                  ["Name of the Student", student?.name || activeResult.studentName || "—"],
-                  ["Father's Name", student?.fatherName || "—"],
-                  ["Mother's Name", student?.motherName || "—"],
                   ["Enrollment No.", student?.enrollmentNo || "—"],
+                  ["Roll Number", student?.rollNo || "—"],
+                  ["Student Name", student?.name || activeResult.studentName || "—"],
+                  ["Father's Name", student?.fatherName || "—"],
                   ["Program", student?.program || "—"],
-                  ["Department", student?.department || "—"],
+                  ["School", "School of Engineering & Technology"],
                 ].map(([label, val]) => (
                   <div key={label} className="flex gap-1">
                     <span className="font-semibold text-gray-700 shrink-0" style={{ width: 120 }}>{label}</span>
@@ -154,23 +155,25 @@ export function ResultsPage() {
               </div>
               <div className="space-y-0.5">
                 {[
-                  ["Date of Birth", student?.dob ? (() => { try { return format(new Date(student.dob), "dd-MM-yyyy"); } catch { return student.dob; } })() : "—"],
-                  ["Roll No.", student?.rollNo || "—"],
                   ["Semester", `${semLabel} SEMESTER`],
                   ["Academic Year", activeResult.academicYear || "—"],
+                  ["Date of Result", activeResult.resultDate ? (() => { try { return format(new Date(activeResult.resultDate), "dd-MM-yyyy"); } catch { return activeResult.resultDate; } })() : "—"],
                   ["Result Status", (activeResult.status || "PASS").toUpperCase()],
+                  ["Credits Earned", String(totalCredits)],
+                  ["SGPA", activeResult.sgpa?.toFixed(2) || "—"],
+                  ["CGPA", activeResult.cgpa?.toFixed(2) || "—"],
                 ].map(([label, val]) => (
                   <div key={label} className="flex gap-1">
                     <span className="font-semibold text-gray-700 shrink-0" style={{ width: 120 }}>{label}</span>
-                    <span>: {val}</span>
+                    <span>: <strong>{val}</strong></span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Photo + student signature */}
+            {/* Photo + Student Signature */}
             <div className="flex flex-col items-center gap-1 shrink-0">
-              <div className="border border-gray-400 flex items-center justify-center bg-gray-100" style={{ width: 75, height: 90 }}>
+              <div className="border border-gray-400 flex items-center justify-center bg-gray-100 overflow-hidden" style={{ width: 75, height: 90 }}>
                 {student?.photoUrl ? (
                   <img src={student.photoUrl} alt="Student" className="w-full h-full object-cover" />
                 ) : (
@@ -179,77 +182,99 @@ export function ResultsPage() {
                   </svg>
                 )}
               </div>
+              <p className="text-[9px] text-gray-600 text-center mt-1">{student?.name?.split(" ")[0] || "Student"}</p>
               <div className="h-5 border-b border-gray-500 w-20 mt-1" />
-              <p className="text-[9px] text-gray-600 text-center">Student's Signature</p>
+              <p className="text-[9px] text-gray-600 text-center">Student Signature</p>
+              {/* QR placeholder */}
+              <div className="border border-gray-300 mt-1 flex items-center justify-center bg-gray-50" style={{ width: 44, height: 44 }}>
+                <p className="text-[7px] text-gray-400 text-center leading-tight">QR<br/>Code</p>
+              </div>
+              <p className="text-[8px] text-gray-500">{student?.enrollmentNo || "AU2021CS001"}</p>
             </div>
           </div>
 
-          {/* Marks table */}
+          {/* ── MARKS TABLE ── */}
           <div className="px-4 pb-2">
             <table className="w-full border-collapse text-[10.5px]">
               <thead>
                 <tr style={{ background: "#1a237e" }}>
-                  <th className="text-white py-1.5 px-1.5 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 28 }}>Sl.<br/>No.</th>
+                  <th className="text-white py-1.5 px-1 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 26 }}>S.<br/>No.</th>
                   <th className="text-white py-1.5 px-1.5 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 58 }}>Course<br/>Code</th>
-                  <th className="text-white py-1.5 px-2 text-center font-bold border border-[#0d1a5e]" rowSpan={2}>Course Title</th>
-                  <th className="text-white py-1.5 px-1.5 text-center font-bold border border-[#0d1a5e]" colSpan={4}>Marks Obtained</th>
-                  <th className="text-white py-1.5 px-1.5 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 42 }}>Grade<br/>Point<br/>(GP)</th>
-                  <th className="text-white py-1.5 px-1.5 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 42 }}>Letter<br/>Grade</th>
-                  <th className="text-white py-1.5 px-1.5 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 38 }}>Credits</th>
+                  <th className="text-white py-1.5 px-2 text-left font-bold border border-[#0d1a5e]" rowSpan={2}>Course Name</th>
+                  <th className="text-white py-1.5 px-1 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 34 }}>Cre-<br/>dits</th>
+                  <th className="text-white py-1 px-1 text-center font-bold border border-[#0d1a5e]" colSpan={3}>Marks Obtained</th>
+                  <th className="text-white py-1 px-1 text-center font-bold border border-[#0d1a5e]" colSpan={3}>Max Marks</th>
+                  <th className="text-white py-1.5 px-1 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 36 }}>Grade</th>
+                  <th className="text-white py-1.5 px-1 text-center font-bold border border-[#0d1a5e]" rowSpan={2} style={{ width: 36 }}>Grade<br/>Point</th>
                 </tr>
                 <tr style={{ background: "#1e2fa0" }}>
-                  {[`CA\nMax.${subjects[0]?.maxIa || 30}`, `End Sem\nMax.${subjects[0]?.maxEa || 50}`, `Total\nMax.${subjects[0]?.maxTotal || 100}`, "Result"].map((h, i) => (
-                    <th key={i} className="text-white py-1 px-1.5 text-center font-semibold border border-[#0d1a5e]" style={{ fontSize: 9, width: 42 }}>{h.split("\n").map((l, j) => <span key={j}>{l}{j === 0 && <br/>}</span>)}</th>
+                  {["IA", "EA", "Total", "IA", "EA", "Total"].map((h, i) => (
+                    <th key={i} className="text-white py-1 px-1 text-center font-semibold border border-[#0d1a5e]" style={{ fontSize: 10, width: 34 }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {subjects.map((sub, i) => (
                   <tr key={i} className="border-b border-gray-200" style={{ background: i % 2 === 0 ? "#fff" : "#f7f8ff" }}>
-                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200">{i + 1}</td>
-                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200 font-mono">{sub.subjectCode}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200">{i + 1}</td>
+                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200 font-mono text-[10px]">{sub.subjectCode}</td>
                     <td className="px-2 py-1.5 border-r border-gray-200">{sub.subjectName}</td>
-                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200">{sub.iaMarks}</td>
-                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200">{sub.eaMarks}</td>
-                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200 font-semibold">{sub.totalMarks}</td>
-                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200 font-bold text-[#1a237e]">{sub.grade}</td>
-                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200 font-bold">{sub.gradePoint}</td>
-                    <td className="px-1.5 py-1.5 text-center border-r border-gray-200 font-bold">{sub.grade}</td>
-                    <td className="px-1.5 py-1.5 text-center font-semibold">{sub.credits}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200">{sub.credits}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200">{sub.iaMarks ?? "—"}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200">{sub.eaMarks ?? "—"}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200 font-semibold">{sub.totalMarks ?? "—"}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200 text-gray-500">{sub.maxIa ?? 30}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200 text-gray-500">{sub.maxEa ?? 70}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200 text-gray-500">{sub.maxTotal ?? 100}</td>
+                    <td className="px-1 py-1.5 text-center border-r border-gray-200 font-bold text-[#1a237e]">{sub.grade}</td>
+                    <td className="px-1 py-1.5 text-center font-bold">{sub.gradePoint}</td>
                   </tr>
                 ))}
+                {/* Total row */}
+                <tr style={{ background: "#eef0fa" }}>
+                  <td colSpan={3} className="px-2 py-1.5 font-bold border-t border-gray-300 text-right">Total Credits</td>
+                  <td className="px-1 py-1.5 text-center border-t border-l border-gray-300 font-bold">{totalCredits}</td>
+                  <td colSpan={2} className="border-t border-gray-300" />
+                  <td className="px-1 py-1.5 text-center border-t border-gray-300 font-bold">{totalObtained}</td>
+                  <td colSpan={2} className="border-t border-gray-300" />
+                  <td className="px-1 py-1.5 text-center border-t border-gray-300 font-bold">{totalMax}</td>
+                  <td className="border-t border-gray-300" />
+                  <td className="px-1 py-1.5 text-center border-t border-gray-300 font-bold">
+                    {activeResult.sgpa?.toFixed(2)}
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
 
-          {/* Summary + Formula */}
-          <div className="px-4 pb-2 flex gap-4">
-            <div className="flex-1 text-[11px] space-y-0.5">
+          {/* ── SUMMARY + FORMULA ── */}
+          <div className="px-4 pb-2 flex gap-6 items-start">
+            <div className="flex-1 text-[11px] space-y-0.5 pt-1">
               {[
                 ["Total Credits Earned", String(totalCredits)],
                 ["SGPA", activeResult.sgpa?.toFixed(2) || "—"],
                 ["CGPA (Cumulative)", activeResult.cgpa?.toFixed(2) || "—"],
-                ["Equivalent Percentage", equivalentPct + " %"],
-                ["Result Declared On", activeResult.resultDate ? format(new Date(activeResult.resultDate), "dd-MM-yyyy") : "—"],
+                ["Equivalent Percentage", `${equivalentPct} %`],
+                ["Result Declared On", activeResult.resultDate ? (() => { try { return format(new Date(activeResult.resultDate), "dd-MM-yyyy"); } catch { return activeResult.resultDate; } })() : "—"],
               ].map(([label, val]) => (
                 <div key={label} className="flex gap-1">
-                  <span className="font-semibold text-gray-700 shrink-0" style={{ width: 150 }}>{label}</span>
+                  <span className="font-semibold text-gray-700 shrink-0" style={{ width: 155 }}>{label}</span>
                   <span>: <strong>{val}</strong></span>
                 </div>
               ))}
             </div>
 
-            {/* SGPA Formula box */}
-            <div className="border border-gray-300 p-2 text-center shrink-0" style={{ minWidth: 200 }}>
+            {/* SGPA Formula */}
+            <div className="border border-gray-300 p-2 text-center shrink-0" style={{ minWidth: 210 }}>
               <p className="text-[10px] font-bold text-gray-700 mb-1">SGPA / CGPA Formula :</p>
-              <p className="text-[11px] font-semibold text-gray-800">SGPA (Si) =</p>
-              <div className="flex items-center justify-center gap-1 my-1">
+              <div className="flex items-center justify-center gap-2 my-1">
+                <p className="text-[11px] font-semibold text-gray-800">SGPA (Si) =</p>
                 <div className="text-center text-[10px]">
                   <div className="border-b border-gray-600 pb-0.5 mb-0.5">Σ (Ci × GPi)</div>
                   <div>Σ Ci</div>
                 </div>
               </div>
-              <div className="text-[9px] text-gray-600 text-left mt-1 space-y-0.5">
+              <div className="text-[9px] text-gray-600 text-left mt-1 space-y-0.5 px-1">
                 <p>Si = Semester Grade Point Average</p>
                 <p>Ci = Credits Earned in i<sup>th</sup> Course</p>
                 <p>GPi = Grade Point in i<sup>th</sup> Course</p>
@@ -257,58 +282,67 @@ export function ResultsPage() {
             </div>
           </div>
 
-          {/* Grade scale */}
-          <div className="px-4 pb-2 pt-1">
+          {/* ── GRADE SCALE ── */}
+          <div className="px-4 pb-3 pt-1">
+            <p className="text-[10px] font-bold text-gray-600 mb-1">Grade Point &amp; Letter Grade</p>
             <table className="border-collapse text-[10.5px]">
               <tbody>
-                <tr style={{ background: "#f0f0f0" }}>
-                  <td className="border border-gray-400 px-2 py-1 font-bold text-gray-700">Grade Point (GP)</td>
+                <tr>
+                  <td className="border border-gray-400 px-2 py-1 font-bold text-gray-700 bg-gray-50">Grade Point (GP)</td>
                   {GRADE_SCALE.map(g => (
-                    <td key={g.gp} className="border border-gray-400 px-3 py-1 text-center font-bold">{g.gp}</td>
+                    <td key={g.gp} className="border border-gray-400 px-2.5 py-1 text-center font-bold">{g.gp}</td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="border border-gray-400 px-2 py-1 font-bold text-gray-700">Letter Grade</td>
+                  <td className="border border-gray-400 px-2 py-1 font-bold text-gray-700 bg-gray-50">Letter Grade</td>
                   {GRADE_SCALE.map(g => (
-                    <td key={g.grade} className="border border-gray-400 px-3 py-1 text-center font-bold">{g.grade}</td>
+                    <td key={g.grade} className="border border-gray-400 px-2.5 py-1 text-center font-bold">{g.grade}</td>
                   ))}
                 </tr>
               </tbody>
             </table>
           </div>
 
-          {/* Signatures */}
-          <div className="px-6 pt-2 pb-3 flex items-end justify-between border-t border-gray-200">
+          {/* ── RESULT STATUS ── */}
+          <div className="text-center pb-2">
+            <p className="text-[11px] font-bold text-gray-700 tracking-wider">RESULT STATUS</p>
+            <p className="font-black text-[#1a237e] tracking-widest" style={{ fontSize: 16 }}>
+              {(activeResult.status || "PASS").toUpperCase()}
+            </p>
+          </div>
+
+          {/* ── SIGNATURES ── */}
+          <div className="px-8 pt-2 pb-4 flex items-end justify-between border-t border-gray-200">
             <div className="text-center text-[10px]">
               {branding.signature_controller ? (
-                <img src={branding.signature_controller} alt="Controller Sig" className="h-10 mx-auto" style={{ maxWidth: 120 }} />
+                <img src={branding.signature_controller} alt="Controller Sig" className="h-10 mx-auto" style={{ maxWidth: 130 }} />
               ) : (
-                <div className="h-10 border-b border-gray-500 w-28 mx-auto" />
+                <img src="/signature-controller.webp" alt="Signature" className="h-10 mx-auto" style={{ maxWidth: 130, opacity: 0.8 }} />
               )}
-              <div className="border-t border-gray-500 mt-1 pt-0.5">Controller of Examinations</div>
+              <div className="border-t border-gray-500 mt-1 pt-0.5 font-semibold">Controller of Examinations</div>
             </div>
             <div className="text-center text-[10px]">
               <img src={logoSrc} alt="Stamp" className="w-14 h-14 mx-auto object-contain opacity-60" />
             </div>
             <div className="text-center text-[10px]">
               {branding.signature_registrar ? (
-                <img src={branding.signature_registrar} alt="Registrar Sig" className="h-10 mx-auto" style={{ maxWidth: 120 }} />
+                <img src={branding.signature_registrar} alt="Registrar Sig" className="h-10 mx-auto" style={{ maxWidth: 130 }} />
               ) : (
-                <div className="h-10 border-b border-gray-500 w-28 mx-auto" />
+                <img src="/signature-registrar.webp" alt="Signature" className="h-10 mx-auto" style={{ maxWidth: 130, opacity: 0.8 }} />
               )}
-              <div className="border-t border-gray-500 mt-1 pt-0.5">Registrar</div>
+              <div className="border-t border-gray-500 mt-1 pt-0.5 font-semibold">Registrar</div>
             </div>
           </div>
 
-          {/* Notes */}
-          <div className="px-6 pb-2 text-[9px] text-gray-500 space-y-0.5 border-t border-gray-100">
+          {/* ── NOTES ── */}
+          <div className="px-6 pb-2 text-[9.5px] text-gray-500 space-y-0.5 border-t border-gray-100">
             <p>Note :</p>
-            <p>1. This is an electronically generated report and is valid only when printed on official university letterhead.</p>
-            <p>2. This grade card is valid only if signed and stamped by the authorized signatories.</p>
-            <p>3. For any query, please contact the Examination Section.</p>
+            <p>1. This is a system generated mark sheet.</p>
+            <p>2. No signature is required.</p>
+            <p>3. For any query, contact the examination cell.</p>
           </div>
 
-          {/* Footer */}
+          {/* ── FOOTER ── */}
           <div className="border-t-2 border-[#1a237e] mx-4 mt-1" />
           <div className="text-center py-2 text-[9.5px] text-gray-600">
             <p><span className="font-semibold">Campus:</span> Alliance University, Chandapura - Anekal Main Road, Bengaluru – 562106, Karnataka, India.</p>

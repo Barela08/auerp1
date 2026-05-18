@@ -1,0 +1,144 @@
+# Updated Full Portal Requirements
+
+## Academic Calendar Module
+
+Academic Calendar section mein:
+
+* Admin calendar upload kar sake
+* Teacher bhi calendar upload kar sake
+* Uploaded calendar students ko dashboard mein properly visible hona chahiye
+* Calendar PDF/Image dono format mein upload ho sake
+* Old aur new calendars manage karne ka option hona chahiye
+
+---
+
+# Documents Module
+
+Documents section mein ye sab documents properly visible aur downloadable hone chahiye:
+
+* Student ID Card
+* Fee Receipt
+* Hall Ticket
+* Semester Grade Report
+* Exam Form
+* Attendance Report
+* Bonafide Certificate
+* Migration Certificate
+* Character Certificate
+* Backlog/KT Documents (Admin ke hisaab se manage ho sakta hai)
+
+Sabhi documents:
+
+* View
+* Download
+* Print
+
+option ke saath hone chahiye.
+
+---
+
+# Result & Attendance Module
+
+Result section mein agar student kisi particular subject par click kare to:
+
+* Subject-wise attendance details open honi chahiye
+* Kis date ko present tha
+* Kis date ko absent tha
+* Complete attendance history visible honi chahiye
+
+Attendance properly date-wise aur subject-wise MongoDB database se fetch honi chahiye.
+
+---
+
+# Hall Ticket Module
+
+Hall ticket student ko tabhi visible hona chahiye jab:
+
+* Exam form approved ho
+* Teacher/Admin approval complete ho
+
+Teacher/Admin:
+
+* Subject Name
+* Exam Date
+* Exam Time
+* Hall Number
+* Seat Number
+
+ye sab ek hi baar add kar sake aur automatically hall ticket mein show hona chahiye.
+
+Hall ticket:
+
+* Downloadable
+* Printable
+* Same-to-same screenshot design mein hona chahiye
+
+---
+
+# Exam Form Module
+
+* Student sirf current semester ka exam form hi dekh sake
+* Previous semester ke exam forms visible nahi hone chahiye
+* Student exam form fill kar sake
+* Admin/Teacher approval ke baad hi hall ticket generate hona chahiye
+
+---
+
+# Fees Module
+
+Fees section mein:
+
+* Total Fees
+* Paid Amount
+* Pending Amount
+
+properly visible hona chahiye.
+
+Agar student kisi particular payment par click kare to:
+
+* Complete payment history open honi chahiye
+* Semester-wise payment details visible honi chahiye
+* Receipt view/download option hona chahiye
+
+---
+
+# Profile Module
+
+Student:
+
+* Profile picture change kar sake
+* General information edit kar sake
+* Basic details update kar sake
+
+Example:
+
+* Mobile Number
+* Address
+* Profile Photo
+* Email (optional editable)
+
+---
+
+# ID Card Customization
+
+Admin panel se:
+
+* ID card background image change ho sake
+* Logo change ho sake
+* Student photo change/update ho sake
+
+Main jo ID card ka background, logo aur images provide karunga wahi use karna hai.
+
+## Important Design Requirement
+
+* ID card mein jo text/name black color mein dikh raha hai usko white color mein proper visible design mein karna hai
+* Text ka size aur opacity professional aur clear hona chahiye
+* Same-to-same screenshot ke according final design banana hai
+
+---
+
+# Final Requirement
+
+Har ek page, dashboard, login page, hall ticket, receipt, profile, ID card aur document screenshot ke hisaab se exact same design aur working ke saath develop hona chahiye.
+
+MongoDB database fully connected hona chahiye aur sabhi features properly dynamic aur working hone chahiye.

@@ -27,6 +27,8 @@ import { CalendarPage } from "@/pages/student/calendar";
 import { ProfilePage } from "@/pages/student/profile";
 import { IdCardPage } from "@/pages/student/id-card";
 import { DocumentsPage } from "@/pages/student/documents";
+import { BonafideCertificatePage } from "@/pages/student/bonafide-certificate";
+import { CharacterCertificatePage } from "@/pages/student/character-certificate";
 
 // Staff Pages
 import { StaffDashboard } from "@/pages/staff/staff-dashboard";
@@ -41,6 +43,7 @@ import { AdminFeesPage } from "@/pages/admin/fees";
 import { AdminExamFormsPage } from "@/pages/admin/exam-forms";
 import { AdminNotificationsPage } from "@/pages/admin/notifications";
 import { AdminBrandingPage } from "@/pages/admin/branding";
+import { AdminResultsPage } from "@/pages/admin/results";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -91,6 +94,12 @@ function Router() {
       <Route path="/student/documents">
         <DashboardLayout role="student"><DocumentsPage /></DashboardLayout>
       </Route>
+      <Route path="/student/bonafide-certificate">
+        <DashboardLayout role="student"><BonafideCertificatePage /></DashboardLayout>
+      </Route>
+      <Route path="/student/character-certificate">
+        <DashboardLayout role="student"><CharacterCertificatePage /></DashboardLayout>
+      </Route>
       <Route path="/student/calendar">
         <DashboardLayout role="student"><CalendarPage /></DashboardLayout>
       </Route>
@@ -129,9 +138,7 @@ function Router() {
         <DashboardLayout role="admin"><AdminFeesPage /></DashboardLayout>
       </Route>
       <Route path="/admin/results">
-        <DashboardLayout role="admin">
-          <div className="p-8"><h1 className="text-2xl font-bold">Results — Coming Soon</h1></div>
-        </DashboardLayout>
+        <DashboardLayout role="admin"><AdminResultsPage /></DashboardLayout>
       </Route>
       <Route path="/admin/exam-forms">
         <DashboardLayout role="admin"><AdminExamFormsPage /></DashboardLayout>
