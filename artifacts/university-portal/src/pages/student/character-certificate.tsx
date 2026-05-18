@@ -19,7 +19,7 @@ export function CharacterCertificatePage() {
 
   const { student } = data;
   const s = student as typeof student & { universityRegNo?: string; dob?: string; };
-  const logoSrc = branding.logo_round ?? "/au-logo-round.webp";
+  const logoSrc = branding.logo_round ?? "/au-logo-round.png";
   const issueDate = format(new Date(), "dd MMMM yyyy");
   const certNo = `AU/CHAR/${new Date().getFullYear()}/${String(s.enrollmentNo || "").replace(/\D/g, "").slice(-4) || "0001"}`;
 

@@ -133,8 +133,12 @@ export function DashboardLayout({ children, role }: { children: ReactNode; role:
           {/* Mobile header */}
           <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:hidden no-print">
             <div className="flex items-center gap-2">
-              <img src={branding.logo_round ?? "/au-logo-main.png"} alt="AU" className="w-7 h-7 object-contain" />
-              <span className="font-bold text-sm text-[#8b0000]" style={{ fontFamily: "Georgia, serif" }}>Alliance University</span>
+              <img
+                src={branding.logo_horizontal ?? "/au-logo-horizontal.png"}
+                alt="Alliance University"
+                className="object-contain"
+                style={{ height: 32, maxWidth: 180 }}
+              />
             </div>
             <button onClick={() => logout.mutate()} className="p-2 text-gray-500">
               <LogOut className="w-5 h-5" />

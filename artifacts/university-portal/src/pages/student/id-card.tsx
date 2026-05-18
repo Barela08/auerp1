@@ -48,7 +48,7 @@ export function IdCardPage() {
   };
 
   const enrollNum = s.enrollmentNo || "AU2021CS001";
-  const logoSrc = branding.logo_round ?? "/au-logo-round.webp";
+  const logoSrc = branding.logo_round ?? "/au-logo-round.png";
   const registrarSig = branding.signature_registrar ?? "/signature-registrar.webp";
 
   const handleDownload = () => {
@@ -88,25 +88,17 @@ export function IdCardPage() {
           />
           <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.12)" }} />
 
-          {/* Top-left: Round logo + University text */}
-          <div className="absolute top-3 left-3 flex items-start gap-2">
+          {/* Top: Horizontal logo */}
+          <div className="absolute top-3 left-3" style={{ maxWidth: 260 }}>
             <img
-              src={logoSrc}
-              alt="AU"
-              className="w-12 h-12 object-contain drop-shadow-lg"
-              style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))" }}
+              src="/au-logo-horizontal.png"
+              alt="Alliance University"
+              className="object-contain drop-shadow-lg"
+              style={{ height: 44, filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.7))" }}
             />
-            <div style={{ textShadow: "0 1px 4px rgba(0,0,0,0.9)" }}>
-              <p className="font-black leading-tight" style={{ fontSize: 19, color: "#cc0000", fontFamily: "Georgia, serif" }}>ALLIANCE</p>
-              <p className="font-black leading-tight" style={{ fontSize: 15, color: "#ffffff", fontFamily: "Georgia, serif", letterSpacing: "0.08em" }}>UNIVERSITY</p>
-              <p className="text-white" style={{ fontSize: 7, lineHeight: 1.3, maxWidth: 175, opacity: 0.9, marginTop: 2 }}>
-                Private University established in Karnataka State by Act No.34 of year 2010<br />
-                Recognized by the University Grants Commission (UGC), New Delhi
-              </p>
-              <p className="font-semibold text-white mt-1" style={{ fontSize: 8.5, opacity: 0.95 }}>
-                Alliance College of Engineering and Design
-              </p>
-            </div>
+            <p className="text-white mt-0.5" style={{ fontSize: 7, lineHeight: 1.3, opacity: 0.85, textShadow: "0 1px 2px rgba(0,0,0,0.9)" }}>
+              Alliance College of Engineering and Design
+            </p>
           </div>
 
           {/* Top-right: Student photo */}

@@ -15,8 +15,8 @@ export interface BrandingSettings {
 }
 
 const DEFAULTS: BrandingSettings = {
-  logo_round: "/au-logo-main.png",
-  logo_horizontal: "/au-logo-text.png",
+  logo_round: "/au-logo-round.png",
+  logo_horizontal: "/au-logo-horizontal.png",
   student_login_bg: "/campus-bg1.jpg",
   staff_login_bg: "/campus-bg2.jpg",
   admin_login_bg: "/campus-bg2.jpg",

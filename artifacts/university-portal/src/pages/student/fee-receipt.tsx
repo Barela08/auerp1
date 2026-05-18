@@ -77,7 +77,7 @@ export function FeeReceiptPage() {
   ];
 
   const totalAmount = receipt.totalAmount ?? 0;
-  const logoSrc = branding.logo_round ?? "/au-logo-main.png";
+  const logoSrc = branding.logo_round ?? "/au-logo-round.png";
 
   return (
     <div className="p-4 md:p-8 max-w-3xl mx-auto">
@@ -94,14 +94,9 @@ export function FeeReceiptPage() {
       <div className="bg-white border border-gray-300 shadow-lg text-sm" id="receipt" style={{ fontFamily: "Arial, sans-serif" }}>
 
         {/* ── HEADER ── */}
-        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-gray-300">
-          <img src="/au-logo-horizontal.png" alt="Alliance University" className="object-contain" style={{ height: 72, maxWidth: 280 }} />
-          <div className="border border-gray-400 px-2 py-1 text-center shrink-0">
-            <p className="text-[9px] font-bold text-gray-600 tracking-wider">NAAC</p>
-            <p className="text-[9px] font-bold text-gray-600 tracking-wider">GRADE</p>
-            <p className="text-xl font-black text-[#8b0000]" style={{ lineHeight: 1 }}>A+</p>
-            <p className="text-[7px] text-gray-600">ACCREDITED</p>
-          </div>
+        <div className="flex flex-col items-center px-6 py-4 border-b-2 border-gray-300">
+          <img src="/au-logo-horizontal.png" alt="Alliance University" className="object-contain" style={{ height: 68, maxWidth: 380 }} />
+          <p className="text-gray-500 text-[10px] mt-1">Chandapura-Anekal Main Road, Anekal, Bangalore – 562106 | NAAC Grade A+</p>
         </div>
 
         {/* decorative lines */}

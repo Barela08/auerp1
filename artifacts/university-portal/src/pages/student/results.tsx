@@ -63,7 +63,7 @@ export function ResultsPage() {
   const totalMax = subjects.reduce((s, sub) => s + (sub.maxTotal || 100), 0);
 
   const student = dashData?.student as any;
-  const logoSrc = branding.logo_round ?? "/au-logo-round.webp";
+  const logoSrc = branding.logo_round ?? "/au-logo-round.png";
   const semLabels = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
   const semLabel = activeResult ? (semLabels[(activeResult.semester ?? 1) - 1] || activeResult.semester) : "—";
   const equivalentPct = activeResult?.sgpa ? ((activeResult.sgpa / 10) * 100).toFixed(2) : "—";
