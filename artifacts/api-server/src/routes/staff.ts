@@ -2,8 +2,32 @@ import { Router } from "express";
 import { db } from "@workspace/db";
 import { staffTable, usersTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
+import type { Request, Response } from "express";
 
 const router = Router();
+
+router.get("/me", async (req: Request, res: Response) => {
+  if (!req.session?.userId) { res.status(401).json({ error: "Not authenticated" }); return; }
+  const users = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
+  const user = users[0];
+  if (!user?.staffId) { res.status(403).json({ error: "Not staff" }); return; }
+  const rows = await db.select().from(staffTable).where(eq(staffTable.id, user.staffId));
+  if (!rows[0]) { res.status(404).json({ error: "Not found" }); return; }
+  res.json(formatStaff(rows[0]));
+});
+
+router.patch("/me/profile", async (req: Request, res: Response) => {
+  if (!req.session?.userId) { res.status(401).json({ error: "Not authenticated" }); return; }
+  const users = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
+  const user = users[0];
+  if (!user?.staffId) { res.status(403).json({ error: "Not staff" }); return; }
+  const allowed = ["name","phone","email","department","designation","photoUrl","signatureUrl"];
+  const updates: Record<string,string> = {};
+  for (const key of allowed) if (req.body[key] !== undefined) updates[key] = req.body[key];
+  const rows = await db.update(staffTable).set(updates).where(eq(staffTable.id, user.staffId)).returning();
+  if (!rows[0]) { res.status(404).json({ error: "Not found" }); return; }
+  res.json(formatStaff(rows[0]));
+});
 
 router.get("/", async (req, res) => {
   const rows = await db.select().from(staffTable);
@@ -56,6 +80,7 @@ function formatStaff(s: typeof staffTable.$inferSelect) {
     email: s.email,
     phone: s.phone,
     photoUrl: s.photoUrl ?? null,
+    signatureUrl: (s as any).signatureUrl ?? null,
     createdAt: s.createdAt.toISOString(),
   };
 }

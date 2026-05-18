@@ -11,6 +11,7 @@ export const staffTable = pgTable("staff", {
   email: text("email").notNull(),
   phone: text("phone").notNull(),
   photoUrl: text("photo_url"),
+  signatureUrl: text("signature_url"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

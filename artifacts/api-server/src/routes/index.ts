@@ -13,12 +13,16 @@ import documentsRouter from "./documents";
 import calendarRouter from "./calendar";
 import dashboardRouter from "./dashboard";
 import brandingRouter from "./branding";
+import subjectsRouter from "./subjects";
+import materialsRouter from "./materials";
 
 const router: IRouter = Router();
 
 router.use(healthRouter);
 router.use("/auth", authRouter);
 router.use("/branding", brandingRouter);
+router.use("/subjects", subjectsRouter);
+router.use("/materials", materialsRouter);
 router.use("/students", studentsRouter);
 router.use("/staff", staffRouter);
 router.use("/fees", feesRouter);

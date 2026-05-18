@@ -4,7 +4,7 @@ import { ProtectedRoute, useAuth } from "@/hooks/use-auth";
 import {
   LayoutDashboard, User, CreditCard, ClipboardList,
   Calendar, FileText, Bell, LogOut, Users, Receipt,
-  BookOpen, IdCard, FolderOpen, Palette, Ticket
+  BookOpen, IdCard, FolderOpen, Palette, Ticket, Upload
 } from "lucide-react";
 import { useLogout } from "@workspace/api-client-react";
 import { useBranding } from "@/contexts/branding-context";
@@ -34,9 +34,11 @@ const getNavItems = (role: string): NavItem[] => {
   if (role === "staff") {
     return [
       { label: "Dashboard",    href: "/staff/dashboard",     icon: <LayoutDashboard className="w-4 h-4" /> },
+      { label: "Profile",      href: "/staff/profile",       icon: <User className="w-4 h-4" /> },
       { label: "Students",     href: "/staff/students",      icon: <Users className="w-4 h-4" /> },
       { label: "Attendance",   href: "/staff/attendance",    icon: <ClipboardList className="w-4 h-4" /> },
       { label: "Results",      href: "/staff/results",       icon: <BookOpen className="w-4 h-4" /> },
+      { label: "Notes & Materials", href: "/staff/materials", icon: <Upload className="w-4 h-4" /> },
       { label: "Exam Forms",   href: "/staff/exam-forms",    icon: <FileText className="w-4 h-4" /> },
       { label: "Calendar",     href: "/staff/calendar",      icon: <Calendar className="w-4 h-4" /> },
       { label: "Notifications",href: "/staff/notifications", icon: <Bell className="w-4 h-4" /> },
@@ -47,6 +49,7 @@ const getNavItems = (role: string): NavItem[] => {
       { label: "Dashboard",    href: "/admin/dashboard",     icon: <LayoutDashboard className="w-4 h-4" /> },
       { label: "Students",     href: "/admin/students",      icon: <Users className="w-4 h-4" /> },
       { label: "Staff",        href: "/admin/staff",         icon: <Users className="w-4 h-4" /> },
+      { label: "Subjects",     href: "/admin/subjects",      icon: <BookOpen className="w-4 h-4" /> },
       { label: "Fees",         href: "/admin/fees",          icon: <CreditCard className="w-4 h-4" /> },
       { label: "Results",      href: "/admin/results",       icon: <Receipt className="w-4 h-4" /> },
       { label: "Exam Forms",   href: "/admin/exam-forms",    icon: <FileText className="w-4 h-4" /> },

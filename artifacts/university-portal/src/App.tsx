@@ -38,6 +38,8 @@ import { StaffExamFormsPage } from "@/pages/staff/exam-forms";
 import { StaffAttendancePage } from "@/pages/staff/attendance";
 import { StaffCalendarPage } from "@/pages/staff/calendar";
 import { StaffResultsPage } from "@/pages/staff/results";
+import { StaffProfilePage } from "@/pages/staff/profile";
+import { StaffMaterialsPage } from "@/pages/staff/materials";
 
 // Admin Pages
 import { AdminDashboard } from "@/pages/admin/admin-dashboard";
@@ -49,6 +51,7 @@ import { AdminNotificationsPage } from "@/pages/admin/notifications";
 import { AdminBrandingPage } from "@/pages/admin/branding";
 import { AdminResultsPage } from "@/pages/admin/results";
 import { AdminCalendarPage } from "@/pages/admin/calendar";
+import { AdminSubjectsPage } from "@/pages/admin/subjects";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -137,6 +140,12 @@ function Router() {
       <Route path="/staff/notifications">
         <DashboardLayout role="staff"><NotificationsPage /></DashboardLayout>
       </Route>
+      <Route path="/staff/profile">
+        <DashboardLayout role="staff"><StaffProfilePage /></DashboardLayout>
+      </Route>
+      <Route path="/staff/materials">
+        <DashboardLayout role="staff"><StaffMaterialsPage /></DashboardLayout>
+      </Route>
 
       {/* Admin Routes */}
       <Route path="/admin/dashboard">
@@ -165,6 +174,9 @@ function Router() {
       </Route>
       <Route path="/admin/branding">
         <DashboardLayout role="admin"><AdminBrandingPage /></DashboardLayout>
+      </Route>
+      <Route path="/admin/subjects">
+        <DashboardLayout role="admin"><AdminSubjectsPage /></DashboardLayout>
       </Route>
 
       <Route component={NotFound} />

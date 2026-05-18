@@ -8,3 +8,5 @@ export * from "./results";
 export * from "./notifications";
 export * from "./calendar";
 export * from "./site_settings";
+export * from "./subjects";
+export * from "./materials";
