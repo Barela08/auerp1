@@ -47,6 +47,7 @@ waitForPort = 5000
 
 [workflows.workflow.metadata]
 outputType = "webview"
+isCanvasWorkflow = true
 
 [agent]
 stack = "BEST_EFFORT_FALLBACK"
@@ -59,10 +60,6 @@ timeoutMs = 20000
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 8080
-externalPort = 8080
 
 [[ports]]
 localPort = 20675
