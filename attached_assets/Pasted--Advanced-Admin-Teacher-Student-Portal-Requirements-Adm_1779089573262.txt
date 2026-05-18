@@ -1,0 +1,185 @@
+# Advanced Admin, Teacher & Student Portal Requirements
+
+## Admin Advanced Features
+
+Admin panel mein extra advanced features bhi hone chahiye:
+
+### Subject Management
+
+Admin:
+
+* Subjects add/edit/delete kar sake
+* Semester-wise subjects manage kar sake
+* Subject codes aur subject teachers assign kar sake
+
+---
+
+# Logo & Branding Management
+
+Admin:
+
+* Website logo change kar sake
+* Sidebar logo change kar sake
+* Dashboard logo change kar sake
+* Hall Ticket logo change kar sake
+* Certificate logo change kar sake
+* Background images change kar sake
+
+Logo upload aur seal upload ka section alag aur properly working hona chahiye.
+
+---
+
+# Official Seal Management
+
+Admin:
+
+* Official seal upload/change kar sake
+* Different documents ke liye separate seal use kar sake
+
+Seal upload properly working hona chahiye.
+
+---
+
+# Maintenance Mode
+
+Admin panel mein:
+
+* Maintenance Mode ON/OFF option hona chahiye
+
+Maintenance mode ON hone par:
+
+* Students/Users ko maintenance message dikhe
+* Sirf admin access kar sake
+
+---
+
+# Academic Calendar Module
+
+Calendar section mein:
+
+* Admin/Teacher image upload kar sake
+* Calendar directly image preview ke saath visible hona chahiye
+* PDF aur image dono support hone chahiye
+
+---
+
+# Migration Certificate Module
+
+Migration certificate properly designed aur downloadable hona chahiye.
+
+Features:
+
+* Dynamic student data
+* Current date auto update
+* Admin seal/signature
+* Student details auto fetch
+
+---
+
+# Exam Form Approval System
+
+Jab student exam form submit kare:
+
+* Admin/Teacher approval section mein pura student data visible hona chahiye
+
+Example:
+
+* Student Name
+* Enrollment Number
+* Semester
+* Subjects
+* Fees Status
+* Attendance
+* Uploaded Documents
+
+Admin/Teacher verify karega uske baad hi:
+
+* Approve
+* Reject
+
+option use karega.
+
+## Reject Option
+
+Agar reject kare to:
+
+* Reject reason compulsory hona chahiye
+* Student ko rejection reason visible hona chahiye
+
+---
+
+# Hall Ticket Approval
+
+Hall ticket tabhi generate hona chahiye jab:
+
+* Exam form approved ho
+* Verification complete ho
+
+---
+
+# Upload Fix Requirement
+
+Admin panel mein:
+
+* File upload properly working hona chahiye
+* Image upload fail nahi hona chahiye
+* PDF upload properly kaam kare
+* Large image handling properly ho
+
+---
+
+# Teacher Panel Features
+
+Teacher panel mein additional features add karne hain:
+
+* Attendance Management
+* Subject-wise Attendance
+* Student Verification
+* Exam Form Approval
+* Hall Ticket Approval
+* Notifications Management
+* Calendar Upload
+* Result Upload
+* Assignment/Notes Upload
+* Student Document Verification
+
+Teacher sirf apne assigned students/subjects manage kar sake.
+
+---
+
+# Student Features
+
+Student dashboard mein:
+
+* Fee summary properly visible ho
+* Semester-wise payment history visible ho
+* Migration certificate available ho
+* Documents download option ho
+* Profile edit option ho
+* Signature upload option ho
+
+---
+
+# Additional Smart Features
+
+Aap apne hisaab se aur bhi professional features add kar sakte ho jaise:
+
+* Search System
+* Filters
+* Dark Mode
+* Download History
+* Activity Logs
+* Recent Activity
+* Profile Completion Status
+* Secure Authentication
+* Email Notifications
+* Mobile Responsive UI
+* Loading Animations
+* Better Error Handling
+* Secure MongoDB Integration
+
+---
+
+# Final Requirement
+
+Pure portal ka design, functionality aur layout screenshots aur provided assets ke according same-to-same professional quality ka hona chahiye. MongoDB fully connected hona chahiye aur sabhi features dynamic aur properly working hone chahiye.
