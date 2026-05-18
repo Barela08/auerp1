@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, Printer, FileText } from "lucide-react";
 import { format } from "date-fns";
+import { AUQRCode, AUBarcode } from "@/components/document-assets";
 
 export function HallTicketPage() {
   const { data, isLoading, isError } = useGetMyHallTickets();
@@ -188,12 +189,19 @@ export function HallTicketPage() {
             </ol>
           </div>
 
-          {/* Footer with signature */}
-          <div className="px-6 py-4 border-t border-gray-200 flex items-end justify-between">
+          {/* Footer with signature + QR + Barcode */}
+          <div className="px-6 py-4 border-t border-gray-200 flex items-end justify-between gap-4">
             <div>
               <div className="w-36 h-10 border-b border-gray-400 mb-1"></div>
               <p className="text-xs text-gray-500">Student's Signature</p>
             </div>
+
+            {/* QR Code + Barcode (Hall Ticket Number) */}
+            <div className="flex flex-col items-center gap-1">
+              <AUQRCode size={64} />
+              <AUBarcode value={`HT-${ticket.id}`} height={28} textSize={7} showText={true} />
+            </div>
+
             <div className="text-center">
               <img src="/signature-controller.webp" alt="Controller Signature" className="h-10 object-contain mx-auto mb-1" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
               <p className="text-xs text-gray-500">Controller of Examinations</p>

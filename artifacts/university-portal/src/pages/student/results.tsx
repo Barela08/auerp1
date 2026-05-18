@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle, GraduationCap, Download } from "lucide-react";
 import { format } from "date-fns";
 import { useBranding } from "@/contexts/branding-context";
+import { AUQRCode, AUBarcode } from "@/components/document-assets";
 
 interface Subject {
   subjectCode: string;
@@ -178,11 +179,8 @@ export function ResultsPage() {
               <p className="text-[9px] text-gray-600 text-center mt-1">{student?.name?.split(" ")[0] || "Student"}</p>
               <div className="h-5 border-b border-gray-500 w-20 mt-1" />
               <p className="text-[9px] text-gray-600 text-center">Student Signature</p>
-              {/* QR placeholder */}
-              <div className="border border-gray-300 mt-1 flex items-center justify-center bg-gray-50" style={{ width: 44, height: 44 }}>
-                <p className="text-[7px] text-gray-400 text-center leading-tight">QR<br/>Code</p>
-              </div>
-              <p className="text-[8px] text-gray-500">{student?.enrollmentNo || "AU2021CS001"}</p>
+              <AUQRCode size={50} />
+              <AUBarcode value={String(student?.enrollmentNo || "AU2021CS001")} height={22} textSize={7} showText={true} />
             </div>
           </div>
 

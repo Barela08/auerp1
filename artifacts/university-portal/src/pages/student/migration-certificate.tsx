@@ -6,7 +6,7 @@ import { useBranding } from "@/contexts/branding-context";
 import { format } from "date-fns";
 import { AUQRCode, AUBarcode } from "@/components/document-assets";
 
-export function CharacterCertificatePage() {
+export function MigrationCertificatePage() {
   const { data, isLoading, isError } = useGetStudentDashboard();
   const branding = useBranding();
 
@@ -22,7 +22,7 @@ export function CharacterCertificatePage() {
   const s = student as typeof student & { universityRegNo?: string; dob?: string; };
   const logoSrc = branding.logo_round ?? "/au-logo-round.png";
   const issueDate = format(new Date(), "dd MMMM yyyy");
-  const certNo = `AU/CHAR/${new Date().getFullYear()}/${String(s.enrollmentNo || "").replace(/\D/g, "").slice(-4) || "0001"}`;
+  const certNo = `AU/MIG/${new Date().getFullYear()}/${String(s.enrollmentNo || "").replace(/\D/g, "").slice(-4) || "0001"}`;
 
   const semLabels = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
   const semLabel = semLabels[(s.semester ?? 1) - 1] || String(s.semester);
@@ -31,8 +31,8 @@ export function CharacterCertificatePage() {
     <div className="p-4 md:p-8 max-w-3xl mx-auto">
       <div className="flex justify-between items-center mb-4 no-print">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Character Certificate</h1>
-          <p className="text-gray-500 text-sm mt-1">Official character and conduct certificate</p>
+          <h1 className="text-2xl font-bold text-gray-900">Migration Certificate</h1>
+          <p className="text-gray-500 text-sm mt-1">Official transfer certificate for migration to another institution</p>
         </div>
         <Button onClick={() => window.print()} className="bg-[#8b0000] hover:bg-[#6b0000]">
           <Download className="w-4 h-4 mr-2" />Print / Download
@@ -40,7 +40,7 @@ export function CharacterCertificatePage() {
       </div>
 
       <div
-        id="character-cert"
+        id="migration-cert"
         className="bg-white border border-gray-300 shadow-lg"
         style={{ fontFamily: "Times New Roman, serif", minHeight: "842px", position: "relative" }}
       >
@@ -70,10 +70,10 @@ export function CharacterCertificatePage() {
             <div className="border-t border-[#1a237e] mt-0.5 opacity-50" />
           </div>
 
-          {/* Title */}
+          {/* Certificate Title */}
           <div className="text-center py-6">
             <p className="font-bold tracking-widest text-gray-800 underline underline-offset-4" style={{ fontSize: "1.3rem", letterSpacing: "0.3em" }}>
-              CHARACTER CERTIFICATE
+              MIGRATION CERTIFICATE
             </p>
           </div>
 
@@ -89,31 +89,63 @@ export function CharacterCertificatePage() {
           </div>
 
           {/* Body */}
-          <div className="px-12 text-justify leading-loose" style={{ fontSize: "1.02rem" }}>
+          <div className="px-12 text-justify leading-relaxed" style={{ fontSize: "1.02rem" }}>
             <p className="mb-5">
               This is to certify that <strong>{s.name?.toUpperCase()}</strong>, Son/Daughter of{" "}
               <strong>{s.fatherName || "—"}</strong>, bearing Enrollment Number{" "}
-              <strong>{s.enrollmentNo}</strong>, is/was a bonafide student of{" "}
-              <strong>Alliance University, Bengaluru</strong>.
+              <strong>{s.enrollmentNo}</strong>
+              {s.universityRegNo ? `, University Registration Number ${s.universityRegNo}` : ""}, was a bonafide
+              student of <strong>Alliance University, Bengaluru</strong>.
             </p>
 
             <p className="mb-5">
               He/She was enrolled in the <strong>{s.program}</strong> programme in the Department of{" "}
-              <strong>{s.department}</strong>, School of Engineering &amp; Technology, during the{" "}
-              <strong>{semLabel} Semester</strong> of the academic year{" "}
+              <strong>{s.department}</strong>, School of Engineering &amp; Technology, and has{" "}
+              successfully completed the <strong>{semLabel} Semester</strong> of the academic year{" "}
               <strong>{s.academicYear || "2024-25"}</strong>.
             </p>
 
+            {s.dob && (
+              <p className="mb-5">
+                His/Her Date of Birth as per university records is{" "}
+                <strong>
+                  {(() => { try { return format(new Date(s.dob), "dd MMMM yyyy"); } catch { return s.dob; } })()}
+                </strong>.
+              </p>
+            )}
+
             <p className="mb-5">
-              During his/her tenure at Alliance University, his/her conduct and character have been{" "}
-              <strong>GOOD</strong>. He/She was found to be honest, hardworking, and disciplined, and
-              has maintained a positive attitude in academic and co-curricular activities. No
-              disciplinary action has been initiated against him/her during the period of study.
+              It is further certified that his/her name does not appear in any Examination Malpractice or
+              Disciplinary Action record maintained by this University, and no legal or academic case is
+              pending against him/her.
             </p>
 
             <p className="mb-5">
-              We wish him/her all success in his/her future endeavours.
+              This certificate is issued on his/her specific request for the purpose of migration to
+              another institution/university, and shall not be used for any other purpose.
             </p>
+          </div>
+
+          {/* Student Details Table */}
+          <div className="px-12 mb-6">
+            <table className="w-full border-collapse text-sm">
+              <tbody>
+                {[
+                  ["Student Name", s.name?.toUpperCase() || "—"],
+                  ["Enrollment Number", s.enrollmentNo || "—"],
+                  ["University Reg. No.", s.universityRegNo || "—"],
+                  ["Programme", s.program || "—"],
+                  ["Department", s.department || "—"],
+                  ["Last Semester Completed", `${semLabel} Semester`],
+                  ["Academic Year", s.academicYear || "2024-25"],
+                ].map(([label, val]) => (
+                  <tr key={label} className="border-b border-gray-200">
+                    <td className="py-1.5 px-3 font-semibold text-gray-700 bg-gray-50 w-52">{label}</td>
+                    <td className="py-1.5 px-3 text-gray-800">: {val}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
           {/* Signature Block */}
@@ -140,22 +172,34 @@ export function CharacterCertificatePage() {
           <div className="px-12 mt-8">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <img src={logoSrc} alt="Stamp" className="w-16 h-16 object-contain opacity-50" style={{ borderRadius: "50%", border: "1px solid #ccc", padding: 4 }} />
+                <img
+                  src={logoSrc}
+                  alt="Stamp"
+                  className="w-16 h-16 object-contain opacity-50"
+                  style={{ borderRadius: "50%", border: "1px solid #ccc", padding: 4 }}
+                />
                 <div className="text-xs text-gray-500">
                   <p className="font-semibold">Official Seal — Alliance University</p>
                   <p>Valid only with official stamp and signature of the Registrar.</p>
-                  <p className="text-[10px] mt-0.5 text-gray-400">Generated on: {format(new Date(), "dd-MM-yyyy HH:mm")} (System Generated)</p>
+                  <p className="text-[10px] mt-0.5 text-gray-400">
+                    Generated on: {format(new Date(), "dd-MM-yyyy HH:mm")} (System Generated)
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col items-center gap-1">
                 <AUQRCode size={68} />
-                <AUBarcode value={String(s.enrollmentNo || "AU2021CS001")} height={28} textSize={7} showText={true} />
+                <AUBarcode
+                  value={String(s.enrollmentNo || "AU2021CS001")}
+                  height={28}
+                  textSize={7}
+                  showText={true}
+                />
               </div>
             </div>
           </div>
 
           {/* Footer */}
-          <div className="mt-10 mx-8 border-t-2 border-[#1a237e]" />
+          <div className="mt-8 mx-8 border-t-2 border-[#1a237e]" />
           <div className="text-center py-3 text-[10px] text-gray-500">
             <p><strong>Campus:</strong> Alliance University, Chikkahagade Cross, Chandapura-Anekal Main Road, Anekal, Bengaluru – 562 106, Karnataka</p>
             <p><strong>Phone:</strong> +91 80 4619 9000 &nbsp;|&nbsp; <strong>Email:</strong> enquiry@alliance.edu.in &nbsp;|&nbsp; <strong>Website:</strong> www.alliance.edu.in</p>

@@ -79,10 +79,10 @@ const DOCUMENTS: DocCard[] = [
   {
     title: "Migration Certificate",
     description: "Document for transfer to another institution",
-    href: "#",
+    href: "/student/migration-certificate",
     icon: <FileBadge className="w-7 h-7" />,
-    color: "bg-gray-500",
-    available: false,
+    color: "bg-orange-700",
+    available: true,
   },
 ];
 

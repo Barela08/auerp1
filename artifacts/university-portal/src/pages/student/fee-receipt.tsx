@@ -5,6 +5,7 @@ import { AlertCircle, Printer, ArrowLeft } from "lucide-react";
 import { useParams, Link } from "wouter";
 import { format } from "date-fns";
 import { useBranding } from "@/contexts/branding-context";
+import { AUQRCode, AUBarcode } from "@/components/document-assets";
 
 function toWords(n: number): string {
   if (n === 0) return "Zero";
@@ -247,6 +248,13 @@ export function FeeReceiptPage() {
           <div className="flex items-end gap-2">
             <img src={logoSrc} alt="Stamp" className="w-16 h-16 object-contain opacity-80" />
           </div>
+
+          {/* QR Code + Receipt Barcode */}
+          <div className="flex flex-col items-center gap-1">
+            <AUQRCode size={64} />
+            <AUBarcode value={String(receipt.receiptNo || `RCP${feeId}`)} height={28} textSize={7} showText={true} />
+          </div>
+
           <div className="text-right text-[12px]">
             <p className="font-bold text-gray-800 mb-1">For ALLIANCE UNIVERSITY</p>
             {branding.signature_controller ? (

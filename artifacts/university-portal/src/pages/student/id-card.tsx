@@ -3,21 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Download } from "lucide-react";
 import { useBranding } from "@/contexts/branding-context";
-
-function Barcode({ value }: { value: string }) {
-  const bars: boolean[] = [];
-  for (let i = 0; i < 95; i++) {
-    const ch = value.charCodeAt(i % value.length);
-    bars.push((ch + i * 7 + i) % 3 !== 0);
-  }
-  return (
-    <div className="flex items-end gap-px">
-      {bars.map((wide, i) => (
-        <div key={i} style={{ width: wide ? 3 : 1.5, height: i % 7 === 0 ? 36 : 26, background: "#000" }} />
-      ))}
-    </div>
-  );
-}
+import { AUBarcode, AUQRCode } from "@/components/document-assets";
 
 export function IdCardPage() {
   const { data, isLoading, isError } = useGetStudentDashboard();
@@ -140,8 +126,7 @@ export function IdCardPage() {
 
             <div className="flex items-end justify-between px-3 pb-1.5 pt-1.5">
               <div>
-                <Barcode value={enrollNum} />
-                <p className="text-gray-400 text-center mt-0.5" style={{ fontSize: 9 }}>{enrollNum}</p>
+                <AUBarcode value={enrollNum} height={32} textSize={8} barColor="#ffffff" showText={true} />
               </div>
               <div className="text-right">
                 <img
@@ -154,8 +139,9 @@ export function IdCardPage() {
               </div>
             </div>
 
-            <div className="text-center pb-2">
+            <div className="text-center pb-2 flex items-center justify-between px-3">
               <p className="font-bold" style={{ color: "#e53935", fontSize: 13 }}>www.alliance.edu.in</p>
+              <AUQRCode size={44} />
             </div>
           </div>
         </div>

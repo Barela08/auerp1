@@ -29,6 +29,7 @@ import { IdCardPage } from "@/pages/student/id-card";
 import { DocumentsPage } from "@/pages/student/documents";
 import { BonafideCertificatePage } from "@/pages/student/bonafide-certificate";
 import { CharacterCertificatePage } from "@/pages/student/character-certificate";
+import { MigrationCertificatePage } from "@/pages/student/migration-certificate";
 
 // Staff Pages
 import { StaffDashboard } from "@/pages/staff/staff-dashboard";
@@ -99,6 +100,9 @@ function Router() {
       </Route>
       <Route path="/student/character-certificate">
         <DashboardLayout role="student"><CharacterCertificatePage /></DashboardLayout>
+      </Route>
+      <Route path="/student/migration-certificate">
+        <DashboardLayout role="student"><MigrationCertificatePage /></DashboardLayout>
       </Route>
       <Route path="/student/calendar">
         <DashboardLayout role="student"><CalendarPage /></DashboardLayout>

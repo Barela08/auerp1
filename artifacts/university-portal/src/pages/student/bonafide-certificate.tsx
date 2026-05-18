@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle, Download } from "lucide-react";
 import { useBranding } from "@/contexts/branding-context";
 import { format } from "date-fns";
+import { AUQRCode, AUBarcode } from "@/components/document-assets";
 
 export function BonafideCertificatePage() {
   const { data, isLoading, isError } = useGetStudentDashboard();
@@ -138,14 +139,20 @@ export function BonafideCertificatePage() {
             </div>
           </div>
 
-          {/* Stamp area */}
+          {/* Stamp area + QR + Barcode */}
           <div className="px-12 mt-8">
-            <div className="flex items-center gap-4">
-              <img src={logoSrc} alt="Stamp" className="w-16 h-16 object-contain opacity-50" style={{ borderRadius: "50%", border: "1px solid #ccc", padding: 4 }} />
-              <div className="text-xs text-gray-500">
-                <p className="font-semibold">Official Seal — Alliance University</p>
-                <p>This certificate is valid only with the official stamp and signature of the Registrar.</p>
-                <p className="text-[10px] mt-0.5 text-gray-400">Generated on: {format(new Date(), "dd-MM-yyyy HH:mm")} (System Generated)</p>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <img src={logoSrc} alt="Stamp" className="w-16 h-16 object-contain opacity-50" style={{ borderRadius: "50%", border: "1px solid #ccc", padding: 4 }} />
+                <div className="text-xs text-gray-500">
+                  <p className="font-semibold">Official Seal — Alliance University</p>
+                  <p>This certificate is valid only with the official stamp and signature of the Registrar.</p>
+                  <p className="text-[10px] mt-0.5 text-gray-400">Generated on: {format(new Date(), "dd-MM-yyyy HH:mm")} (System Generated)</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <AUQRCode size={68} />
+                <AUBarcode value={String(s.enrollmentNo || "AU2021CS001")} height={28} textSize={7} showText={true} />
               </div>
             </div>
           </div>
