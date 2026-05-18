@@ -53,20 +53,15 @@ export function CharacterCertificatePage() {
 
         <div className="relative" style={{ zIndex: 1 }}>
           {/* Header */}
-          <div className="flex items-center justify-between px-10 pt-8 pb-4 border-b-2 border-gray-200">
-            <img src={logoSrc} alt="AU" className="w-20 h-20 object-contain" />
-            <div className="text-center flex-1 px-4">
-              <h1 className="font-black tracking-widest text-[#8b0000]" style={{ fontSize: "2rem", lineHeight: 1 }}>ALLIANCE</h1>
-              <h1 className="font-black tracking-widest text-[#1a237e]" style={{ fontSize: "1.6rem", lineHeight: 1.1 }}>UNIVERSITY</h1>
-              <p className="text-gray-500 text-xs mt-1">Established under the Karnataka Act No. 34 of 2010</p>
-              <p className="text-gray-500 text-xs">Recognised by UGC, New Delhi &nbsp;|&nbsp; NAAC Grade A+</p>
-            </div>
-            <div className="border border-gray-400 px-3 py-2 text-center">
-              <p className="text-[9px] font-bold text-gray-600 tracking-wider">NAAC</p>
-              <p className="text-[9px] font-bold text-gray-600 tracking-wider">GRADE</p>
-              <p className="text-2xl font-black text-[#8b0000]" style={{ lineHeight: 1 }}>A+</p>
-              <p className="text-[7px] text-gray-600">ACCREDITED</p>
-            </div>
+          <div className="flex flex-col items-center px-10 pt-8 pb-4 border-b-2 border-gray-200">
+            <img
+              src={branding.logo_horizontal ?? "/au-logo-horizontal.png"}
+              alt="Alliance University"
+              className="object-contain"
+              style={{ height: 66, maxWidth: 400 }}
+            />
+            <p className="text-gray-500 text-xs mt-1.5">Chandapura-Anekal Main Road, Anekal, Bangalore – 562106</p>
+            <p className="text-gray-500 text-xs">Established under Karnataka Act No. 34 of 2010 &nbsp;|&nbsp; NAAC Grade A+</p>
           </div>
 
           <div className="mx-8 mt-1">

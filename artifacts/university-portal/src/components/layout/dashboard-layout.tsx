@@ -77,18 +77,13 @@ export function DashboardLayout({ children, role }: { children: ReactNode; role:
         <aside className="w-56 bg-sidebar text-sidebar-foreground hidden md:flex flex-col no-print shrink-0">
 
           {/* Logo */}
-          <div className="px-4 pt-4 pb-3 border-b border-sidebar-border">
-            <div className="flex items-center gap-2">
-              <img
-                src={branding.logo_round ?? "/au-logo-main.png"}
-                alt="AU"
-                className="w-9 h-9 object-contain"
-              />
-              <div>
-                <p className="text-white font-black text-xs tracking-widest leading-tight" style={{ fontFamily: "Georgia, serif" }}>ALLIANCE</p>
-                <p className="text-white font-black text-[10px] tracking-widest leading-tight" style={{ fontFamily: "Georgia, serif" }}>UNIVERSITY</p>
-              </div>
-            </div>
+          <div className="px-3 pt-3 pb-3 border-b border-sidebar-border">
+            <img
+              src={branding.logo_horizontal ?? "/au-logo-horizontal.png"}
+              alt="Alliance University"
+              className="object-contain w-full"
+              style={{ maxHeight: 44 }}
+            />
           </div>
 
           {/* User profile */}

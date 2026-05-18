@@ -98,21 +98,14 @@ export function ResultsPage() {
         <div className="bg-white border border-gray-400 shadow-lg" id="marksheet" style={{ fontFamily: "Arial, sans-serif" }}>
 
           {/* ── HEADER ── */}
-          <div className="flex items-center justify-between px-6 pt-4 pb-3 border-b-2 border-gray-300">
-            <img src={logoSrc} alt="AU" className="w-16 h-16 object-contain" />
-            <div className="text-center flex-1 px-2">
-              <h1 className="font-black tracking-widest text-[#8b0000]" style={{ fontSize: "1.8rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>ALLIANCE</h1>
-              <h1 className="font-black tracking-widest text-[#1a237e]" style={{ fontSize: "1.45rem", fontFamily: "Georgia, serif", lineHeight: 1 }}>UNIVERSITY</h1>
-              <p className="text-gray-600 text-[10px] mt-1">Private University established in Karnataka State by Act No.34 of year 2010</p>
-              <p className="text-gray-600 text-[10px]">Recognised by the University Grants Commission (UGC), New Delhi</p>
-            </div>
-            <div className="border border-gray-400 px-2 py-1 text-center">
-              <p className="text-[9px] font-bold text-gray-600">NAAC</p>
-              <p className="text-[9px] font-bold text-gray-600">GRADE</p>
-              <p className="text-xl font-black text-[#8b0000]" style={{ lineHeight: 1 }}>A+</p>
-              <p className="text-[7px] text-gray-600">ACCREDITED</p>
-              <p className="text-[7px] text-gray-600">UNIVERSITY</p>
-            </div>
+          <div className="flex flex-col items-center px-6 pt-4 pb-3 border-b-2 border-gray-300">
+            <img
+              src={branding.logo_horizontal ?? "/au-logo-horizontal.png"}
+              alt="Alliance University"
+              className="object-contain"
+              style={{ height: 60, maxWidth: 380 }}
+            />
+            <p className="text-gray-500 text-[10px] mt-1">Chandapura-Anekal Main Road, Anekal, Bangalore – 562106 | NAAC Grade A+</p>
           </div>
 
           <div className="mx-4 mt-1">

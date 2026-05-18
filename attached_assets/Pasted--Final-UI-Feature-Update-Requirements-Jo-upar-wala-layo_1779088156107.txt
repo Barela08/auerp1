@@ -1,0 +1,149 @@
+# Final UI & Feature Update Requirements
+
+Jo upar wala layout/design maine screenshot mein dikhaya hai sirf wahi rakhna hai aur niche wala extra section hata dena hai taki UI clean aur professional lage. Extra unwanted design, text aur sections nahi hone chahiye.
+
+---
+
+# Logo Requirements
+
+Main jo long/big logo provide karunga sirf wahi har jagah use karna hai.
+
+## Hall Ticket
+
+* Hall ticket ke top par sirf bada wala long logo hona chahiye
+* Koi extra line ya university text nahi hona chahiye
+* Clean professional design hona chahiye
+
+## Result Page
+
+* Round logo hata dena
+* Upar bada wala logo lagana
+* Background mein round logo opacity kam karke watermark ki tarah use karna
+
+## Semester Grade Report
+
+* Upar bada wala logo
+* Background mein round logo low opacity mein
+* CGPA formula wala section hata dena
+
+## Bonafide Certificate
+
+* Upar bada wala logo
+* Background mein round logo low opacity mein
+* Official seal admin upload karega
+
+## Character Certificate
+
+* Upar bada wala logo
+* Background mein round logo opacity kam karke
+* Official seal admin panel se upload hogi
+
+---
+
+# Attendance Module Fix
+
+Attendance mein agar student kisi subject par click kare to:
+
+* Subject details open honi chahiye
+* Date-wise attendance visible honi chahiye
+* Kis din present tha
+* Kis din absent tha
+* Complete attendance history properly open honi chahiye
+
+Abhi jo issue hai usko properly fix karna hai.
+
+---
+
+# Fees & Payment History
+
+Agar student semester par click kare to:
+
+* Us semester ki saari payments visible honi chahiye
+* Har payment ki receipt visible honi chahiye
+* Receipt:
+
+  * View
+  * Download
+  * Print
+
+option ke saath honi chahiye.
+
+---
+
+# Student Profile Features
+
+Student:
+
+* Profile photo change kar sake
+* Signature upload/change kar sake
+* General profile information edit kar sake
+
+Student ka uploaded signature automatically:
+
+* Hall Ticket
+* Documents
+* Certificates
+* Required sections
+
+mein jahan zarurat ho wahan automatically visible hona chahiye.
+
+---
+
+# Calendar Module
+
+Admin ya Teacher:
+
+* Calendar image upload kar sake
+
+Uploaded calendar:
+
+* Student dashboard mein properly visible hona chahiye
+
+---
+
+# ID Card Module
+
+ID card:
+
+* Admin/Teacher upload karega
+* Uploaded ID card student dashboard mein visible hona chahiye
+
+Admin:
+
+* ID card background image change kar sake
+* Logo change kar sake
+
+Main jo images/logo provide karunga wahi use karna hai.
+
+---
+
+# Background Image Requirement
+
+Dashboard aur pages ke background mein:
+
+* College images use karni hain jo main provide karunga
+* Properly professional way mein set karna hai
+* UI clean aur premium lagna chahiye
+
+---
+
+# Remove Extra Text
+
+Download hone ke baad:
+
+* “Online University” ya extra unwanted text nahi aana chahiye
+
+---
+
+# Login Fixes
+
+* Staff login properly working hona chahiye
+* Admin login properly working hona chahiye
+* Role-based redirects properly kaam karne chahiye
+* MongoDB authentication properly connected hona chahiye
+
+---
+
+# Final Important Requirement
+
+Jo jo screenshots, logos, backgrounds, seals, signatures aur images main provide karunga un sab ko properly use karke exact same-to-same professional portal banana hai. Design aur functionality dono fully working aur production-level quality ke hone chahiye.

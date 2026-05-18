@@ -80,7 +80,9 @@ async function seed() {
     { username: "nilesh.barela", passwordHash: "Nilu@2006", role: "student", name: "Nilesh Barela", email: "barelanilesh483@gmail.com", studentId: student1.id },
     { username: "priya.mehta", passwordHash: "Priya@2006", role: "student", name: "Priya Mehta", email: "priya.mehta@student.alliance.edu", studentId: student1.id + 1 },
     { username: "ramesh.kumar", passwordHash: "Staff@2024", role: "staff", name: "Dr. Ramesh Kumar", email: "ramesh.kumar@alliance.edu", staffId: staff1.id },
+    { username: "teacher", passwordHash: "password123", role: "staff", name: "Dr. Ramesh Kumar", email: "teacher@alliance.edu.in", staffId: staff1.id },
     { username: "admin", passwordHash: "Admin@2024", role: "admin", name: "Administrator", email: "admin@alliance.edu" },
+    { username: "admin2", passwordHash: "password123", role: "admin", name: "Administrator", email: "admin@alliance.edu.in" },
   ]);
 
   await db.insert(feesTable).values([

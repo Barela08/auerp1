@@ -21,6 +21,7 @@ export const studentsTable = pgTable("students", {
   dob: text("dob"),
   address: text("address"),
   photoUrl: text("photo_url"),
+  signatureUrl: text("signature_url"),
   bloodGroup: text("blood_group"),
   aadhaarNo: text("aadhaar_no"),
   category: text("category"),

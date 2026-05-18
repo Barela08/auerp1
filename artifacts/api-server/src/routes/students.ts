@@ -41,6 +41,25 @@ router.post("/", async (req, res) => {
   res.status(201).json(formatStudent(student));
 });
 
+router.patch("/me/profile", async (req, res) => {
+  if (!req.session?.userId) { res.status(401).json({ error: "Not authenticated" }); return; }
+  const { usersTable } = await import("@workspace/db");
+  const users = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
+  const user = users[0];
+  if (!user?.studentId) { res.status(403).json({ error: "Not a student" }); return; }
+
+  const { photoUrl, signatureUrl, name, phone, address } = req.body;
+  const updateData: Record<string, string> = {};
+  if (photoUrl !== undefined) updateData.photoUrl = photoUrl;
+  if (signatureUrl !== undefined) updateData.signatureUrl = signatureUrl;
+  if (name !== undefined) updateData.name = name;
+  if (phone !== undefined) updateData.phone = phone;
+  if (address !== undefined) updateData.address = address;
+
+  const [updated] = await db.update(studentsTable).set(updateData).where(eq(studentsTable.id, user.studentId)).returning();
+  res.json(formatStudent(updated));
+});
+
 router.get("/me/profile", async (req, res) => {
   if (!req.session?.userId) {
     res.status(401).json({ error: "Not authenticated" });
@@ -107,7 +126,14 @@ function formatStudent(s: typeof studentsTable.$inferSelect) {
     dob: s.dob ?? null,
     address: s.address ?? null,
     photoUrl: s.photoUrl ?? null,
+    signatureUrl: (s as any).signatureUrl ?? null,
+    universityRegNo: (s as any).universityRegNo ?? null,
+    bloodGroup: (s as any).bloodGroup ?? null,
+    category: (s as any).category ?? null,
+    aadhaarNo: (s as any).aadhaarNo ?? null,
     cgpa: s.cgpa ?? null,
+    sgpa: (s as any).sgpa ?? null,
+    attendancePct: (s as any).attendancePct ?? null,
     createdAt: s.createdAt.toISOString(),
   };
 }
