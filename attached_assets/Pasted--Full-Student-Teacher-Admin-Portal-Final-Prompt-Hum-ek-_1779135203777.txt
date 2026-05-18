@@ -1,0 +1,390 @@
+# Full Student, Teacher & Admin Portal Final Prompt
+
+Hum ek complete production-level Student, Teacher/Staff aur Admin Portal bana rahe hain jo MongoDB database ke saath fully dynamic aur fully working hona chahiye. Pura portal screenshots, photos aur assets ke according same-to-same design mein banana hai jo main provide karunga.
+
+---
+
+# Login System
+
+## Separate Login URLs
+
+* Student Login → `/login`
+* Teacher/Staff Login → `/staff`
+* Admin Login → `/admin`
+
+Normal login sirf students ke liye open hoga. Staff aur Admin login sirf direct URL se open honge.
+
+## Login Features
+
+* ID/Email & Password Login
+* Forgot Password
+* Secure Authentication
+* MongoDB Authentication
+* Role-Based Redirects
+* Working Demo Credentials
+* Mobile Responsive Login UI
+
+Main jo login screenshots aur credentials dunga wahi same design aur same credentials use karna hai.
+
+---
+
+# Student Panel Features
+
+## Student Dashboard
+
+Dashboard same-to-same screenshot ke according hona chahiye.
+
+Features:
+
+* Profile
+* Fees
+* Attendance
+* Results
+* Documents
+* Notifications
+* Exam Forms
+* Hall Ticket
+* Academic Calendar
+
+---
+
+# Profile Module
+
+Student:
+
+* Profile photo upload/change kar sake
+* Signature upload/change kar sake
+* General information edit kar sake
+
+Profile data automatically:
+
+* Hall Ticket
+* Certificates
+* Receipts
+* Result
+* ID Card
+
+sab jagah update hona chahiye.
+
+---
+
+# Fees Module
+
+* Total Fees
+* Paid Amount
+* Pending Amount
+* Semester-wise Fees
+
+Agar student kisi semester/payment par click kare:
+
+* Full payment history dikhe
+* Receipt visible ho
+* Receipt download/print ho
+
+Receipt same screenshot design mein honi chahiye.
+
+---
+
+# Attendance Module
+
+Student agar kisi subject par click kare:
+
+* Date-wise attendance open ho
+* Present dates
+* Absent dates
+* Attendance percentage
+
+sab visible hona chahiye.
+
+---
+
+# Result Module
+
+* Semester-wise Result
+* SGPA/CGPA
+* Semester Grade Report Download
+
+Result pages mein:
+
+* Top par bada provided logo
+* Background mein round watermark logo low opacity mein
+
+CGPA formula section nahi chahiye.
+
+---
+
+# Exam Form System
+
+Student:
+
+* Sirf current semester ka exam form dekh sake
+* Exam form fill kar sake
+
+Admin/Teacher:
+
+* Student details verify kare
+* Fees & attendance check kare
+* Approve/Reject kare
+
+Reject karne par:
+
+* Reject reason mandatory hona chahiye
+
+Approval ke baad hi:
+
+* Hall Ticket generate hona chahiye
+
+---
+
+# Hall Ticket Module
+
+Teacher/Admin:
+
+* Subject Name
+* Date
+* Time
+* Hall Number
+* Seat Number
+
+ek baar add karega aur automatically hall ticket generate hoga.
+
+Hall ticket mein:
+
+* Sirf bada provided logo
+* No extra university text
+* Professional design
+
+---
+
+# Documents Module
+
+Student dashboard mein:
+
+* ID Card
+* Fee Receipt
+* Hall Ticket
+* Semester Grade Report
+* Bonafide Certificate
+* Migration Certificate
+* Character Certificate
+* Attendance Report
+* Exam Form
+
+visible aur downloadable hone chahiye.
+
+---
+
+# ID Card Requirement
+
+ID Card mein:
+
+* Sirf Barcode hona chahiye
+* QR Code nahi hona chahiye
+
+Admin:
+
+* ID card background change kar sake
+* Logo change kar sake
+
+Student:
+
+* Uploaded ID card dashboard mein dekh sake
+
+---
+
+# QR Code & Barcode
+
+QR Code:
+
+* Sirf required documents mein use karo
+
+Barcode:
+
+* Sirf ID card mein use karo
+* Dynamic student details ke according generate ho
+
+---
+
+# Academic Calendar
+
+Admin/Teacher:
+
+* Calendar image/PDF upload kare
+
+Student:
+
+* Dashboard mein directly calendar image dekh sake
+
+---
+
+# Notifications
+
+Admin/Teacher:
+
+* Notifications add/edit/delete kar sake
+
+Student:
+
+* Important notifications dekh sake
+
+---
+
+# Admin Panel Features
+
+Admin dashboard mein:
+
+* Total Students
+* Total Teachers
+* Total Fees
+* Pending Fees
+* Notifications
+* Recent Activities
+* Attendance Overview
+
+visible hona chahiye.
+
+## Admin Controls
+
+Admin:
+
+* Students manage kare
+* Teachers manage kare
+* Subjects manage kare
+* Fees manage kare
+* Results upload kare
+* Certificates manage kare
+* Hall tickets manage kare
+* Exam forms approve/reject kare
+* Uploads manage kare
+* Maintenance mode ON/OFF kare
+
+---
+
+# Teacher Panel Features
+
+Teacher:
+
+* Attendance manage kare
+* Exam forms verify kare
+* Hall tickets approve kare
+* Results upload kare
+* Notifications bheje
+* Calendar upload kare
+* Student documents verify kare
+
+Teacher sirf assigned subjects/students manage kare.
+
+---
+
+# Logo & Branding System
+
+Main jo final logo provide karunga:
+
+* Sirf wahi logo har jagah use karna hai
+
+Replace:
+
+* Old logos
+* Round logos
+* “Alliance University” text
+
+Har jagah same provided logo use hona chahiye.
+
+---
+
+# Seal & Signature System
+
+Admin:
+
+* Official seal upload/change kar sake
+
+Student:
+
+* Signature upload/change kar sake
+
+Uploaded signatures aur seals automatically:
+
+* Hall Ticket
+* Certificates
+* Receipts
+* Documents
+
+mein apply ho jani chahiye.
+
+---
+
+# Dynamic Date System
+
+Har document mein current date automatically update honi chahiye.
+
+Example:
+
+* Bonafide
+* Hall Ticket
+* Receipts
+* Certificates
+
+download karte waqt current date auto generate honi chahiye.
+
+---
+
+# Upload System
+
+Upload fields fully working hone chahiye.
+
+Supported:
+
+* JPG
+* PNG
+* WEBP
+* PDF
+
+Uploads:
+
+* Logo
+* Seal
+* Backgrounds
+* Student Photos
+* Calendar
+* Certificates
+* Documents
+
+Upload ke baad preview visible hona chahiye.
+
+---
+
+# UI/Design Requirements
+
+* Same-to-same screenshots design
+* Responsive design
+* Mobile + Desktop optimized
+* Professional UI
+* Fast loading
+* Smooth animations
+* Clean dashboard
+
+College images jo main dunga unko backgrounds mein professionally use karna hai.
+
+---
+
+# Database Requirement
+
+* MongoDB Atlas use karna hai
+* Dynamic CRUD operations
+* Secure Authentication
+* Production-ready APIs
+
+---
+
+# GitHub & Deployment
+
+* Complete project GitHub par push karna hai
+* Clean code structure maintain karna hai
+* Vercel deployment compatible banana hai
+* Production-ready build dena hai
+
+---
+
+# Final Important Requirement
+
+Jo bhi screenshots, logos, backgrounds, signatures, seals, QR codes, barcodes aur assets main provide karunga un sab ko properly use karke exact same-to-same fully working portal banana hai. Design aur functionality dono production-level quality ke hone chahiye.

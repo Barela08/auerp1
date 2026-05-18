@@ -1,0 +1,170 @@
+# ID Card Upload & Advanced Admin Powers Requirement
+
+## ID Card System
+
+Student apna ID card upload nahi karega.
+
+Sirf:
+
+* Admin
+* Teacher/Staff
+
+ID card upload/manage kar sakte hain.
+
+### ID Card Features
+
+* Admin/Teacher uploaded ID card hi student dashboard mein visible hona chahiye
+* Student sirf:
+
+  * View
+  * Download
+  * Print
+
+kar sake.
+
+## ID Card Design
+
+* Same-to-same screenshot design
+* Sirf barcode use hoga
+* QR code nahi hoga
+* Provided logo use hoga
+* Background image admin change kar sakega
+
+---
+
+# Advanced Admin Powers
+
+Admin ko full super-admin powers deni hain taki pura portal control kar sake.
+
+## Admin Powers List
+
+### Student Control
+
+* Add/Edit/Delete Students
+* Student login block/unblock
+* Student profile edit
+* Student documents manage
+* Student ID card upload/change
+* Student signature manage
+
+---
+
+### Teacher Control
+
+* Add/Edit/Delete Teachers
+* Teacher permissions manage
+* Teacher subjects assign
+* Teacher login manage
+
+---
+
+### Subject Management
+
+* Add/Edit/Delete Subjects
+* Semester-wise subjects assign
+* Subject teachers assign
+
+---
+
+### Fees Management
+
+* Add/Edit Semester Fees
+* Verify Payments
+* Manage Receipts
+* View Complete Payment History
+* Pending Fees Control
+
+---
+
+### Exam Form & Hall Ticket Control
+
+* Approve/Reject Exam Forms
+* Reject reason add kare
+* Hall ticket generate/manage kare
+* Exam details add/update kare
+
+---
+
+### Attendance & Result Control
+
+* Attendance manage
+* Results upload/manage
+* SGPA/CGPA manage
+* Reports generate
+
+---
+
+### Documents & Certificates Control
+
+Admin:
+
+* Bonafide Certificate
+* Character Certificate
+* Migration Certificate
+* Semester Grade Report
+* Hall Ticket
+* Fee Receipts
+* Attendance Report
+
+generate/upload/manage kar sake.
+
+---
+
+### Branding & Customization
+
+Admin:
+
+* Logo change
+* Sidebar logo change
+* Dashboard background change
+* Login background change
+* ID card background change
+* Official seal upload
+* Watermark/logo opacity manage
+
+---
+
+### Upload Control
+
+Admin:
+
+* Calendar upload
+* Images upload
+* PDF upload
+* Documents upload
+* Certificates upload
+
+sab properly manage kar sake.
+
+---
+
+### Maintenance & Security
+
+Admin:
+
+* Maintenance mode ON/OFF
+* User access control
+* Route protection
+* System settings manage
+
+---
+
+### Additional Admin Features
+
+Admin ko aur bhi advanced powers deni hain jaise:
+
+* Search & Filters
+* Activity Logs
+* Download History
+* Recent Activities
+* Notification Broadcast
+* Dynamic Settings
+* Database Backup Options
+* Role Management
+* Secure Authentication
+
+---
+
+# Final Requirement
+
+Admin panel full control system hona chahiye jahan se pura portal dynamically manage ho sake. Sabhi features MongoDB connected aur fully working hone chahiye.

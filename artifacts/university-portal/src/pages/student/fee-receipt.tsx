@@ -26,7 +26,7 @@ function toWords(n: number): string {
 export function FeeReceiptPage() {
   const params = useParams<{ id: string }>();
   const feeId = params?.id ? parseInt(params.id) : 0;
-  const { data: receipt, isLoading, isError } = useGetFeeReceipt(feeId);
+  const { data: receipt, isLoading, isError } = useGetFeeReceipt(feeId, { query: { enabled: feeId > 0 } as any });
   const branding = useBranding();
 
   if (isLoading) return <div className="p-8"><Skeleton className="h-[900px]" /></div>;

@@ -217,7 +217,7 @@ export function ProfilePage() {
                 onClick={() => sigInputRef.current?.click()}
                 title="Upload signature"
               >
-                {student.signatureUrl ? (
+                {(student as any).signatureUrl ? (
                   <img src={(student as any).signatureUrl} alt="Signature" className="max-w-full max-h-full object-contain" />
                 ) : (
                   <div className="flex flex-col items-center text-gray-400 text-xs gap-1">

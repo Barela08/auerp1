@@ -1,0 +1,235 @@
+# Teacher/Staff Panel Features & Powers
+
+Teacher/Staff panel bhi fully professional aur fully working hona chahiye. Teacher sirf apne assigned students, subjects aur classes manage kar sake.
+
+---
+
+# Teacher Dashboard
+
+Teacher dashboard mein ye sab visible hona chahiye:
+
+* Total Students
+* Assigned Subjects
+* Attendance Overview
+* Pending Exam Forms
+* Pending Hall Ticket Approvals
+* Notifications
+* Recent Activities
+* Uploaded Results
+* Calendar Updates
+
+Dashboard responsive aur same-to-same professional design mein hona chahiye.
+
+---
+
+# Student Management
+
+Teacher:
+
+* Assigned students ki profiles dekh sake
+* Student details verify kar sake
+* Student documents view kar sake
+* Student signatures view kar sake
+* Student status check kar sake
+
+Teacher student ko:
+
+* Edit
+* Verify
+* Update
+
+kar sake agar permission ho.
+
+---
+
+# Attendance Management
+
+Teacher:
+
+* Subject-wise attendance mark kare
+* Date-wise attendance manage kare
+* Bulk attendance update kare
+* Attendance edit/update kare
+
+Student:
+
+* Subject click karke full attendance history dekh sake
+
+Teacher dashboard mein:
+
+* Low attendance students list
+* Attendance percentage tracking
+
+visible hona chahiye.
+
+---
+
+# Exam Form Verification
+
+Student exam form submit karega.
+
+Teacher:
+
+* Full student details check karega
+* Fees status verify karega
+* Attendance verify karega
+* Documents verify karega
+
+Uske baad:
+
+* Approve
+* Reject
+
+kar sakega.
+
+## Reject Option
+
+Agar reject kare:
+
+* Reject reason mandatory hona chahiye
+* Student ko rejection reason visible hona chahiye
+
+---
+
+# Hall Ticket Management
+
+Teacher:
+
+* Subject Name
+* Exam Date
+* Exam Time
+* Hall Number
+* Seat Number
+
+ek baar add kare aur automatically hall ticket generate ho.
+
+Teacher:
+
+* Hall ticket approve/manage kar sake
+
+---
+
+# Result Management
+
+Teacher:
+
+* Subject-wise marks upload kare
+* Semester results upload kare
+* Internal marks manage kare
+* SGPA/CGPA update kare
+* Semester Grade Reports generate kare
+
+Student:
+
+* Result view/download kar sake
+
+---
+
+# Assignment & Notes Module
+
+Teacher:
+
+* PDF notes upload kare
+* Assignments upload kare
+* Study materials share kare
+* Subject-wise files manage kare
+
+Student:
+
+* Download/view kar sake
+
+---
+
+# Calendar Management
+
+Teacher:
+
+* Academic calendar image/PDF upload kare
+* Event schedules upload kare
+
+Uploaded calendar:
+
+* Student dashboard mein visible hona chahiye
+
+---
+
+# Notifications System
+
+Teacher:
+
+* Students ko notifications bhej sake
+* Subject announcements kare
+* Important updates share kare
+
+---
+
+# ID Card & Documents
+
+Teacher:
+
+* Student ID card upload/manage kar sake
+* Student documents verify kar sake
+* Certificates verify kar sake
+
+Student:
+
+* Sirf uploaded documents view/download kar sake
+
+---
+
+# Upload Features
+
+Teacher panel mein:
+
+* Image upload
+* PDF upload
+* Result upload
+* Calendar upload
+* Notes upload
+* Student document upload
+
+fully working hone chahiye.
+
+---
+
+# Profile & Settings
+
+Teacher:
+
+* Own profile edit kar sake
+* Profile photo change kar sake
+* Password change kar sake
+* Signature upload/change kar sake
+
+---
+
+# Additional Teacher Features
+
+Teacher panel mein aur bhi professional features add kar sakte ho:
+
+* Search & Filters
+* Student Search
+* Download History
+* Activity Logs
+* Dark Mode
+* Quick Actions
+* Recent Activity
+* Subject Performance Analytics
+* Attendance Analytics
+
+---
+
+# Permissions & Security
+
+Teacher:
+
+* Sirf assigned subjects/classes access kare
+* Secure login ho
+* Role-based access ho
+* MongoDB authentication connected ho
+
+---
+
+# Final Requirement
+
+Teacher panel fully dynamic, responsive aur production-level quality ka hona chahiye. Sabhi features properly working hone chahiye aur screenshots/design ke according same-to-same professional UI maintain karna hai.

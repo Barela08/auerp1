@@ -1,0 +1,253 @@
+# Admin Panel & Teacher Panel Working System
+
+## Admin Panel Features & Working
+
+Admin panel pura portal control karega. Admin ke paas full access aur management permissions hongi.
+
+---
+
+# Admin Dashboard
+
+Admin dashboard mein ye sab live data visible hona chahiye:
+
+* Total Students
+* Total Teachers/Staff
+* Total Fees Collection
+* Pending Fees
+* Attendance Overview
+* Exam Form Requests
+* Hall Ticket Status
+* Notifications
+* Recent Activities
+* Certificates Generated
+
+Dashboard clean, professional aur fully dynamic hona chahiye.
+
+---
+
+# Student Management
+
+Admin:
+
+* Student add/edit/delete kar sake
+* Student profile update kar sake
+* Student status active/inactive kar sake
+* Student documents manage kar sake
+* Student signatures manage kar sake
+* ID card upload/manage kar sake
+
+Admin jab kisi student par click kare to:
+
+* Full student profile open ho
+* Fees history
+* Attendance
+* Results
+* Documents
+* Exam forms
+
+sab visible hona chahiye.
+
+---
+
+# Teacher/Staff Management
+
+Admin:
+
+* Teacher add/edit/delete kar sake
+* Teacher subjects assign kar sake
+* Teacher login credentials manage kar sake
+* Teacher permissions control kar sake
+
+---
+
+# Subject Management
+
+Admin:
+
+* Subjects add/edit/delete kar sake
+* Semester-wise subjects assign kar sake
+* Subject codes manage kar sake
+
+---
+
+# Fees Management
+
+Admin:
+
+* Semester-wise fees add/update kar sake
+* Student payments verify kar sake
+* Receipts generate/manage kar sake
+* Pending fees track kar sake
+
+Student:
+
+* Payment history dekh sake
+* Receipts download kar sake
+
+---
+
+# Exam Form System
+
+Student exam form submit karega.
+
+Uske baad:
+
+* Admin/Teacher approval section mein request aayegi
+* Full student details visible hongi
+* Attendance check hoga
+* Fees status check hoga
+
+Admin/Teacher:
+
+* Approve
+* Reject
+
+kar sakega.
+
+## Reject Option
+
+Agar reject kare:
+
+* Reject reason mandatory hoga
+* Student ko rejection reason visible hoga
+
+---
+
+# Hall Ticket System
+
+Exam form approve hone ke baad hi:
+
+* Hall ticket generate hoga
+
+Teacher/Admin:
+
+* Exam Date
+* Time
+* Subject
+* Hall Number
+* Seat Number
+
+ek baar add karega aur automatically hall ticket mein visible hoga.
+
+---
+
+# Attendance Management
+
+Teacher:
+
+* Subject-wise attendance mark karega
+* Date-wise attendance manage karega
+
+Student:
+
+* Subject par click karke:
+
+  * Present dates
+  * Absent dates
+  * Full attendance history
+
+dekh sakega.
+
+---
+
+# Result Management
+
+Teacher/Admin:
+
+* Results upload/manage kar sake
+* SGPA/CGPA manage kar sake
+* Semester Grade Report generate kar sake
+
+Student:
+
+* Result download/view kar sake
+
+---
+
+# Certificates & Documents
+
+Admin:
+
+* Bonafide Certificate
+* Character Certificate
+* Migration Certificate
+* Fee Receipts
+* Hall Ticket
+* Semester Grade Report
+
+generate/manage/upload kar sake.
+
+---
+
+# Calendar System
+
+Teacher/Admin:
+
+* Calendar image/PDF upload karega
+
+Student:
+
+* Calendar directly dashboard mein dekh sakega
+
+---
+
+# Upload System
+
+Admin panel mein:
+
+* Logo upload
+* Seal upload
+* Background upload
+* Calendar upload
+* Student documents upload
+
+properly working hone chahiye.
+
+---
+
+# Branding & Customization
+
+Admin:
+
+* Logos change kar sake
+* Sidebar logo manage kar sake
+* Background images change kar sake
+* ID card background change kar sake
+* Official seal upload kar sake
+
+---
+
+# Maintenance Mode
+
+Admin:
+
+* Maintenance mode ON/OFF kar sake
+
+ON hone par:
+
+* Sirf admin access karega
+* Students aur teachers ko maintenance message dikhega
+
+---
+
+# Teacher Panel Features
+
+Teacher panel alag dashboard hoga.
+
+Teacher:
+
+* Attendance manage karega
+* Exam forms verify karega
+* Hall tickets approve karega
+* Results upload karega
+* Notifications bhej sakega
+* Calendar upload karega
+* Student documents verify karega
+
+Teacher sirf assigned classes/subjects manage karega.
+
+---
+
+# Final Requirement
+
+Admin aur Teacher panels fully secure, dynamic aur MongoDB connected hone chahiye. Har feature properly working aur screenshot/design ke according professional quality ka hona chahiye.

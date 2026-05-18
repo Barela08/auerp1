@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Users, Search, Edit2, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { FileUploadZone } from "@/components/ui/file-upload-zone";
+import { Users, Search, Edit2, CheckCircle, AlertCircle, Loader2, Camera, PenLine } from "lucide-react";
 
 type StudentRow = {
   id: number;
@@ -31,7 +32,18 @@ type StudentRow = {
   address?: string;
   bloodGroup?: string;
   category?: string;
+  photoUrl?: string | null;
+  signatureUrl?: string | null;
 };
+
+function toBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 export function AdminStudentsPage() {
   const { data: students, isLoading } = useListStudents();
@@ -77,6 +89,60 @@ export function AdminStudentsPage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handlePhotoUpload = async (file: File) => {
+    if (!editStudent) return;
+    const data = await toBase64(file);
+    const res = await fetch(`/api/students/${editStudent.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ photoUrl: data }),
+    });
+    if (!res.ok) throw new Error("Photo upload failed");
+    setFormData(prev => ({ ...prev, photoUrl: data }));
+    setEditStudent(prev => prev ? { ...prev, photoUrl: data } : prev);
+    await queryClient.invalidateQueries({ queryKey: ["listStudents"] });
+  };
+
+  const handleSignatureUpload = async (file: File) => {
+    if (!editStudent) return;
+    const data = await toBase64(file);
+    const res = await fetch(`/api/students/${editStudent.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ signatureUrl: data }),
+    });
+    if (!res.ok) throw new Error("Signature upload failed");
+    setFormData(prev => ({ ...prev, signatureUrl: data }));
+    setEditStudent(prev => prev ? { ...prev, signatureUrl: data } : prev);
+    await queryClient.invalidateQueries({ queryKey: ["listStudents"] });
+  };
+
+  const handlePhotoDelete = async () => {
+    if (!editStudent) return;
+    await fetch(`/api/students/${editStudent.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ photoUrl: null }),
+    });
+    setFormData(prev => ({ ...prev, photoUrl: null }));
+    setEditStudent(prev => prev ? { ...prev, photoUrl: null } : prev);
+  };
+
+  const handleSignatureDelete = async () => {
+    if (!editStudent) return;
+    await fetch(`/api/students/${editStudent.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ signatureUrl: null }),
+    });
+    setFormData(prev => ({ ...prev, signatureUrl: null }));
+    setEditStudent(prev => prev ? { ...prev, signatureUrl: null } : prev);
   };
 
   const F = ({ label, field, type = "text" }: { label: string; field: keyof StudentRow; type?: string }) => (
@@ -129,13 +195,14 @@ export function AdminStudentsPage() {
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Academic Year</th>
                     <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase">CGPA</th>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Contact</th>
+                    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Photo</th>
                     <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
                   {filtered.length === 0 ? (
                     <tr>
-                      <td colSpan={9} className="py-12 text-center text-gray-500">
+                      <td colSpan={10} className="py-12 text-center text-gray-500">
                         <Users className="w-10 h-10 mx-auto text-gray-300 mb-2" />
                         No students found
                       </td>
@@ -159,6 +226,19 @@ export function AdminStudentsPage() {
                         <td className="px-4 py-3">
                           <div className="text-xs text-gray-600">{s.email}</div>
                           <div className="text-xs text-gray-400">{s.phone}</div>
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          {(s as StudentRow).photoUrl ? (
+                            <img
+                              src={(s as StudentRow).photoUrl!}
+                              alt={s.name}
+                              className="w-8 h-8 rounded-full object-cover border mx-auto"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-gray-100 border flex items-center justify-center mx-auto">
+                              <Camera className="w-3.5 h-3.5 text-gray-300" />
+                            </div>
+                          )}
                         </td>
                         <td className="px-4 py-3 text-center">
                           <Button
@@ -195,6 +275,38 @@ export function AdminStudentsPage() {
               <AlertCircle className="w-4 h-4" /> {errorMsg}
             </div>
           )}
+
+          {/* Photo & Signature Upload */}
+          <div className="grid grid-cols-2 gap-4 pb-2 border-b border-gray-100">
+            <div className="space-y-1.5">
+              <Label className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
+                <Camera className="w-3.5 h-3.5" /> Student Photo
+              </Label>
+              <FileUploadZone
+                accept="image/png,image/jpeg,image/webp"
+                currentUrl={formData.photoUrl ?? undefined}
+                currentContentType={formData.photoUrl ? "image/jpeg" : undefined}
+                onUpload={handlePhotoUpload}
+                onDelete={formData.photoUrl ? handlePhotoDelete : undefined}
+                maxSizeMB={5}
+                compact
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
+                <PenLine className="w-3.5 h-3.5" /> Student Signature
+              </Label>
+              <FileUploadZone
+                accept="image/png,image/jpeg,image/webp"
+                currentUrl={formData.signatureUrl ?? undefined}
+                currentContentType={formData.signatureUrl ? "image/png" : undefined}
+                onUpload={handleSignatureUpload}
+                onDelete={formData.signatureUrl ? handleSignatureDelete : undefined}
+                maxSizeMB={2}
+                compact
+              />
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2">
             <F label="Full Name" field="name" />
