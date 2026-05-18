@@ -59,9 +59,30 @@ router.get("/", async (req, res) => {
   res.json(rows.map(formatAttendance));
 });
 
+router.post("/bulk", async (req, res) => {
+  const { students, subjectId, subjectName, subjectCode, date } = req.body;
+  if (!Array.isArray(students) || !subjectId || !subjectName || !date) {
+    res.status(400).json({ error: "Missing required fields" }); return;
+  }
+  const records = await Promise.all(
+    students.map(async (s: { studentId: number; status: string }) => {
+      const [record] = await db.insert(attendanceTable).values({
+        studentId: s.studentId,
+        subjectId: Number(subjectId),
+        subjectName,
+        subjectCode: subjectCode || null,
+        date,
+        status: s.status as "present" | "absent" | "late",
+        markedBy: req.session?.userId ? String(req.session.userId) : null,
+      }).returning();
+      return formatAttendance(record);
+    })
+  );
+  res.status(201).json(records);
+});
+
 router.post("/", async (req, res) => {
   const { studentId, subjectId, date, status } = req.body;
-  // Get subject name from existing records or default
   const existing = await db.select().from(attendanceTable)
     .where(and(eq(attendanceTable.studentId, studentId), eq(attendanceTable.subjectId, subjectId)));
   const subjectName = existing[0]?.subjectName || `Subject ${subjectId}`;

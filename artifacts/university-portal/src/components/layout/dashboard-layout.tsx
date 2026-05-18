@@ -35,6 +35,7 @@ const getNavItems = (role: string): NavItem[] => {
     return [
       { label: "Dashboard",    href: "/staff/dashboard",     icon: <LayoutDashboard className="w-4 h-4" /> },
       { label: "Students",     href: "/staff/students",      icon: <Users className="w-4 h-4" /> },
+      { label: "Attendance",   href: "/staff/attendance",    icon: <ClipboardList className="w-4 h-4" /> },
       { label: "Exam Forms",   href: "/staff/exam-forms",    icon: <FileText className="w-4 h-4" /> },
       { label: "Calendar",     href: "/staff/calendar",      icon: <Calendar className="w-4 h-4" /> },
       { label: "Notifications",href: "/staff/notifications", icon: <Bell className="w-4 h-4" /> },

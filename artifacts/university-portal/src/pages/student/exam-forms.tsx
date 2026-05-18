@@ -132,6 +132,14 @@ export function ExamFormsPage() {
                           </Button>
                         </Link>
                       )}
+                      {form.status === "rejected" && (form as any).remarks && (
+                        <div className="mt-3 bg-red-50 border border-red-100 rounded p-3">
+                          <p className="text-xs font-semibold text-red-700 mb-1 flex items-center gap-1">
+                            <span>Rejection Reason</span>
+                          </p>
+                          <p className="text-xs text-red-600">{(form as any).remarks}</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>

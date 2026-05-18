@@ -57,6 +57,18 @@ router.get("/:id", async (req, res) => {
   res.json(formatExamForm(rows[0]));
 });
 
+router.patch("/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { status, remarks } = req.body;
+  const approvedAt = new Date();
+  const rows = await db.update(examFormsTable)
+    .set({ status, remarks: remarks ?? null, approvedAt, approvedBy: req.session?.userId ? String(req.session.userId) : null })
+    .where(eq(examFormsTable.id, id))
+    .returning();
+  if (!rows[0]) { res.status(404).json({ error: "Not found" }); return; }
+  res.json(formatExamForm(rows[0]));
+});
+
 router.patch("/:id/approve", async (req, res) => {
   const id = parseInt(req.params.id);
   const { status, remarks } = req.body;

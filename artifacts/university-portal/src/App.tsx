@@ -35,6 +35,7 @@ import { MigrationCertificatePage } from "@/pages/student/migration-certificate"
 import { StaffDashboard } from "@/pages/staff/staff-dashboard";
 import { StaffStudentsPage } from "@/pages/staff/students";
 import { StaffExamFormsPage } from "@/pages/staff/exam-forms";
+import { StaffAttendancePage } from "@/pages/staff/attendance";
 
 // Admin Pages
 import { AdminDashboard } from "@/pages/admin/admin-dashboard";
@@ -117,6 +118,9 @@ function Router() {
       </Route>
       <Route path="/staff/students">
         <DashboardLayout role="staff"><StaffStudentsPage /></DashboardLayout>
+      </Route>
+      <Route path="/staff/attendance">
+        <DashboardLayout role="staff"><StaffAttendancePage /></DashboardLayout>
       </Route>
       <Route path="/staff/exam-forms">
         <DashboardLayout role="staff"><StaffExamFormsPage /></DashboardLayout>
