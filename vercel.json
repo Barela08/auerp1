@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pnpm --filter @workspace/db run push && PORT=3000 BASE_PATH=/ pnpm --filter @workspace/university-portal run build",
+  "buildCommand": "PORT=3000 BASE_PATH=/ pnpm --filter @workspace/university-portal run build",
   "outputDirectory": "artifacts/university-portal/dist/public",
   "installCommand": "pnpm install",
   "rewrites": [
