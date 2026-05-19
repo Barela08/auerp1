@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "buildCommand": "pnpm --filter @workspace/db run push && PORT=3000 BASE_PATH=/ pnpm --filter @workspace/university-portal run build",
+  "outputDirectory": "artifacts/university-portal/dist/public",
+  "installCommand": "pnpm install",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/((?!_vercel|api).*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/index.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Credentials", "value": "true" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
+}

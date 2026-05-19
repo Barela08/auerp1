@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "strict": false,
+    "allowImportingTsExtensions": false,
+    "paths": {
+      "@workspace/db": ["../lib/db/src/index.ts"],
+      "@workspace/api-zod": ["../lib/api-zod/src/index.ts"]
+    }
+  },
+  "include": ["."]
+}
