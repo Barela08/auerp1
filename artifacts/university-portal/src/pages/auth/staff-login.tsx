@@ -7,9 +7,6 @@ import { CaptchaWidget, CaptchaHandle } from "@/components/auth/captcha-widget";
 import { AuLogo } from "./au-logo";
 import { useBranding } from "@/contexts/branding-context";
 
-const DEMO = [
-  { label: "Staff / Faculty Login", user: "ramesh.kumar@alliance.edu", pass: "Staff@2024" },
-];
 
 export function StaffLogin() {
   const [username, setUsername] = useState("");
@@ -47,13 +44,6 @@ export function StaffLogin() {
     }
     if (!username || !password) { setError("Please enter email and password."); return; }
     loginMutation.mutate({ data: { username, password, role: "staff" as LoginInputRole } });
-  };
-
-  const fillDemo = (user: string, pass: string) => {
-    setUsername(user);
-    setPassword(pass);
-    setCaptchaInput(captchaRef.current?.code ?? "");
-    setError("");
   };
 
   return (
@@ -138,22 +128,6 @@ export function StaffLogin() {
             </form>
           </div>
         </div>
-      </div>
-
-      <div className="relative z-10 w-full max-w-[340px] mx-auto px-4 pb-2">
-        <div className="text-center text-white text-xs mb-1 font-semibold" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>
-          Demo Credentials
-        </div>
-        {DEMO.map((d) => (
-          <button
-            key={d.user}
-            onClick={() => fillDemo(d.user, d.pass)}
-            className="w-full text-left text-white text-xs py-1 px-2 hover:bg-white/10 rounded transition-colors"
-            style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
-          >
-            <span className="font-semibold">{d.label}:</span> {d.user} / {d.pass}
-          </button>
-        ))}
       </div>
 
       <div className="relative z-10 text-center text-white text-xs py-3" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>
