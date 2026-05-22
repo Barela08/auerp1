@@ -86,7 +86,7 @@ export const CaptchaWidget = forwardRef<CaptchaHandle, { className?: string }>((
     <div className={`flex items-center gap-2 ${className ?? ""}`}>
       <canvas
         ref={canvasRef}
-        width={120}
+        width={160}
         height={44}
         className="border border-gray-300 rounded cursor-pointer select-none"
         title="Click to refresh"
