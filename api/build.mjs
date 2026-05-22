@@ -8,7 +8,6 @@ globalThis.require = createRequire(import.meta.url);
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 
-// Write a temporary entry file
 const tmpEntry = path.resolve(__dir, "_entry_tmp.mjs");
 writeFileSync(tmpEntry, `import app from "../artifacts/api-server/src/app.js";\nexport default app;\n`);
 
@@ -20,20 +19,17 @@ try {
     format: "esm",
     outfile: path.resolve(__dir, "handler.mjs"),
     logLevel: "info",
+    // Only externalize truly native/binary modules that can't be bundled
     external: [
-      // Native / binary modules
       "*.node",
       "sharp", "bcrypt", "argon2", "fsevents", "re2",
       "pg-native", "bufferutil", "utf-8-validate",
       "dtrace-provider", "lightningcss", "mysql2",
       "oracledb", "mongodb-client-encryption",
       "thread-stream", "pino-worker",
-      // Keep pg external so it uses runtime node_modules (avoids dynamic require issues)
-      "pg",
-      "pg-pool",
-      "pg-types",
     ],
     sourcemap: false,
+    // pg and other CJS packages need __require to work properly in ESM bundle
     banner: {
       js: `import { createRequire as __crReq } from 'node:module';
 import __nodePath from 'node:path';
