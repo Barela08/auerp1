@@ -4,11 +4,11 @@
   "outputDirectory": "artifacts/university-portal/dist/public",
   "installCommand": "pnpm install",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/server" },
+    { "source": "/api/(.*)", "destination": "/api/handler" },
     { "source": "/((?!_vercel|api).*)", "destination": "/index.html" }
   ],
   "functions": {
-    "api/server.mjs": {
+    "api/handler.mjs": {
       "maxDuration": 30
     }
   }
