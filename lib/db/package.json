@@ -11,9 +11,6 @@
     "push": "drizzle-kit push --config ./drizzle.config.ts",
     "push-force": "drizzle-kit push --force --config ./drizzle.config.ts"
   },
-  "peerDependencies": {
-    "drizzle-orm": "*"
-  },
   "dependencies": {
     "drizzle-zod": "^0.8.3",
     "pg": "^8.20.0",
@@ -22,7 +19,6 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "@types/pg": "^8.20.0",
-    "drizzle-kit": "^0.31.10",
-    "drizzle-orm": "catalog:"
+    "drizzle-kit": "^0.31.10"
   }
 }
