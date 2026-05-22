@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useEffect } from "react";
 import { useGetMe, AuthUser, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useLocation } from "wouter";
 
@@ -38,6 +38,19 @@ export function ProtectedRoute({ children, allowedRoles }: { children: ReactNode
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
 
+  useEffect(() => {
+    if (isLoading) return;
+    if (!user) {
+      setLocation("/login");
+      return;
+    }
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+      if (user.role === "student") setLocation("/student/dashboard");
+      else if (user.role === "staff") setLocation("/staff/dashboard");
+      else if (user.role === "admin") setLocation("/admin/dashboard");
+    }
+  }, [isLoading, user, allowedRoles, setLocation]);
+
   if (isLoading) {
     return <div className="h-screen w-full flex items-center justify-center bg-gray-50">
       <div className="text-center">
@@ -47,17 +60,9 @@ export function ProtectedRoute({ children, allowedRoles }: { children: ReactNode
     </div>;
   }
 
-  if (!user) {
-    setLocation("/login");
-    return null;
-  }
+  if (!user) return null;
 
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
-    if (user.role === "student") setLocation("/student/dashboard");
-    else if (user.role === "staff") setLocation("/staff/dashboard");
-    else if (user.role === "admin") setLocation("/admin/dashboard");
-    return null;
-  }
+  if (allowedRoles && !allowedRoles.includes(user.role)) return null;
 
   return <>{children}</>;
 }
