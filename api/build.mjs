@@ -7,9 +7,8 @@ import { writeFileSync, unlinkSync } from "node:fs";
 globalThis.require = createRequire(import.meta.url);
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(__dir, "..");
 
-// Write a temporary entry file that won't conflict with the output
+// Write a temporary entry file
 const tmpEntry = path.resolve(__dir, "_entry_tmp.mjs");
 writeFileSync(tmpEntry, `import app from "../artifacts/api-server/src/app.js";\nexport default app;\n`);
 
@@ -22,12 +21,17 @@ try {
     outfile: path.resolve(__dir, "handler.mjs"),
     logLevel: "info",
     external: [
+      // Native / binary modules
       "*.node",
       "sharp", "bcrypt", "argon2", "fsevents", "re2",
       "pg-native", "bufferutil", "utf-8-validate",
       "dtrace-provider", "lightningcss", "mysql2",
       "oracledb", "mongodb-client-encryption",
       "thread-stream", "pino-worker",
+      // Keep pg external so it uses runtime node_modules (avoids dynamic require issues)
+      "pg",
+      "pg-pool",
+      "pg-types",
     ],
     sourcemap: false,
     banner: {
