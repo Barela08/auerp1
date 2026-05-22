@@ -9,7 +9,7 @@ import { logger } from "./lib/logger";
 
 const PgSession = ConnectPgSimple(session);
 
-const sessionSecret = process.env.SESSION_SECRET || "dev-secret-please-change-in-production";
+const sessionSecret = process.env.SESSION_SECRET || "auerp-alliance-university-prod-secret-2024";
 
 const app: Express = express();
 
