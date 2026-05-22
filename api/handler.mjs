@@ -61975,10 +61975,10 @@ app.use(
 app.use("/api", routes_default);
 var app_default = app;
 
-// api/handler.ts
-var handler_default = app_default;
+// api/_entry_tmp.mjs
+var entry_tmp_default = app_default;
 export {
-  handler_default as default
+  entry_tmp_default as default
 };
 /*! Bundled license information:
 
