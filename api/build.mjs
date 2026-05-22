@@ -5,15 +5,15 @@ import { build as esbuild } from "esbuild";
 
 globalThis.require = createRequire(import.meta.url);
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(__dirname, "..");
+const __dir = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(__dir, "..");
 
 await esbuild({
-  entryPoints: [path.resolve(__dirname, "server.ts")],
+  entryPoints: [path.resolve(__dir, "handler.ts")],
   platform: "node",
   bundle: true,
   format: "esm",
-  outfile: path.resolve(__dirname, "server.mjs"),
+  outfile: path.resolve(__dir, "handler.mjs"),
   logLevel: "info",
   external: [
     "*.node",
@@ -35,4 +35,4 @@ globalThis.__dirname = __nodePath.dirname(globalThis.__filename);
   },
 });
 
-console.log("✅ API bundle built: api/server.mjs");
+console.log("✅ API bundle built: api/handler.mjs");
