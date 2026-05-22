@@ -5,6 +5,7 @@
     "target": "esnext",
     "esModuleInterop": true,
     "strict": false,
+    "skipLibCheck": true,
     "allowImportingTsExtensions": false,
     "paths": {
       "@workspace/db": ["../lib/db/src/index.ts"],
