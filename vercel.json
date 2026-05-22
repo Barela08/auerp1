@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "PORT=3000 BASE_PATH=/ pnpm --filter @workspace/university-portal run build",
+  "buildCommand": "PORT=3000 BASE_PATH=/ pnpm --filter @workspace/university-portal run build && node api/build.mjs",
   "outputDirectory": "artifacts/university-portal/dist/public",
   "installCommand": "pnpm install",
   "rewrites": [
@@ -8,9 +8,8 @@
     { "source": "/((?!_vercel|api).*)", "destination": "/index.html" }
   ],
   "functions": {
-    "api/index.ts": {
-      "maxDuration": 30,
-      "memory": 512
+    "api/index.mjs": {
+      "maxDuration": 30
     }
   }
 }
