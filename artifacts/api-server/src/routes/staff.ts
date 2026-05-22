@@ -16,6 +16,16 @@ router.get("/me", async (req: Request, res: Response) => {
   res.json(formatStaff(rows[0]));
 });
 
+router.get("/me/profile", async (req: Request, res: Response) => {
+  if (!req.session?.userId) { res.status(401).json({ error: "Not authenticated" }); return; }
+  const users = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
+  const user = users[0];
+  if (!user?.staffId) { res.status(403).json({ error: "Not staff" }); return; }
+  const rows = await db.select().from(staffTable).where(eq(staffTable.id, user.staffId));
+  if (!rows[0]) { res.status(404).json({ error: "Not found" }); return; }
+  res.json(formatStaff(rows[0]));
+});
+
 router.patch("/me/profile", async (req: Request, res: Response) => {
   if (!req.session?.userId) { res.status(401).json({ error: "Not authenticated" }); return; }
   const users = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
