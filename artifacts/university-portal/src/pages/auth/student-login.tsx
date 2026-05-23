@@ -1,21 +1,18 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useLocation } from "wouter";
 import { useLogin, LoginInputRole, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { CaptchaWidget, CaptchaHandle } from "@/components/auth/captcha-widget";
 import { AuLogo } from "./au-logo";
 import { useBranding } from "@/contexts/branding-context";
 
 export function StudentLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [captchaInput, setCaptchaInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
-  const captchaRef = useRef<CaptchaHandle>(null);
   const branding = useBranding();
 
   const loginMutation = useLogin({
@@ -26,8 +23,6 @@ export function StudentLogin() {
       },
       onError: () => {
         setError("Invalid email or password. Please try again.");
-        captchaRef.current?.refresh();
-        setCaptchaInput("");
       },
     },
   });
@@ -36,13 +31,6 @@ export function StudentLogin() {
     e.preventDefault();
     setError("");
     if (!username || !password) { setError("Please enter email and password."); return; }
-    if (!captchaInput) { setError("Please enter the captcha code."); return; }
-    if (!captchaRef.current?.validate(captchaInput)) {
-      setError("Incorrect captcha. Please try again.");
-      captchaRef.current?.refresh();
-      setCaptchaInput("");
-      return;
-    }
     loginMutation.mutate({ data: { username, password, role: "student" as LoginInputRole } });
   };
 
@@ -96,22 +84,6 @@ export function StudentLogin() {
                 <button type="button" onClick={() => setShowPassword(v => !v)} className="pr-2 text-gray-400">
                   {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                 </button>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <CaptchaWidget ref={captchaRef} />
-              </div>
-
-              <div className="flex items-center border border-gray-300 bg-white">
-                <span className="pl-2.5 text-gray-400 font-bold text-xs">A</span>
-                <input
-                  type="text"
-                  placeholder="Type the text above"
-                  value={captchaInput}
-                  onChange={(e) => setCaptchaInput(e.target.value)}
-                  className="flex-1 pl-2 pr-3 py-2.5 text-sm bg-transparent focus:outline-none"
-                  autoComplete="off"
-                />
               </div>
 
               <div className="flex justify-end pt-1">

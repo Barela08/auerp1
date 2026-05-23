@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useLocation } from "wouter";
 import { useLogin, LoginInputRole, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Mail, Lock, Pencil } from "lucide-react";
-import { CaptchaWidget, CaptchaHandle } from "@/components/auth/captcha-widget";
+import { Mail, Lock } from "lucide-react";
 import { AuLogo } from "./au-logo";
 import { useBranding } from "@/contexts/branding-context";
 
@@ -11,11 +10,9 @@ import { useBranding } from "@/contexts/branding-context";
 export function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [captchaInput, setCaptchaInput] = useState("");
   const [error, setError] = useState("");
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
-  const captchaRef = useRef<CaptchaHandle>(null);
   const branding = useBranding();
 
   const loginMutation = useLogin({
@@ -26,8 +23,6 @@ export function AdminLogin() {
       },
       onError: () => {
         setError("Invalid credentials. Access denied.");
-        captchaRef.current?.refresh();
-        setCaptchaInput("");
       },
     },
   });
@@ -35,13 +30,6 @@ export function AdminLogin() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!captchaInput) { setError("Please enter Captcha code."); return; }
-    if (!captchaRef.current?.validate(captchaInput)) {
-      setError("Incorrect captcha code. Please try again.");
-      captchaRef.current?.refresh();
-      setCaptchaInput("");
-      return;
-    }
     if (!username || !password) { setError("Please enter Email and password."); return; }
     loginMutation.mutate({ data: { username, password, role: "admin" as LoginInputRole } });
   };
@@ -96,20 +84,6 @@ export function AdminLogin() {
                   autoComplete="current-password"
                 />
                 <span className="pr-2.5 text-gray-400"><Lock className="w-3.5 h-3.5" /></span>
-              </div>
-
-              <CaptchaWidget ref={captchaRef} />
-
-              <div className="flex items-center border border-gray-300 bg-white">
-                <input
-                  type="text"
-                  placeholder="Type the text above"
-                  value={captchaInput}
-                  onChange={(e) => setCaptchaInput(e.target.value)}
-                  className="flex-1 pl-3 pr-2 py-2.5 text-sm bg-transparent focus:outline-none"
-                  autoComplete="off"
-                />
-                <span className="pr-2.5 text-gray-400"><Pencil className="w-3.5 h-3.5" /></span>
               </div>
 
               <div className="flex items-center justify-between pt-1">
