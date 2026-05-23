@@ -97,7 +97,9 @@ router.get("/:id", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
-  const rows = await db.update(studentsTable).set(req.body).where(eq(studentsTable.id, id)).returning();
+  // Strip non-updatable / system fields before passing to Drizzle
+  const { id: _id, createdAt, ...updateData } = req.body;
+  const rows = await db.update(studentsTable).set(updateData).where(eq(studentsTable.id, id)).returning();
   if (!rows[0]) {
     res.status(404).json({ error: "Not found" });
     return;
