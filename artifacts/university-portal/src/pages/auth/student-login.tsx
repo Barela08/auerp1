@@ -58,6 +58,18 @@ export function StudentLogin() {
               <div className="mb-3 py-2 text-center text-white text-xs" style={{ background: "#c00" }}>{error}</div>
             )}
 
+            <div className="mb-3 flex items-center gap-2 justify-center">
+              <span className="text-xs text-gray-500">Demo:</span>
+              <button
+                type="button"
+                onClick={() => { setUsername("barelanilesh483@gmail.com"); setPassword("Nilu@2006"); setError(""); }}
+                className="text-xs px-2 py-1 border rounded hover:bg-gray-50 transition-colors text-gray-600 border-gray-300"
+                title="Click to auto-fill demo credentials"
+              >
+                barelanilesh483@gmail.com
+              </button>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="flex items-center border border-gray-300 bg-white">
                 <span className="pl-2.5 text-gray-400"><Mail className="w-3.5 h-3.5" /></span>

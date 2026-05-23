@@ -61,6 +61,26 @@ export function StaffLogin() {
               </div>
             )}
 
+            <div className="mb-3 flex flex-col gap-1">
+              <p className="text-xs text-gray-400 text-center mb-1">Demo credentials — click to fill:</p>
+              <div className="flex gap-2 justify-center flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => { setUsername("ramesh.kumar@alliance.edu"); setPassword("Staff@2024"); setError(""); }}
+                  className="text-xs px-2 py-1 border rounded hover:bg-blue-50 transition-colors text-blue-700 border-blue-200"
+                >
+                  ramesh.kumar@alliance.edu
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setUsername("teacher@alliance.edu.in"); setPassword("password123"); setError(""); }}
+                  className="text-xs px-2 py-1 border rounded hover:bg-blue-50 transition-colors text-blue-700 border-blue-200"
+                >
+                  teacher@alliance.edu.in
+                </button>
+              </div>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="flex items-center border border-gray-300 bg-white">
                 <input
