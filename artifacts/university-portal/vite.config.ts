@@ -53,6 +53,9 @@ export default defineConfig({
         target: "http://localhost:9000",
         changeOrigin: true,
         secure: false,
+        headers: {
+          "x-forwarded-proto": "https",
+        },
       },
     },
   },

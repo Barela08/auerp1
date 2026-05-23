@@ -8,7 +8,6 @@ import router from "./routes";
 const PgSession = ConnectPgSimple(session);
 
 const sessionSecret = process.env.SESSION_SECRET || "auerp-alliance-university-prod-secret-2024";
-const isProduction = process.env.NODE_ENV === "production";
 
 const app: Express = express();
 
@@ -35,10 +34,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: isProduction,
+      secure: true,
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: "lax",
+      sameSite: "none",
     },
   })
 );
