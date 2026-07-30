@@ -48,6 +48,17 @@ router.post("/", async (req, res) => {
   res.status(201).json(formatResult(result));
 });
 
+router.patch("/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { status, remarks } = req.body;
+  const updateData: Record<string, unknown> = {};
+  if (status !== undefined) updateData.status = status;
+  if (remarks !== undefined) updateData.remarks = remarks;
+  const rows = await db.update(resultsTable).set(updateData).where(eq(resultsTable.id, id)).returning();
+  if (!rows[0]) { res.status(404).json({ error: "Not found" }); return; }
+  res.json(formatResult(rows[0]));
+});
+
 router.get("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const rows = await db.select().from(resultsTable).where(eq(resultsTable.id, id));

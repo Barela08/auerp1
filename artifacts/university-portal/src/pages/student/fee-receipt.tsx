@@ -5,7 +5,6 @@ import { AlertCircle, Printer, Download, ArrowLeft } from "lucide-react";
 import { useParams, Link } from "wouter";
 import { format } from "date-fns";
 import { useBranding } from "@/contexts/branding-context";
-import { AUBarcode } from "@/components/document-assets";
 
 function toWords(n: number): string {
   if (n === 0) return "Zero";
@@ -260,11 +259,6 @@ export function FeeReceiptPage() {
         <div className="px-6 pt-2 pb-4 flex items-end justify-between border-t border-gray-200">
           <div className="flex items-end gap-2">
             <img src={logoSrc} alt="Stamp" className="w-16 h-16 object-contain opacity-80" />
-          </div>
-
-          {/* Receipt Barcode */}
-          <div className="flex flex-col items-center gap-1">
-            <AUBarcode value={String(receipt.receiptNo || `RCP${feeId}`)} height={36} textSize={8} showText={true} />
           </div>
 
           <div className="text-right text-[12px]">

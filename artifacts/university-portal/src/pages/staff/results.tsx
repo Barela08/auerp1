@@ -145,6 +145,18 @@ export function StaffResultsPage() {
     return !q || r.studentName?.toLowerCase().includes(q) || r.enrollmentNo?.toLowerCase().includes(q);
   });
 
+  const handleStatusChange = async (id: number, status: string) => {
+    try {
+      await fetch(`/api/results/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ status }),
+      });
+      queryClient.invalidateQueries({ queryKey: ["all-results"] });
+    } catch { /* ignore */ }
+  };
+
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
@@ -412,6 +424,7 @@ export function StaffResultsPage() {
                     <th className="text-center px-4 py-3 font-semibold text-gray-600">SGPA</th>
                     <th className="text-center px-4 py-3 font-semibold text-gray-600">CGPA</th>
                     <th className="text-center px-4 py-3 font-semibold text-gray-600">Status</th>
+                    <th className="text-center px-4 py-3 font-semibold text-gray-600">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -435,10 +448,43 @@ export function StaffResultsPage() {
                         <Badge className={
                           r.status?.toLowerCase() === "pass"
                             ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-100"
+                            : r.status?.toLowerCase() === "withheld"
+                            ? "bg-amber-100 text-amber-700 hover:bg-amber-100"
                             : "bg-red-100 text-red-700 hover:bg-red-100"
                         }>
                           {(r.status || "—").toUpperCase()}
                         </Badge>
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <div className="flex gap-1 justify-center">
+                          {r.status?.toLowerCase() !== "pass" && (
+                            <button
+                              onClick={() => handleStatusChange(r.id, "Pass")}
+                              className="text-xs px-2 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded hover:bg-emerald-100 transition-colors flex items-center gap-1"
+                              title="Mark as Pass"
+                            >
+                              <CheckCircle className="w-3 h-3" /> Pass
+                            </button>
+                          )}
+                          {r.status?.toLowerCase() !== "fail" && (
+                            <button
+                              onClick={() => handleStatusChange(r.id, "Fail")}
+                              className="text-xs px-2 py-1 bg-red-50 text-red-700 border border-red-200 rounded hover:bg-red-100 transition-colors flex items-center gap-1"
+                              title="Mark as Fail"
+                            >
+                              <XCircle className="w-3 h-3" /> Fail
+                            </button>
+                          )}
+                          {r.status?.toLowerCase() !== "withheld" && (
+                            <button
+                              onClick={() => handleStatusChange(r.id, "Withheld")}
+                              className="text-xs px-2 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded hover:bg-amber-100 transition-colors"
+                              title="Withhold result"
+                            >
+                              Hold
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}

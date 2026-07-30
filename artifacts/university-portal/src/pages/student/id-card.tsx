@@ -3,7 +3,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Download } from "lucide-react";
 import { useBranding } from "@/contexts/branding-context";
-import { AUBarcode } from "@/components/document-assets";
 
 export function IdCardPage() {
   const { data, isLoading, isError } = useGetStudentDashboard();
@@ -126,7 +125,7 @@ export function IdCardPage() {
 
             <div className="flex items-end justify-between px-3 pb-1.5 pt-1.5">
               <div>
-                <AUBarcode value={enrollNum} height={32} textSize={8} barColor="#ffffff" showText={true} />
+                <p className="font-mono text-white text-[10px] tracking-widest">{enrollNum}</p>
               </div>
               <div className="text-right">
                 <img
